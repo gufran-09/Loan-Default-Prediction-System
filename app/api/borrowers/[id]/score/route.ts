@@ -1,0 +1,3 @@
+import { NextResponse } from 'next/server'
+import { createClient } from '@/lib/supabase/server'
+export async function GET(_:Request,{params}:{params:Promise<{id:string}>}){const {id}=await params;const supabase=await createClient();const {data:{user}}=await supabase.auth.getUser();if(!user)return NextResponse.json({error:{code:'UNAUTHORIZED',message:'Authentication required'}},{status:401});const {data,error}=await supabase.from('risk_scores').select('score,bucket,model_version,scored_at,risk_reasons(reason,feature,impact,rank)').eq('borrower_id',id).single();if(error)return NextResponse.json({error:{code:'NOT_FOUND',message:'Score not found'}},{status:404});return NextResponse.json({data})}
