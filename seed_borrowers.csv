@@ -1,0 +1,401 @@
+id,name,email,geography,employment_type,loan_purpose,loan_amount,monthly_income,outstanding_balance,tenure_months
+0bd13385-ea3c-4830-837e-f29fad38e4d5,Allison Hill,donaldgarcia@example.net,Asia,Self-Employed,Home,92393,9388.0,73914.40000000001,36
+f01ff56a-067f-484e-b115-d81a8e396a32,Angie Henderson,davisjesse@example.net,Europe,Part-time,Education,131575,7630.75,105260.0,12
+b8ec5394-7c00-4524-8ffc-9dc264ff9966,Cristian Santos,lrobinson@example.com,Asia,Part-time,Education,75417,6514.083333333333,60333.600000000006,12
+f5c156c1-850a-4010-9f49-b25deb72f0c0,Abigail Shaffer,jpeterson@example.org,Europe,Part-time,Business,10804,5252.75,8643.2,24
+29d1b5cf-c6d5-4006-8b54-eaa671631482,Gabrielle Davis,howardmaurice@example.com,Asia,Unemployed,Business,21182,2472.0833333333335,16945.600000000002,60
+fee056af-f3c8-4e33-a2c9-09cbfd740c8d,Monica Herrera,smiller@example.net,North America,Salaried,Other,187008,8209.25,149606.4,36
+1f21af30-9875-44fa-8f0f-b93f1149b219,Shannon Ray,williamsjeremy@example.com,Europe,Self-Employed,Business,159105,4117.583333333333,127284.0,60
+3cd2b6b2-0130-47be-a493-a3b33fb87d33,Dr. Sharon James,xreid@example.org,Africa,Part-time,Business,173967,9801.416666666666,139173.6,12
+76b377d9-0012-4aa5-9e51-1dc491709032,Daniel Adams,lynchgeorge@example.net,South America,Self-Employed,Home,41189,7872.75,32951.200000000004,36
+af216c22-e5ef-4e97-9670-92416a6f2441,Joel Nelson,gabriellecameron@example.org,Africa,Self-Employed,Home,151275,7944.333333333333,121020.0,36
+ce8145e3-5d42-47d7-a79b-d5fd746b47cf,Andrew Stewart,carl95@example.org,Africa,Self-Employed,Auto,178121,7549.25,142496.80000000002,12
+8cb1fd4b-7c0a-4835-8e5c-c4e008dc8c90,Jennifer Rocha,ithomas@example.org,Africa,Self-Employed,Other,109990,10950.833333333334,87992.0,12
+93dbb699-a362-46d2-858c-6afef556eea0,Kimberly Burgess,zhurst@example.com,Asia,Unemployed,Other,166291,4375.166666666667,133032.80000000002,60
+166f51fa-c3a9-499e-a222-8190ecc4e687,Zachary Hicks,camposmichelle@example.org,Europe,Part-time,Business,124620,7235.25,99696.0,12
+11d6e62f-6697-4824-97be-18190a495164,Rebecca Henderson,cruzcaitlin@example.com,South America,Unemployed,Education,222878,10648.5,178302.40000000002,24
+704ac014-9c7e-4d83-84da-85e974d9a20b,Tricia Valencia,frazierdanny@example.net,Asia,Salaried,Other,112337,6055.75,89869.6,24
+eac3ae88-3be2-4ea5-9e21-a212ea74b284,Patricia Peterson,ryan70@example.net,Europe,Salaried,Education,155502,11085.666666666666,124401.6,60
+472e8228-5211-4a33-9ca7-63c129dad334,Deborah Mason,williamrodriguez@example.net,North America,Self-Employed,Home,185872,11930.583333333334,148697.6,60
+205e7353-57a9-4f73-b197-853ef0fe7b3d,Mark Lynch,nathanielmartin@example.net,Europe,Part-time,Other,116838,2832.4166666666665,93470.40000000001,24
+ed4cca1b-4bd0-46b2-8515-df48aab710d3,Linda Burns,hickmannatasha@example.com,Europe,Unemployed,Other,134959,12192.916666666666,107967.20000000001,36
+aba334db-9761-4646-a483-f04764f7edc9,David Bradley,millertodd@example.org,North America,Self-Employed,Education,194017,8441.0,155213.6,48
+2f5cbaac-a280-48d5-b22b-bb02cafdfa9d,Kim Martinez,karroyo@example.com,Asia,Salaried,Other,169392,12237.916666666666,135513.6,48
+4453f76b-8ed5-44e3-bad0-3ae780545074,Lisa Brandt,jenniferross@example.net,North America,Self-Employed,Business,249316,7615.916666666667,199452.80000000002,24
+2d866c99-e816-43f1-9a4b-ab40838f5a5d,Jessica Holmes,wrightcaleb@example.org,North America,Salaried,Other,189310,7802.666666666667,151448.0,60
+bba2e3be-1cd2-47f2-9e1a-c11405708b0d,Crystal Robinson,zimmermanbrian@example.org,South America,Self-Employed,Other,132178,7731.083333333333,105742.40000000001,12
+6b46f2ce-c6bf-4669-bd94-5b6705ad20b2,Shannon Jones,joshuawashington@example.net,Europe,Self-Employed,Home,6855,3473.0833333333335,5484.0,48
+714a9a2d-57ef-43c6-89ef-052d6ff565e9,Timothy Duncan,esanchez@example.com,South America,Unemployed,Business,245069,8082.583333333333,196055.2,36
+3670d3e5-56be-4273-adc8-24b2795a1775,Brent Jordan,ujenkins@example.org,Europe,Unemployed,Other,105519,3641.8333333333335,84415.20000000001,60
+6e6dfbe6-ab69-40de-99a6-e2fdcd5e79ce,Victoria Garcia,zchandler@example.org,Asia,Salaried,Education,147622,11567.916666666666,118097.6,24
+c53d9030-70fd-44f7-9613-2873e852b950,Connor West,dwhite@example.org,South America,Unemployed,Home,241986,10833.833333333334,193588.80000000002,36
+60604d0c-f862-4992-9c0b-9cbc861fec93,Angela Morton,williamsyvette@example.org,North America,Salaried,Auto,146536,5383.583333333333,117228.8,36
+a3961ad6-74ab-4386-bc30-781b16c15611,Tammy Allison,richardolson@example.com,South America,Unemployed,Auto,12250,9825.083333333334,9800.0,24
+4cbdbf28-aeaf-4cc8-aaa0-7ac858805312,Carmen Smith,ybaker@example.com,North America,Self-Employed,Business,45630,8054.75,36504.0,36
+00841ed3-4aa4-4c5c-b349-9c4da495c71b,Michael Cross,smoore@example.org,Europe,Salaried,Business,247576,5109.166666666667,198060.80000000002,60
+4ee723b9-7943-4c21-ab6f-06838cbf20de,Lauren Daniels,brian97@example.net,South America,Part-time,Other,185263,11568.416666666666,148210.4,48
+c5b28073-dd9a-44f8-8774-cf4dee638295,Kim Brown,yorkcasey@example.org,South America,Self-Employed,Other,88784,3597.5833333333335,71027.2,60
+07abc996-4553-4dcd-8844-00a372478c69,Cynthia Wilson,bethwilliams@example.org,Europe,Part-time,Auto,175528,8207.083333333334,140422.4,36
+e586e841-dfc1-43c7-bc6c-39a13484fc49,Kevin Mills,james53@example.com,Africa,Self-Employed,Auto,167934,4450.583333333333,134347.2,60
+597d8c63-e7bd-46c0-84fd-112e8b71db38,Michael Evans,sarah10@example.com,South America,Salaried,Other,67810,2809.75,54248.0,60
+00e7cfdb-9880-43e9-a17b-5f7eff74ab7f,Kristine Garcia,williamanderson@example.com,Africa,Salaried,Business,203775,3821.5,163020.0,48
+2990adb3-8e42-4658-b64a-4bc03b2b3473,Sherry Wood,samueldaniels@example.com,North America,Part-time,Auto,51144,5612.75,40915.200000000004,60
+45a53d99-0cdd-4b6d-82ae-5e4d9c593187,Victoria Valdez,contrerasangela@example.net,North America,Part-time,Home,202913,9299.5,162330.40000000002,24
+a75bb443-5c69-4fb1-833b-c11b1da524da,Shawn Baker,newtoneric@example.com,Africa,Self-Employed,Home,89235,8493.75,71388.0,12
+c2e39614-4da1-44b0-92cd-cd43ea76e266,Michelle Harris,william40@example.org,Asia,Part-time,Education,160790,5362.416666666667,128632.0,36
+b3b95ff4-3fe5-49ff-a581-a42217935590,Sandra Williams,kellie42@example.net,Africa,Self-Employed,Other,14410,10408.25,11528.0,60
+a2acda3e-69cd-45c6-baeb-ded06e6fae6a,Michael Hoffman,jonesnicole@example.org,Africa,Self-Employed,Business,185019,3011.25,148015.2,24
+1b79a553-5ec0-4a0a-98ed-42249e6d227a,Sandra Aguilar,russellwilliams@example.com,Asia,Unemployed,Education,103958,11520.666666666666,83166.40000000001,36
+9524605e-89bf-4c53-990a-8f79991a34ab,Rebecca Valencia,jason31@example.com,Africa,Unemployed,Home,204640,1805.6666666666667,163712.0,36
+bbb19b0c-bd06-4149-8a46-cde80407c3cc,Stacey Russell,sarayoung@example.org,Africa,Self-Employed,Home,219987,4530.25,175989.6,60
+ef0d6cef-35f9-4cb6-b86e-f20c7932c8d6,Rita Keith,whitesandra@example.com,Europe,Self-Employed,Education,240889,12208.916666666666,192711.2,36
+9e41aa29-9ddf-4748-8183-2d515abf78a9,Sharon Cochran,erik16@example.org,Europe,Self-Employed,Auto,219945,11762.0,175956.0,12
+28cfdb87-488d-4709-a6a8-96e5e7118cb5,Courtney Velasquez,ybailey@example.org,South America,Self-Employed,Education,141926,10495.833333333334,113540.8,48
+5f1460b4-d83c-44a3-a8bc-7813fc0fa05a,Matthew Ross,michelle45@example.net,North America,Part-time,Auto,17202,12322.083333333334,13761.6,12
+19382e34-7f8c-4386-82f1-e80fdee4333d,Meghan Anthony,sheila14@example.org,Europe,Unemployed,Auto,158060,9241.916666666666,126448.0,60
+5ae92f92-2489-4581-8165-18bdc00ce554,Victoria Johnson,yreed@example.com,North America,Salaried,Home,11643,9227.5,9314.4,60
+2b89be3f-854e-4e5d-9589-b1a8020959b7,William Wilson,jonathanfletcher@example.org,South America,Salaried,Business,197889,2026.1666666666667,158311.2,60
+67a1480f-4735-4e86-bd8d-be5727e79c65,Renee Mcdaniel,michaeljones@example.net,North America,Unemployed,Home,199760,7820.833333333333,159808.0,12
+260d8681-8a64-4e80-b13e-85bf1a3536ee,Lisa Alvarado,cortezkevin@example.com,South America,Salaried,Education,182776,9069.416666666666,146220.80000000002,36
+1cc1133c-6e04-4122-945c-e46d29ce5df5,Erika Terry,jamesortega@example.com,North America,Unemployed,Auto,12756,9681.833333333334,10204.800000000001,36
+5e0dd0fa-2083-4ded-81be-a53cfdd1003f,Stephanie Gilbert,richard04@example.com,South America,Part-time,Education,37358,6994.166666666667,29886.4,12
+de59cbdb-9272-424d-95af-dc79500aa6c2,Richard Lawson,steven73@example.net,Asia,Self-Employed,Auto,43936,1894.25,35148.8,24
+a796abf7-18ea-4afa-bf0c-dd6f17749e61,Steven Flynn,donnacampbell@example.net,South America,Salaried,Business,185680,8455.5,148544.0,60
+3d0dc84b-947a-48c2-92e7-6e4171298a96,Frances Cardenas,emilywalker@example.org,Africa,Salaried,Other,197706,8837.833333333334,158164.80000000002,36
+edc3aa51-ba1e-4070-8976-0b2e34518a78,Angel Riggs,gibsonolivia@example.net,Europe,Unemployed,Auto,149741,11593.0,119792.8,36
+67dee245-0215-4871-a87a-5573c20a4880,Michael Snyder,dylanwatts@example.org,Europe,Salaried,Other,135101,7636.666666666667,108080.8,36
+bfcfdc3f-13d3-4669-8415-58e11407c35e,Colleen Brock,pwilliams@example.org,Europe,Part-time,Business,108832,1465.25,87065.6,24
+db5b598f-d8d5-4a58-a576-74dfb2576c86,Robert Contreras,stephanie79@example.net,Asia,Unemployed,Business,205279,9388.25,164223.2,24
+aee53d10-40ea-46c9-bacd-5a9faf2ab64c,Jessica Meadows,vmerritt@example.com,North America,Self-Employed,Education,11181,9849.25,8944.800000000001,48
+c8cd1aff-e43a-4d78-b953-032ecf307f05,Paul Larsen,katie87@example.net,South America,Unemployed,Auto,173032,11559.166666666666,138425.6,60
+d3654647-2425-46e4-918a-6b5eba4a72f8,Jeremiah Reeves,josephflores@example.net,Asia,Part-time,Other,26875,10692.25,21500.0,12
+5ffdd383-650e-4c48-bc4a-3c81c9b75267,Chris Reyes,jasminebrown@example.com,Africa,Self-Employed,Auto,114442,12126.25,91553.6,36
+21e3d91e-661b-4ad1-8ae0-cc198dfdb843,John Brown,xprice@example.net,North America,Salaried,Other,60481,7959.583333333333,48384.8,48
+2f724a78-d169-4458-953d-bcc872e974e0,Alicia Gilmore,wwoods@example.com,Africa,Salaried,Education,120301,2159.0833333333335,96240.8,24
+97ceeefe-587c-44d1-afd7-519b0362aafb,Sarah Ashley,vmedina@example.net,Africa,Unemployed,Home,90546,2462.8333333333335,72436.8,60
+0ab365fe-a87b-45a8-9372-c57683c8c125,Stephanie Freeman,ryan06@example.com,Africa,Part-time,Home,175570,9584.416666666666,140456.0,12
+f008391f-2d95-46c6-8e41-f0eb48c6f5f2,Rebecca Ramsey,ncalhoun@example.net,Asia,Unemployed,Other,12198,4633.083333333333,9758.4,36
+7c3f52fd-5d91-4b46-94a1-3878a148b77a,James Elliott,millerroy@example.com,South America,Part-time,Home,178553,9370.25,142842.4,24
+936202e7-3ad0-4318-b2fe-0fc2ce6180c3,David Murphy,wmurphy@example.com,Africa,Salaried,Home,234793,7312.5,187834.40000000002,24
+a643438c-4395-4b76-9c00-673066304d7a,Trevor Fisher,ruizkaitlyn@example.org,South America,Unemployed,Auto,66444,11619.333333333334,53155.200000000004,24
+fb86b58a-a661-438c-a032-10f807b3a737,Mrs. Marie Harrington DDS,herringjames@example.org,South America,Unemployed,Education,142979,8895.833333333334,114383.20000000001,24
+118e8c90-2ffe-4216-9573-d0282961a3e9,Cynthia Wells,elliottjeffery@example.net,North America,Self-Employed,Business,136885,8936.0,109508.0,48
+71f94ef2-c320-4a29-9704-90da8f50cc07,Jacob Obrien,stricklandfrank@example.com,Asia,Part-time,Education,7904,4395.916666666667,6323.200000000001,48
+53c440c5-37c3-4924-9bf4-85e156fa0bab,Alexander Collins,tsanders@example.org,South America,Unemployed,Business,221098,12393.833333333334,176878.40000000002,48
+d7f924db-c00e-4d78-8d9f-645685e44523,Michael Burton,terrykevin@example.net,Asia,Self-Employed,Home,6523,10348.833333333334,5218.400000000001,36
+e41ef698-da5b-4828-9d5f-f976372dbb10,Barbara Riggs,reedross@example.com,Africa,Self-Employed,Auto,135404,11818.5,108323.20000000001,12
+f2f20bed-e3b6-45e4-92bc-8e3147eaf86b,Matthew Smith,gshort@example.com,Africa,Salaried,Home,25022,7314.583333333333,20017.600000000002,24
+1f66cc8b-af8d-4117-8c8c-67f7879b9dcf,Madison Poole,ryangross@example.net,South America,Unemployed,Home,170652,3877.75,136521.6,36
+317bf516-6bd0-415f-893d-c4d9e8eb5cc0,Robert Medina,umarshall@example.net,Europe,Self-Employed,Auto,21565,9228.75,17252.0,60
+187b03e1-d56f-4869-b376-845daa4e253b,Samuel Rivas,ramirezshannon@example.com,Africa,Self-Employed,Education,67102,3138.25,53681.600000000006,36
+6a3b101d-a56e-4fb7-9835-c70465d80504,Mary Rogers,lrosales@example.com,Europe,Salaried,Auto,51182,8258.333333333334,40945.600000000006,48
+4d80fa2a-702f-4c8e-8633-96d36e77f044,Robert Peterson,angela83@example.org,Europe,Unemployed,Home,201145,8549.666666666666,160916.0,24
+dc61f28f-5e7d-45e6-b7a9-bf59cf2b5e9b,Jason Peters,hannahbrewer@example.com,Asia,Salaried,Auto,184751,2146.9166666666665,147800.80000000002,48
+58170b9c-e0bb-4315-b713-8e2e92087b30,Alan Phillips,tholt@example.net,Europe,Unemployed,Home,98286,4704.5,78628.8,12
+d4ef515f-8f2d-4423-8dce-f25efab08cb6,Kara Schmidt,jbarajas@example.com,North America,Unemployed,Home,45250,9637.916666666666,36200.0,36
+f1c2d861-c50a-46dc-8283-4f3f86f47c1a,Jesse Parker,davidlee@example.org,Asia,Part-time,Education,211913,2868.4166666666665,169530.40000000002,12
+45be677f-0988-406d-b082-0b7b3fd456ad,Tiffany Vaughn,javierwashington@example.net,South America,Salaried,Other,11700,1708.0,9360.0,36
+17557477-9e7c-4145-b582-85d7b94dca92,Paige Carlson,wallkenneth@example.com,Asia,Unemployed,Auto,151838,11979.25,121470.40000000001,36
+89e6a41d-1214-4f08-b878-3d0d98b236be,Adrian Ferguson,brandon08@example.com,Europe,Part-time,Home,104512,5323.5,83609.6,48
+bf742f0c-9234-4a27-84a5-66e35b90bb35,Beth Oneill,agarcia@example.net,Asia,Self-Employed,Education,114946,3823.25,91956.8,12
+b7ecd097-81a8-4a79-a5ca-4ccb8fb15800,John Peterson,kingmichelle@example.org,South America,Unemployed,Education,249243,5779.416666666667,199394.40000000002,36
+81e55db4-0a86-4654-81b6-450f1741e597,Jennifer Jones,hernandezlisa@example.com,Europe,Unemployed,Other,202614,11535.666666666666,162091.2,36
+397753a5-39d2-4997-be06-64d33eb440dc,David Grant,yobrien@example.net,Europe,Unemployed,Other,69689,12001.0,55751.200000000004,60
+ba0cf098-1dae-4312-9a56-90f030cbb972,Joseph Hayes,levans@example.com,Asia,Part-time,Home,131947,6572.333333333333,105557.6,60
+bd993f25-e235-4234-a86d-9ca1352f8725,Marc Lynch,mezajared@example.org,Africa,Part-time,Auto,164819,1719.5833333333333,131855.2,48
+aa5fa719-600c-4629-a16b-f77ab3baf5c3,Brad Allen,moorericky@example.net,Africa,Self-Employed,Education,127439,8620.0,101951.20000000001,60
+587b8d64-9187-4411-bc7a-27a092a5d3c3,Doris Hall,jacqueline71@example.net,Europe,Unemployed,Home,172925,1899.0833333333333,138340.0,60
+2662a053-b5ce-449a-b4d8-9c6e28266355,Dennis Moody,ronaldstephens@example.net,South America,Unemployed,Auto,15729,2224.6666666666665,12583.2,24
+53ec0981-d7f6-4cf8-ae93-87eda477fd5d,Derek Thomas,martinkyle@example.net,Africa,Salaried,Education,175155,6758.25,140124.0,60
+dc036f6f-7aa4-4435-9a2f-3c5ac9fca80a,Tammy Gonzales,sbarker@example.com,South America,Unemployed,Home,216486,6416.333333333333,173188.80000000002,24
+414d97f3-8902-473a-9718-a432860c4562,Kathryn Snyder,georgepamela@example.net,South America,Part-time,Business,63727,7569.333333333333,50981.600000000006,24
+256c31d8-cf77-4701-8419-33a64f7c11f3,David Davis,keyemily@example.com,North America,Unemployed,Education,206760,10755.416666666666,165408.0,36
+20eb3242-405e-4a59-abe6-4dfcad3ec806,Pamela Thompson,lmoon@example.net,North America,Salaried,Other,244795,1960.5833333333333,195836.0,60
+d6b4d897-063d-4851-801c-72d064f742ea,Robert Costa,vbailey@example.com,North America,Part-time,Home,246628,5682.666666666667,197302.40000000002,24
+e247aa06-9209-41a8-9c0e-2a8a4449b63d,Shannon Rivera,zroberts@example.net,Africa,Salaried,Education,147457,12183.25,117965.6,60
+ec6f8de0-3d79-4b1d-b2f7-6de54e3e392c,Brandon King,cordovarichard@example.net,Asia,Self-Employed,Auto,54731,12175.25,43784.8,36
+53c6eaff-32c7-4604-b6be-d1f815e4c338,April Booth,mgutierrez@example.net,South America,Part-time,Education,224660,6571.833333333333,179728.0,12
+96f7e1ae-fffc-4cf5-b3cf-787c5006ebb9,Peter Garrett,harrisandrea@example.com,North America,Part-time,Auto,96150,4212.0,76920.0,36
+73e44760-9e2c-46fc-bcf6-f4b5f1da092c,Michael Martinez,jennifercollins@example.org,Asia,Salaried,Auto,7659,4853.666666666667,6127.200000000001,48
+e5450b10-c3a5-4d6e-abc5-a92e3791cd6a,Anna Gay,murraydavid@example.org,Asia,Unemployed,Education,169844,9072.166666666666,135875.2,12
+d44efc9c-7ec7-432e-abb3-0c35b3066cab,Dr. Jordan Hill PhD,jsanchez@example.org,Asia,Self-Employed,Education,242953,5060.0,194362.40000000002,36
+4d4551f6-d6fa-4944-b9e8-a246ee23e068,Thomas Romero,michellehill@example.com,Europe,Salaried,Auto,182112,3747.8333333333335,145689.6,24
+f289944f-a71f-4ca2-8523-f193ed35c515,Richard Adams,campbellkenneth@example.net,North America,Self-Employed,Other,205555,7477.083333333333,164444.0,12
+c2bc3b3f-0438-4a52-9ee8-679c8bdf3849,Mary Grimes,wryan@example.com,North America,Self-Employed,Other,189959,4140.916666666667,151967.2,24
+62d765b8-81c7-44bc-b24e-6b4d91535feb,Kimberly Gibson,molly39@example.com,Europe,Salaried,Education,143234,11510.75,114587.20000000001,48
+7592be2c-a507-4d93-82f3-46bd5ce5ec56,Reginald Williams,zthornton@example.com,Africa,Unemployed,Other,221956,6337.166666666667,177564.80000000002,24
+80a9ecab-2195-4b81-9fdd-370a729b5532,Matthew Hoover,tylerjohnson@example.net,South America,Self-Employed,Business,40142,6397.083333333333,32113.600000000002,60
+8f226d2d-9ff2-44ea-96bc-e30aa65498c8,Evelyn Garcia,dgarcia@example.org,Europe,Unemployed,Auto,142337,11405.083333333334,113869.6,24
+1b819e88-ac3d-4799-b94d-c7121fbe158a,Jennifer Pena,charlesharrington@example.com,North America,Unemployed,Auto,227855,6202.25,182284.0,24
+d699c71e-2f70-4b3d-a322-84164778cf0c,Michael Santos,melissa86@example.com,South America,Unemployed,Education,50364,5936.666666666667,40291.200000000004,36
+a13c881d-42ab-41aa-b1ca-df3dcf0e531c,Stacy Freeman,williamsonjimmy@example.net,Africa,Salaried,Other,232249,8414.0,185799.2,12
+4a500f71-20b3-4561-bf64-b2afa839570c,Yolanda Francis,wgood@example.net,Asia,Unemployed,Education,116770,5943.916666666667,93416.0,12
+07a0d60e-2319-4734-bd36-fd6882c4b2e2,Ashlee Jackson,rebecca05@example.org,Asia,Self-Employed,Business,26552,4421.666666666667,21241.600000000002,24
+31de9a7d-9f39-4add-9426-25648a8c9b2b,James Thomas,yknight@example.org,Africa,Self-Employed,Business,122914,1892.1666666666667,98331.20000000001,24
+a501ff5d-d2bb-4c0a-ab22-e7ddab97e371,Bob Pitts,tyleraguilar@example.org,Asia,Self-Employed,Other,131699,1735.9166666666667,105359.20000000001,60
+824f8b86-b21f-4c6a-be5f-6f3034a35615,David Scott,nolansteven@example.com,North America,Self-Employed,Education,14595,12132.416666666666,11676.0,60
+357cd633-d653-45bf-b9e9-8c2d020dd273,Brooke Alexander,vanessa46@example.net,Europe,Part-time,Education,176323,11114.5,141058.4,36
+b9d58e5b-fded-485c-83f8-6caf7e1e6a3e,Ryan Gonzalez,gcastaneda@example.org,Africa,Part-time,Business,177622,3697.4166666666665,142097.6,12
+a14b8ca8-44cc-4c82-87ef-406096ac44e2,Ian Phillips,andrew64@example.org,North America,Unemployed,Education,205542,3736.8333333333335,164433.6,12
+ba638203-5c15-4646-bb8d-2afa078a6be9,Melissa Garner,lozanojulie@example.com,South America,Unemployed,Other,223994,5742.416666666667,179195.2,24
+445c8379-d887-4132-a5ed-baf4ccf21dfc,Crystal Pham,danaoliver@example.net,Europe,Salaried,Auto,234610,4666.083333333333,187688.0,60
+1c6a246b-93e3-4371-aa6e-3036f5d9ef0d,Patricia Becker,courtneyberger@example.net,Europe,Unemployed,Business,140231,10394.416666666666,112184.8,60
+75ae0c6b-3a7b-4329-8925-a842c901ff5b,Richard Johnson,jessica14@example.com,Europe,Self-Employed,Home,131091,7669.416666666667,104872.8,48
+8d2c6b6d-2028-40dc-b9ce-263db8408665,Casey Anderson,alyssa42@example.com,South America,Salaried,Other,246459,9269.083333333334,197167.2,60
+eb46b285-c337-43fa-bc48-1297ac99a4e6,Terry Coffey,julie51@example.com,Asia,Salaried,Education,214144,5130.0,171315.2,48
+c5304af4-dd83-4cc8-ab02-b411e64d314e,Brenda Levy,zcoffey@example.net,Africa,Unemployed,Education,133708,3221.4166666666665,106966.40000000001,36
+35333be0-3c57-40a1-97e7-1c8fdd566197,Richard Smith,gibsonemily@example.net,Asia,Self-Employed,Education,209169,8783.916666666666,167335.2,24
+50c66752-8f97-4c73-a4ce-d4748b49d9c9,James Little,daniel37@example.org,Africa,Salaried,Business,15311,2595.1666666666665,12248.800000000001,48
+3ed1b90e-057c-47c2-9c49-d01094f9d793,Terri Murphy,deborahreid@example.com,Asia,Salaried,Business,106916,2676.3333333333335,85532.8,24
+94380498-ab0e-4bd4-adca-1d4babe7d0b7,Elizabeth Ortiz,brandonjohnson@example.com,Europe,Unemployed,Auto,222430,8527.666666666666,177944.0,60
+a724fc23-f180-4370-83cc-185f0f110d41,David Medina,qchavez@example.net,Africa,Unemployed,Business,117650,1359.75,94120.0,24
+64335a85-b8b7-4fb7-a301-db021bb06bc6,Kimberly Matthews,nicolepena@example.com,Asia,Unemployed,Business,187904,3328.5833333333335,150323.2,48
+dccea67c-03ae-4b81-a7c9-bbcf63337539,Teresa Ramirez,jeff73@example.com,Africa,Self-Employed,Auto,113637,5762.583333333333,90909.6,24
+33320d9a-2cd7-42a5-b411-a44bdb8bdc78,Michael Stephens,bruce43@example.org,Europe,Unemployed,Auto,8170,2607.5,6536.0,48
+e648b0ba-dfb3-472f-852e-35115b1665e7,Samantha Davis,darleneharper@example.org,Africa,Part-time,Other,88052,3839.6666666666665,70441.6,24
+3f58fb04-b497-4a61-ad25-a9d528f47d06,Gavin Zhang,caseyhubbard@example.org,North America,Salaried,Education,131057,9991.333333333334,104845.6,48
+57f9b068-d8b5-45c2-97b3-7d59be554aa3,Robin Hall,kristinacarlson@example.com,North America,Part-time,Home,23963,1897.4166666666667,19170.4,36
+784ff468-7da8-415e-858e-2386cf7c4ddb,Brianna Anderson,lauren10@example.org,Africa,Part-time,Other,199883,7045.166666666667,159906.40000000002,24
+4b05e5c5-0672-4be6-8aac-50d8f0f86ba6,Richard Young,alfred40@example.org,Europe,Self-Employed,Education,23999,8009.166666666667,19199.2,24
+b173f368-322d-44a4-899f-4c93c37a4827,Kelly Reese,xwest@example.net,South America,Part-time,Home,206991,5057.916666666667,165592.80000000002,48
+4236374d-51e8-403c-8f41-10782e8fa45f,Jodi Walker,acostaregina@example.net,Europe,Salaried,Business,141207,3890.0833333333335,112965.6,12
+424107f8-afd2-45cb-9de6-4c69bead7610,Judith Maynard,lutzmelanie@example.com,Europe,Salaried,Education,217621,7639.166666666667,174096.80000000002,60
+5642c74b-5599-4eb0-8a6e-b0b6b9e9564b,Katherine Browning,lammarc@example.org,Africa,Part-time,Home,53174,4365.333333333333,42539.200000000004,48
+391456f9-b584-44e6-9a52-88daad51fc30,Donald Schultz,oscar98@example.com,Asia,Unemployed,Education,192092,8729.333333333334,153673.6,48
+76218a57-4c7e-4bb5-abee-da5b2d2760a4,Larry Garcia,farrelldebra@example.net,North America,Unemployed,Business,12069,7980.0,9655.2,48
+20d72546-108a-4740-b260-1bbb87b1b4c8,Cindy Hayes,robertwilcox@example.com,North America,Self-Employed,Business,160243,2604.3333333333335,128194.40000000001,60
+06f98e0b-e9c8-4465-9f28-9b87e5d292c7,Brandon Simmons,nicholas27@example.org,North America,Self-Employed,Auto,66582,11214.0,53265.600000000006,12
+7c3364dd-4dfb-4b06-b907-76b3b5a5f315,Bradley Reynolds,lisa80@example.net,Asia,Unemployed,Home,123104,3312.9166666666665,98483.20000000001,48
+37b1f542-c485-48b4-86c2-8f37b9308378,Kristina Santiago,qgomez@example.com,Europe,Salaried,Education,135432,5950.416666666667,108345.6,60
+c5ceabd4-73d8-4a50-af45-cab24aa51a3b,Michelle Schmitt,michael98@example.org,South America,Unemployed,Home,91662,2498.75,73329.6,24
+8510651a-3692-48ec-bc9f-d6fdb17109d1,John Boone,megan51@example.com,Europe,Self-Employed,Home,60859,11131.5,48687.200000000004,36
+bef54e91-6c26-4601-ade6-91582206753b,Renee Bruce,lynchdiane@example.net,Asia,Part-time,Home,19308,2542.5833333333335,15446.400000000001,36
+478fb74c-2942-416e-bae7-614e5ed04e05,Christopher Park,sandra50@example.org,Africa,Self-Employed,Auto,71441,2361.5,57152.8,48
+e85175e4-a6d8-4faa-a675-a17900387856,Kylie Morales,joycebonilla@example.org,Africa,Salaried,Home,209366,1333.0833333333333,167492.80000000002,60
+45d81114-8cef-4e32-b760-183db819658c,Cindy Barnes,eric45@example.net,Europe,Part-time,Other,152002,7626.416666666667,121601.6,12
+2c2325d2-00c8-4c97-a045-7674244bd161,Sophia Moore,craigjoseph@example.net,Asia,Salaried,Auto,18555,10021.0,14844.0,24
+1f89155e-7d03-4c77-91fd-51e9e12c2846,Lawrence Perry,kariwilson@example.com,Europe,Part-time,Education,68213,6420.583333333333,54570.4,12
+6208a9d1-d3d9-46f6-a05d-18f07075d541,Michael Watkins,brandon69@example.org,South America,Salaried,Home,238154,7034.166666666667,190523.2,12
+29e34ad1-44f4-451c-83c1-27202f00df84,Eric Clark,kathrynroberts@example.org,South America,Self-Employed,Auto,216864,7571.333333333333,173491.2,24
+21acc0be-da4f-4e8c-8b5d-ffe2a186e928,Paul Thompson,opatel@example.net,South America,Self-Employed,Home,181806,4602.833333333333,145444.80000000002,36
+f68d5526-22b8-4370-a522-388614c65b37,Mary Gomez,chensley@example.com,South America,Part-time,Education,218040,10090.416666666666,174432.0,12
+32cb9d78-ef97-4c37-aee2-363a2c1bd1c6,Thomas Atkins,tberry@example.net,Europe,Part-time,Home,190919,4850.083333333333,152735.2,12
+f3abacdb-03ad-4f91-ba12-c25d81ee2ad8,Brian Smith,george97@example.net,Africa,Unemployed,Home,100264,4839.25,80211.20000000001,48
+09823c28-bba8-49ae-86ab-86fb96b34fd1,Anita Richard,ryanmorales@example.org,Europe,Part-time,Business,200531,6877.416666666667,160424.80000000002,24
+35b0fb17-48cc-4808-966d-f1e97c2a1006,Eric Morgan,kimberly18@example.net,Africa,Part-time,Auto,62454,9220.0,49963.200000000004,60
+305108d2-3c6b-410d-8cb5-dc8904bb5e78,Jordan Bullock,michael23@example.org,South America,Salaried,Other,121038,9523.416666666666,96830.40000000001,60
+17c4f4d7-f0c3-49a1-b457-ea18d10b7592,Craig Morrison,thompsonkendra@example.com,Africa,Self-Employed,Other,158257,7931.5,126605.6,36
+5305ab03-139b-4077-af07-5af910436cbd,Justin Riley,michelle52@example.com,North America,Self-Employed,Home,199916,5075.583333333333,159932.80000000002,12
+9119b096-5b31-46e9-9f59-4204f7f014b9,Jeremy Turner,brittany58@example.org,North America,Unemployed,Education,217583,6167.0,174066.40000000002,36
+73bbec9b-e4aa-4c04-8b4c-2cbd3e6aa9ba,Jesse Brown,chase19@example.net,South America,Part-time,Home,189219,9156.333333333334,151375.2,36
+93a5a840-eb0e-4837-b916-b8157930362a,Julie Spencer,colelisa@example.net,Europe,Self-Employed,Other,197712,9593.25,158169.6,48
+51d7acbf-c40b-4bf8-987f-d7f9c2973fb4,Larry Mason,hayeslisa@example.com,Europe,Part-time,Home,240783,3747.75,192626.40000000002,24
+e051fb40-2872-4a70-b9c7-b952f87244d3,Mrs. Maria Williams,hritter@example.net,North America,Part-time,Home,151221,6319.583333333333,120976.8,12
+267bdcf3-9e43-4f6b-9948-2aaa8f847dfe,Helen Hardin,vortiz@example.net,North America,Part-time,Auto,238963,11523.666666666666,191170.40000000002,24
+ddc4c878-37fb-4b1d-9732-fcf5fac44b49,Rachel Holland,riveraangela@example.com,Africa,Unemployed,Home,191998,7315.833333333333,153598.4,24
+2a649036-c9f9-484f-a247-7d67eaf1e54d,Nathaniel Douglas,mathewaguilar@example.org,Asia,Unemployed,Auto,207681,2558.5,166144.80000000002,36
+45719448-88b6-4d23-a63f-7480cd414a00,Emily Douglas,tanderson@example.org,Asia,Unemployed,Auto,102339,3825.1666666666665,81871.20000000001,24
+89e19a13-0105-4942-a5e3-c5524dd8590c,James Conner,elizabethcalderon@example.net,North America,Part-time,Home,18202,11968.666666666666,14561.6,24
+fb7ccbdf-6b6b-41eb-93ac-7882594687bb,Susan Davis DDS,andrew42@example.org,Africa,Salaried,Business,68761,4897.75,55008.8,12
+601f0477-b168-4b25-b7a7-941513b91efb,Ralph Lee,ericphillips@example.org,Asia,Unemployed,Auto,236326,12487.083333333334,189060.80000000002,12
+f31e699d-1400-4b80-a283-288c0c82c0e2,Kimberly Rodgers,stanleynancy@example.net,North America,Part-time,Home,18907,6836.166666666667,15125.6,60
+d441d668-7916-4e8e-9b2d-4d3f32c6b9a2,James Martin,jenniferwilliams@example.com,Africa,Self-Employed,Home,26343,7493.083333333333,21074.4,60
+131ca74d-5a31-4ab6-a4b7-395128e49460,Cynthia Wallace,karen73@example.net,Asia,Self-Employed,Business,96670,5009.333333333333,77336.0,24
+baa03609-9428-4fd7-8fe0-659692916c5a,Vincent Mueller,michealvalentine@example.com,South America,Part-time,Auto,213901,3170.0833333333335,171120.80000000002,24
+625cca5a-b63a-4009-9b1a-3fc01138d886,Douglas Reyes,mburch@example.net,Asia,Salaried,Auto,194776,2432.4166666666665,155820.80000000002,12
+b5e1da22-3929-41bd-a704-ace54af03719,David Davidson,angela18@example.org,Asia,Self-Employed,Other,89520,7531.75,71616.0,12
+c9607237-bc64-4eba-ba47-e01e203dbd3d,Phillip Nelson,mariahdavis@example.org,Africa,Self-Employed,Education,164910,10877.416666666666,131928.0,24
+78fbd744-6163-4664-b836-de8f313c3cd3,Stacey Arias,gbrown@example.com,Asia,Part-time,Education,76450,9389.0,61160.0,36
+63e4e122-aa22-4d08-9fd0-557c1630a2d9,Zachary Brooks,florescory@example.net,Asia,Part-time,Home,93335,11713.083333333334,74668.0,60
+a722d1e0-e3fd-43ae-a9f5-6c9cd97b2f6c,Raven Taylor,samantha72@example.net,Europe,Salaried,Education,159499,3960.4166666666665,127599.20000000001,24
+752516ea-5ac7-4032-88a6-889ec19850a2,Luis Bullock,scottmary@example.net,Africa,Unemployed,Auto,204226,3407.9166666666665,163380.80000000002,60
+6ea7f580-95ed-44fc-9fc8-347ce3577c87,Lisa Henderson,john10@example.org,South America,Unemployed,Business,190426,10604.833333333334,152340.80000000002,60
+5a10b49a-f6e7-4389-aff7-06b566eed8ba,Riley Bryant,copelandvincent@example.net,South America,Salaried,Auto,33140,9724.166666666666,26512.0,48
+a40b2824-c01c-470f-af95-e90e5802f06d,Jose Allen,kellysmith@example.com,South America,Self-Employed,Auto,128118,5738.916666666667,102494.40000000001,24
+b3f6508d-a7d2-4159-b9aa-d2a3683bd3ac,Jason Beck,millsmichael@example.net,North America,Self-Employed,Education,188830,4529.5,151064.0,24
+ac31219e-11c5-4d32-9c07-e1c7456001d6,Rachel Romero,myerstheodore@example.net,Africa,Self-Employed,Auto,178000,3268.0,142400.0,12
+75f8cac3-cf57-42b6-93f4-55451b2879eb,James Burgess,kristina53@example.net,Africa,Salaried,Other,44457,1960.8333333333333,35565.6,60
+f645ddf7-50e3-4499-9d02-3c54b4b5d5f8,Ashley Perkins,dennis58@example.com,North America,Unemployed,Home,51090,7561.333333333333,40872.0,12
+fa90976f-cd3d-4a54-8650-ef09ba7925a8,Carrie Maxwell,epollard@example.net,Europe,Unemployed,Other,133005,8706.416666666666,106404.0,60
+0d9579ed-36d8-4548-ae71-86b9ad288f45,Chad Baldwin,mjohnson@example.org,North America,Salaried,Business,7916,4471.5,6332.8,12
+41cfde0b-62e3-4d19-b59d-d0fe5dc44699,Stacey Stewart,zachary87@example.com,North America,Salaried,Home,74977,5518.0,59981.600000000006,48
+121f04ad-c65b-464d-9e5f-59943199a25d,Matthew Mitchell,glennmartin@example.org,Asia,Self-Employed,Other,103006,9828.416666666666,82404.8,60
+449f40d8-392d-4907-b994-e312b203a5e1,Jessica Ross,ykline@example.com,North America,Part-time,Business,212402,3030.0,169921.6,60
+17b62747-5be8-4212-8e07-fe74aa9db46a,Kathleen Jimenez,laurie61@example.com,South America,Self-Employed,Business,163528,10453.416666666666,130822.40000000001,12
+ddd1105c-bef0-4ea2-9573-0541e94803dc,Samantha Gardner,curtis54@example.com,Europe,Unemployed,Home,128510,4384.916666666667,102808.0,24
+f6946a21-fb36-4d8d-a3c7-f5ef34804071,Mitchell Jackson,cbell@example.net,Asia,Unemployed,Business,133353,2099.1666666666665,106682.40000000001,24
+e79c927b-b9a6-41e8-ba50-b7f38430af30,Heather Bolton,danielle01@example.net,South America,Unemployed,Home,62171,1954.0833333333333,49736.8,12
+29289283-13c6-415b-8915-53a93a0f7503,Heidi Owen,stephaniethomas@example.net,South America,Self-Employed,Home,89315,11532.75,71452.0,24
+17a65c34-5fe0-4693-8835-a08afdf62536,Jessica Martinez,kimberlydiaz@example.com,Asia,Salaried,Business,87273,11950.083333333334,69818.40000000001,24
+5a5964e6-b541-4961-9911-37b6cfd2f6ed,Amanda Hernandez,xrush@example.com,South America,Part-time,Business,163826,4077.9166666666665,131060.8,12
+0478732d-3357-45cd-a5a1-bf342aa5a19d,Laura Moreno,redwards@example.org,Africa,Part-time,Other,232185,3172.0,185748.0,24
+fba04398-4268-4e34-a72a-4b9b44aa8d59,Allison Lopez,hmcintyre@example.com,Africa,Unemployed,Education,131348,4623.833333333333,105078.40000000001,60
+10ddb304-18a3-4b26-8bf2-359124f92f52,Michele Lewis,heather73@example.org,Africa,Self-Employed,Auto,224997,5241.333333333333,179997.6,48
+952026de-f665-45e3-933d-2d17b8db2239,Benjamin Thompson,zosborn@example.net,Europe,Part-time,Auto,220660,7509.333333333333,176528.0,12
+8822144e-8c56-49fb-9b1e-6b1dfe33b94f,Victoria Contreras,piercekelly@example.com,Asia,Part-time,Education,218992,10745.333333333334,175193.6,12
+61a95dbd-5528-4fa9-b9ce-e33bad6252f5,Michelle Ho,laurahicks@example.org,South America,Self-Employed,Education,29024,10295.5,23219.2,48
+4ce22e13-9c83-439c-ae80-459aa01e7823,Dr. Cynthia Snyder,angela57@example.net,North America,Part-time,Other,116926,1535.4166666666667,93540.8,36
+7e9f64a3-f0f4-476c-9d42-081e1dbbb202,Stephen Jones,ukey@example.com,Africa,Self-Employed,Education,213492,4170.916666666667,170793.6,36
+2e7a9acc-ff63-40c4-b598-a1ce6cd44989,Patricia Morrow,martinezlogan@example.org,Europe,Salaried,Other,56359,2190.0,45087.200000000004,24
+118e4ad9-11fd-4009-8917-6a4b6c1d3ced,Michael Cooper,katrinaanderson@example.net,South America,Salaried,Home,154105,6992.916666666667,123284.0,36
+3a314616-3e53-4000-8714-eaf29257e5b7,Amy Martinez,kevinmartin@example.net,Europe,Part-time,Auto,81214,9349.083333333334,64971.200000000004,36
+63a88e9b-6836-4ca5-9b33-2f045bab21dc,Travis Stone,meghan43@example.net,Africa,Salaried,Education,65158,7955.833333333333,52126.4,60
+4534e8a5-a690-4d95-9c7e-b1ec359a136d,Denise Weber,shawgary@example.net,Europe,Self-Employed,Auto,190150,4874.583333333333,152120.0,36
+37bbe1de-f0d7-4a53-a2d5-c063c14d2568,Matthew Le,megan90@example.org,South America,Part-time,Other,192577,10266.75,154061.6,36
+33dfb646-1f52-4a4f-a9be-9e990033921e,Travis Wise,debra96@example.net,North America,Self-Employed,Education,142102,5573.0,113681.6,48
+dc2d450d-ae05-46bb-a60d-a357459c0532,Kathleen Burton,dawn47@example.org,North America,Salaried,Business,189780,11317.5,151824.0,48
+14fe11a9-1e5d-4475-b02a-9c5ce5bc499e,Melinda Evans,barkereric@example.com,South America,Salaried,Business,83794,5894.333333333333,67035.2,48
+e2f5b898-c52b-4809-a269-0d6cca3c77d8,Mr. Lawrence Edwards,jessica56@example.org,South America,Unemployed,Business,64541,10376.833333333334,51632.8,12
+7b549f9f-999b-4815-9213-e69a01ee27da,Kayla Rodriguez,stevenadams@example.org,North America,Unemployed,Education,104145,3723.25,83316.0,24
+973bfa15-1a10-457b-abff-a0b9584a5d5d,Anthony Dougherty,kwright@example.com,North America,Part-time,Home,125914,9454.333333333334,100731.20000000001,60
+58cfe277-227e-4100-aae9-af81056bbf11,Michelle Lee,tyronerobertson@example.com,North America,Salaried,Auto,126167,6636.583333333333,100933.6,12
+6b0d490a-f1eb-406e-86df-041192d8659b,Kathleen Davis,pwagner@example.org,Europe,Part-time,Business,176255,4241.916666666667,141004.0,48
+cf3a9efa-4074-482d-b722-187dd628d8b9,Amber Campbell,amitchell@example.org,Europe,Salaried,Auto,82670,4053.75,66136.0,60
+f59113b6-6e03-4daa-992a-40e5193ee6e8,Stephen Luna,zdiaz@example.org,North America,Unemployed,Other,32545,3365.3333333333335,26036.0,36
+9aa85b90-e8af-42e8-9bf4-82b9c8fa5ade,Chloe Tran,hughesshannon@example.net,Asia,Self-Employed,Other,59336,5269.666666666667,47468.8,60
+7b46de89-967e-45e3-8257-04b58ec51bf6,William Becker,andersoncolin@example.com,Europe,Unemployed,Education,23704,7334.25,18963.2,48
+27e60a75-363f-4417-8179-ae74dd9b9831,Gina Mcmillan,jameshicks@example.net,Africa,Unemployed,Business,25254,1894.25,20203.2,12
+bce13fb6-2e0d-40b8-96a6-1f0f414d1843,Andrew Reeves,jstone@example.net,South America,Self-Employed,Education,78978,11412.416666666666,63182.4,36
+00944957-079e-463f-b6df-319535133bd1,Brenda Velazquez,francisco94@example.net,Asia,Part-time,Business,147793,11096.5,118234.40000000001,48
+0cdb1a11-2c13-4208-91b6-ecc9204b5ddc,Ronald Patel,thomas05@example.com,Africa,Unemployed,Business,19408,3709.9166666666665,15526.400000000001,48
+c6e417a7-3bc3-4a3b-b45d-b19be546b00e,Veronica Silva,carlsonjoseph@example.net,Asia,Self-Employed,Business,182420,2509.9166666666665,145936.0,48
+1837bb9f-9dfa-4849-b3ca-efe3473b81c3,Paula Lane,silvageorge@example.net,Africa,Unemployed,Home,63177,3442.8333333333335,50541.600000000006,36
+283e3101-8a4f-46d7-a3ed-30ed64274307,Patricia James,anthonyvaughan@example.org,Asia,Self-Employed,Business,199620,9606.083333333334,159696.0,60
+5dbd92e7-c24b-4e1f-a3ca-8ca6b060dbda,Jeremy Barnes,avaughn@example.net,North America,Unemployed,Home,158888,8447.166666666666,127110.40000000001,24
+1f2382ec-4913-444a-8c18-b7a8df24a122,Tami Salas,thorntonapril@example.net,Asia,Unemployed,Education,33183,5788.416666666667,26546.4,12
+8e347c51-fc23-4b69-926e-50bde1d68aa4,Matthew Fox,sue78@example.com,Africa,Salaried,Auto,107955,9151.333333333334,86364.0,48
+ad343a27-b3db-43de-a6fe-8d6428749570,Megan Dillon,chelsea33@example.com,South America,Self-Employed,Business,52107,2770.0,41685.600000000006,60
+8cb3e08e-eb70-4900-b011-ba23bda793d0,Courtney Dudley,kellie37@example.com,South America,Unemployed,Education,170014,1724.5,136011.2,60
+faf1e05e-0a72-4b9d-9906-6c2ee9009472,Justin Michael,keith98@example.com,Africa,Unemployed,Business,217384,6304.916666666667,173907.2,60
+6043923b-58f4-4cf8-ab61-7c2be6fa5905,Jennifer Reed,kellyroberts@example.net,Asia,Self-Employed,Business,151293,10437.333333333334,121034.40000000001,24
+cd0cf846-6a08-46bf-8959-455b53736c7d,Thomas Douglas,ilewis@example.com,Asia,Unemployed,Other,139635,7755.333333333333,111708.0,12
+7fe007bc-2ba2-47b6-9f02-1b3000392e5e,Melissa Taylor,johnsantiago@example.net,Europe,Self-Employed,Other,224374,9437.75,179499.2,36
+61d7d6a8-978e-44a0-9ff1-edb3e70544ed,David Garcia,jennifer12@example.org,Asia,Part-time,Other,165322,5980.0,132257.6,12
+bbbb89f5-5bfa-4176-a12d-1d9b4b245317,Vanessa Moore,mwoods@example.com,Asia,Salaried,Home,231541,4901.583333333333,185232.80000000002,48
+c9b2bd34-ba4d-4a14-830f-0d6acab5d3f7,Matthew Velez,pearsonjesse@example.net,South America,Unemployed,Business,209849,9936.166666666666,167879.2,24
+492ccb98-5fc5-4e89-8e46-ecb0494c135a,Taylor Gentry,robertmonroe@example.org,South America,Self-Employed,Home,23426,1816.3333333333333,18740.8,36
+8c57bb76-9f58-4aea-9902-61558225bcf9,Jennifer Simpson DVM,nancy04@example.net,Africa,Unemployed,Home,38178,12382.0,30542.4,48
+2ed907d7-dd08-4793-b06d-1f3920b7fbf7,Tanya Rogers,ihays@example.net,Europe,Part-time,Home,76459,8390.0,61167.200000000004,48
+08d8c5d6-7c64-493c-929a-4deb3a5d4a85,Todd Rosales MD,lisarivera@example.net,Africa,Unemployed,Home,36285,2044.8333333333333,29028.0,48
+99892431-02b3-44f2-8dd8-f8b785affd61,David Lopez,krystal93@example.org,South America,Unemployed,Education,92558,2727.5,74046.40000000001,12
+635b335c-aa36-4b0c-b097-8e4a3964caab,Margaret Sullivan,frobertson@example.com,North America,Part-time,Other,249177,8567.25,199341.6,48
+98402520-de38-48b1-a0bd-4887dea33c8a,Cathy Taylor,shari04@example.com,North America,Self-Employed,Auto,69960,11772.5,55968.0,60
+af3bea95-1ad9-4d38-9745-17c07ca7f763,Paul Finley,brandi90@example.com,Africa,Unemployed,Auto,86149,1630.6666666666667,68919.2,12
+fdbc0e0e-5a88-45ee-a5c4-028d7d78e820,Melissa Brown,marshallerik@example.net,North America,Salaried,Business,34760,2794.9166666666665,27808.0,60
+e1c189f6-bd8e-456b-a5e5-40b923c97531,Stephanie Padilla,hannah45@example.net,North America,Part-time,Business,83560,6489.583333333333,66848.0,24
+4f3d34f5-1b69-461c-bd95-90df52477bde,Tyler Mendoza,madkins@example.com,South America,Salaried,Other,245222,5919.916666666667,196177.6,36
+2537cbda-2894-4059-9cde-0718a131903a,Joshua Ruiz,kathleenbecker@example.net,South America,Part-time,Business,246266,4060.5,197012.80000000002,24
+a5e1f6f2-3ab8-4cfc-a2e0-c1a9b5803d23,Angela Griffin,christian91@example.org,South America,Part-time,Other,150458,11023.333333333334,120366.40000000001,48
+4c97b70f-dae8-47a1-9cca-43a5d31e7481,Stephanie Harris,franklinbond@example.com,Africa,Self-Employed,Education,245507,8159.833333333333,196405.6,36
+4c06745c-f409-4b8b-82b4-f82e9a7b29dd,Daniel Aguilar,nolansean@example.org,Asia,Self-Employed,Business,40778,9056.583333333334,32622.4,36
+bd080d57-dfd2-4ae0-a419-83ba3294ea03,Jose Bryant,hansenemily@example.com,North America,Part-time,Education,9049,3674.8333333333335,7239.200000000001,24
+dfabd9b2-8d91-45c4-94e1-9609e26de6d8,Jennifer Velasquez,bethwilliams@example.com,Africa,Unemployed,Other,33870,6760.5,27096.0,36
+2fb421a7-40a9-44fd-aaac-1db633f9c68b,Kimberly Brown,andersenthomas@example.com,Asia,Self-Employed,Auto,70304,1628.25,56243.200000000004,60
+da5f0a9f-f7c0-4f83-8400-71a2e173c2e0,Randy Cannon,ybrooks@example.com,North America,Unemployed,Education,55157,2459.9166666666665,44125.600000000006,24
+d909ef67-870c-4f76-adbf-72ef35e93158,Susan Bennett,desireebailey@example.org,Europe,Self-Employed,Auto,119215,1815.25,95372.0,36
+834d165a-f5f6-4ed0-847e-a6084929385c,Jenna Anderson DVM,avilatiffany@example.com,Europe,Unemployed,Business,43640,3356.0,34912.0,36
+e7a2b16f-f62d-4bb9-ba55-71ca7991804d,Kimberly Patel,johnreed@example.com,Europe,Unemployed,Other,55448,3366.0,44358.4,12
+d490ab20-a4fe-4fbd-9a68-f3542dffb486,Shaun Cannon,pachecorobert@example.org,Europe,Salaried,Home,221215,4983.083333333333,176972.0,48
+86f4b3e7-8fc3-4822-b265-5ef54290fd38,Austin Wheeler,tharper@example.org,South America,Part-time,Business,119458,6938.666666666667,95566.40000000001,60
+ea21e275-aaba-49cc-92d8-62e973be9841,Andrew Gonzales,karenparsons@example.org,Europe,Unemployed,Other,23310,1327.0833333333333,18648.0,12
+90e628ea-d0fd-4c3d-9f1d-0c4eef6b810a,Donna Cabrera,barbara53@example.com,Africa,Self-Employed,Other,19000,8150.75,15200.0,12
+45bc8d57-b122-40a4-a6e7-b698c0c357cf,Victoria Boyd,dturner@example.net,Europe,Self-Employed,Education,108781,7995.75,87024.8,48
+4050d316-15bc-4f9b-ac74-70a35a12b6f6,Sheryl Buck,dpeters@example.com,Europe,Part-time,Auto,44529,6939.083333333333,35623.200000000004,48
+5ea3aa44-a1f8-43ea-8768-4bf39cc803ad,Megan Floyd,heather62@example.com,North America,Part-time,Auto,105098,8153.916666666667,84078.40000000001,60
+0a7c58fa-a76a-4f20-8931-cd9dff5be69a,Paul Wells,kevinzimmerman@example.com,Asia,Part-time,Other,20674,11471.916666666666,16539.2,36
+1da55d35-1eb5-42a6-a2bf-df935c031f21,Kristina Faulkner,paulscott@example.com,Asia,Part-time,Auto,142506,3672.5833333333335,114004.8,36
+81afefaf-4975-466d-9ee2-deb05a9a3352,Tammy Boone,nicholsmaria@example.org,Asia,Salaried,Other,106475,11386.583333333334,85180.0,36
+8a37bf19-094d-4f1b-9855-892d6342c718,Michael Morrison,lopezkathleen@example.net,South America,Salaried,Business,208948,6234.25,167158.40000000002,48
+bd3ee3e3-c4e6-4c1b-9ee5-4ad3921561fc,Claire Clark,kevin03@example.org,Europe,Unemployed,Auto,35378,9849.833333333334,28302.4,48
+62f003c6-c5bf-47c7-a4f6-43670b56a2ab,Autumn Key,srocha@example.net,North America,Salaried,Other,34108,3230.1666666666665,27286.4,36
+7a891a5f-b724-44d4-807d-97ba22393943,Jennifer Allen,kimberly67@example.net,Europe,Salaried,Education,121465,12284.916666666666,97172.0,36
+3275f884-7703-42fb-b9e8-b9f2ec789a36,Elizabeth Ward,zowens@example.net,Africa,Unemployed,Education,158948,11876.75,127158.40000000001,24
+845fb846-15b4-4ec7-85d8-b9b8e115b95c,Ryan Rocha,lawrence09@example.org,Europe,Part-time,Business,168575,7638.833333333333,134860.0,48
+f9242144-0225-426d-a040-4f31315e9eb7,Alexis Tran,mphillips@example.com,Europe,Salaried,Business,230714,7222.25,184571.2,60
+5544dc01-57de-44bf-985e-6b5b1e5685b9,Kelly Sanchez,jonathan77@example.com,Europe,Salaried,Education,248646,6972.75,198916.80000000002,36
+703bf879-5cb6-493a-9d8b-b261bbe646a4,Robert Jackson,iwhite@example.net,Europe,Unemployed,Education,208130,3293.0,166504.0,60
+36516f99-7a37-40bc-a727-eead4c3b20a9,Kelly Combs,landryelizabeth@example.org,North America,Self-Employed,Auto,192788,9021.833333333334,154230.4,24
+79943e2c-62b3-4080-be71-43afe1eb9474,Ryan Hall,albertwagner@example.com,South America,Part-time,Business,10194,9480.833333333334,8155.200000000001,60
+3ea6ce6e-4d91-42fa-a1e6-74a213f56bf1,Mark Peck,bhopkins@example.org,North America,Part-time,Other,210538,5383.25,168430.40000000002,36
+a5988aa0-9bc0-4160-8f5e-480046ee6d83,Jennifer Smith,amanda40@example.net,North America,Salaried,Business,113319,3941.3333333333335,90655.20000000001,36
+f5028d19-d01c-45e6-bc28-239aaa99a441,Megan Drake,danieldavis@example.org,South America,Unemployed,Auto,206251,12395.416666666666,165000.80000000002,60
+66135087-f867-4886-98bc-1b96462d6e48,Manuel King,joseph61@example.com,Africa,Part-time,Other,67746,1384.75,54196.8,24
+3f805904-0533-4941-bf9d-9f431ca710b7,Judy Sanchez,kevinclayton@example.org,Asia,Part-time,Education,219560,6329.333333333333,175648.0,12
+e7dbf126-bfc8-4585-83d4-e9a159f915be,Shannon Malone,sullivannicholas@example.com,Africa,Salaried,Auto,172936,8064.5,138348.80000000002,12
+6793cf6b-90ac-4b13-a378-35e14b54e011,Adam Jackson,pbruce@example.com,Africa,Salaried,Business,208868,3756.5,167094.40000000002,24
+6b5120f9-034e-4fbf-9704-6d8db1fe76e6,Shannon Davis,hallrachel@example.net,Africa,Salaried,Auto,181897,1642.9166666666667,145517.6,36
+b5bfd0e9-7683-4b5a-96ba-ec8689bdeaca,Karen Williams,cohenjuan@example.net,Asia,Self-Employed,Other,60102,7827.916666666667,48081.600000000006,24
+850a7067-2676-4283-a48b-bcea29c1c4b7,Amanda Mcfarland,alexis39@example.org,Africa,Part-time,Business,248043,10276.166666666666,198434.40000000002,12
+1a569a5d-70b2-4d53-82ba-76130d0e6afd,Michelle Sanders,evansanne@example.net,North America,Salaried,Business,249871,6497.75,199896.80000000002,12
+49687eff-8ef0-4f3b-bc61-cc2b4d86bd5d,Jasmine Mosley,patrick21@example.net,Europe,Unemployed,Education,119707,7829.666666666667,95765.6,48
+231db6c1-0e30-4425-8cc9-49b4e436478d,Haley Davis,marypeterson@example.net,South America,Part-time,Home,176638,1698.0,141310.4,36
+28140006-8ecf-46c1-a1d2-de41526861c2,Jennifer Ayala,walterskristen@example.com,Europe,Salaried,Auto,36941,2526.8333333333335,29552.800000000003,36
+56ca8912-3e28-4df4-b4c0-904faa2f5ce9,Henry Pugh MD,nmiller@example.com,North America,Unemployed,Business,65132,3811.6666666666665,52105.600000000006,12
+65b63a38-8abc-46e3-bc22-f8e72d7ccafc,Michelle Miller,normanbowers@example.org,Asia,Part-time,Business,101131,5143.083333333333,80904.8,24
+f9f5c327-5e9f-4be8-80e7-a83d614cfe1d,Emily Rodriguez,hahnsean@example.com,North America,Self-Employed,Home,54722,8187.5,43777.600000000006,36
+0f0aae82-dc4c-4448-a609-46f6c88b46b0,Brandon Jordan,fgarcia@example.com,Europe,Self-Employed,Education,213103,8983.833333333334,170482.40000000002,12
+c5326e50-2145-4693-a71f-503a9fbd8e94,Linda Mueller,asmith@example.com,Asia,Self-Employed,Auto,215651,3378.0,172520.80000000002,48
+eaa4fbe8-a0b6-416d-a454-0f4efcab904d,Misty Hansen,ashleyjackson@example.com,North America,Part-time,Other,240058,6383.083333333333,192046.40000000002,60
+9acec15e-4bc3-40a4-a1f2-799b47b4a785,Derrick Adams,bryanhamilton@example.com,Europe,Self-Employed,Business,52384,1514.3333333333333,41907.200000000004,12
+72549c4b-8ae3-49f8-a259-99e8be49224a,Richard Ward,jennifersimpson@example.net,Asia,Unemployed,Education,246924,2196.0833333333335,197539.2,36
+e8731bf5-1eae-4d88-b52c-5c30986246a3,Brian Torres,ncook@example.com,South America,Unemployed,Auto,67381,8507.416666666666,53904.8,60
+2b04fc1b-3e9b-4106-8879-53e105718852,Erin Cook,kevinmorrison@example.net,Africa,Salaried,Auto,222782,10853.416666666666,178225.6,36
+63697dc8-ee63-468a-b9fa-767d83991e3d,Ernest Oconnell,kelly79@example.org,Asia,Self-Employed,Home,194185,12201.25,155348.0,36
+36a769ca-062a-4798-af70-9060aa2fa162,Douglas Hartman,daniel93@example.net,Asia,Part-time,Home,165087,4522.833333333333,132069.6,24
+6e8a3606-5b58-4ecb-b640-59d6292d104d,Catherine Saunders MD,nhahn@example.com,Asia,Unemployed,Home,8855,3489.6666666666665,7084.0,12
+7f56b15a-4f3c-4578-b2cb-12d2da32b97d,Sandra Jones,ichambers@example.net,Asia,Part-time,Business,10371,5375.75,8296.800000000001,36
+909c36b8-fb34-4f8b-ad02-8020e6dc0cad,David Moore,emccormick@example.com,North America,Unemployed,Auto,127011,2106.25,101608.8,36
+061c6fbf-4c94-44f8-b537-4cbd0c8039fb,Karen Morales DDS,ystephens@example.com,North America,Self-Employed,Business,81678,10622.25,65342.4,60
+b33e7c40-5b6b-4b83-9680-2ba7ab8a2ee9,Robin Wheeler,rodriguezjohn@example.net,North America,Unemployed,Home,245353,6407.666666666667,196282.40000000002,36
+781f4476-7c08-492b-b514-3a39790aff68,Matthew Williams,vrasmussen@example.com,North America,Part-time,Education,32655,9458.583333333334,26124.0,48
+1f715bf7-811c-40bd-8b10-96da65d4c1f7,Brett Walker,seanmyers@example.net,Africa,Part-time,Auto,83101,8647.25,66480.8,48
+0872121c-d053-431e-a190-5970e96b6852,Kathryn Cooper,webbkenneth@example.org,Africa,Unemployed,Other,45838,6213.416666666667,36670.4,48
+3db65a68-1d1b-4f05-a900-df8625269d29,Todd Thomas,matthew38@example.com,Africa,Salaried,Other,100051,6549.833333333333,80040.8,12
+7e2d362e-8abd-454a-a91c-a20c45ad69e2,Brent Bowen,tflores@example.org,Africa,Unemployed,Auto,212969,6195.833333333333,170375.2,12
+97e4709e-40e6-417a-b86b-2280338a5754,Ashley Sweeney,byrdfrank@example.net,Europe,Self-Employed,Auto,189992,6185.416666666667,151993.6,12
+e87fda66-15e7-4200-91c6-14dc5c3a34d9,Christopher Moore,omullen@example.com,Africa,Self-Employed,Auto,162766,9185.416666666666,130212.8,36
+ae990e89-257c-4640-9568-745446c31e40,Charlotte Sandoval,njohnson@example.org,Europe,Part-time,Other,217450,6351.916666666667,173960.0,36
+49af25b1-449e-4c58-aecc-dacaed4ca49a,Jeffrey Smith,jamiegoodwin@example.org,Europe,Part-time,Business,208596,1380.6666666666667,166876.80000000002,36
+533f82cf-5d4c-4d3c-9178-b276eb889cf3,Rebecca Herrera,mark71@example.com,North America,Salaried,Business,203279,3097.0833333333335,162623.2,60
+93088f1c-4939-4d0c-8f1c-7a78ab186e6b,Katherine Church,candice96@example.net,North America,Part-time,Education,91891,1508.1666666666667,73512.8,12
+4eaa5cce-065a-4acf-a76f-dd7b3dc32ea5,Harold Ellis,lisamccarthy@example.com,North America,Unemployed,Other,12014,3469.3333333333335,9611.2,24
+1e422a82-e288-4602-a4c1-f1b454b1a31f,Leslie Powers,david41@example.org,Asia,Part-time,Education,157287,6636.166666666667,125829.6,48
+4c63e4c7-917e-44d5-8e33-7d5f507ea6dd,Charles Price,baileyhenderson@example.com,North America,Salaried,Home,140640,9163.166666666666,112512.0,12
+9a609706-d72c-48d4-9da5-46afc435a5c7,Melissa Brewer,angelaburns@example.org,North America,Unemployed,Home,135017,6958.0,108013.6,60
+f5cd0c1c-bccb-4524-b901-adb2c27136db,Ryan Harvey,stephanie72@example.org,Asia,Part-time,Education,110989,12332.583333333334,88791.20000000001,48
+7ac0eba2-384f-472a-8cba-950f2c6f8885,Tracey Wagner,fortiz@example.com,North America,Part-time,Auto,91037,2265.75,72829.6,48
+7aeef775-5bad-4165-9476-c2f2cd46634d,Jill Jackson,flynnjeffrey@example.org,North America,Self-Employed,Auto,79806,4941.833333333333,63844.8,12
+709197cf-6374-45da-aac3-b3696a51afe1,Joshua Jackson,xcunningham@example.com,Africa,Unemployed,Home,181008,7105.833333333333,144806.4,12
+9eef22c9-a4cb-4136-b02e-07dbe007e596,Ashley Wilson,amber07@example.net,South America,Self-Employed,Education,192884,5876.416666666667,154307.2,60
+58d70acc-2ea1-48fb-8615-42d8f503acad,Jeffery Fitzgerald,kennethkidd@example.com,Africa,Self-Employed,Business,5660,2058.75,4528.0,24
+1a16cfdd-50b9-4bee-bedf-1438a53a826a,Scott Miller,rowejoel@example.net,North America,Unemployed,Home,135630,1786.8333333333333,108504.0,24
+ed4d9286-4c08-4a1d-aaa6-7c7101c20a99,Heather Page,imartin@example.org,North America,Self-Employed,Education,181186,9967.333333333334,144948.80000000002,12
+d1d735eb-ba19-4f4d-bb50-5d206528acc6,Renee Hudson,candice25@example.net,Europe,Unemployed,Other,142449,11856.5,113959.20000000001,60
+fd89f353-4e24-418a-9a61-50590a86fc90,Kenneth Farley,taylorkaren@example.com,Asia,Salaried,Home,54331,7616.25,43464.8,36
+ebe4bf1a-2f8f-4432-afcb-7a5532e1635e,Wendy Camacho,jacquelineanderson@example.org,South America,Salaried,Education,185277,7368.416666666667,148221.6,60
+1bd6cf62-6abb-4026-9ad0-17eae6d14dc8,Sandra Juarez,kburns@example.net,South America,Part-time,Home,102657,6705.0,82125.6,48
+f6d3a42f-d949-4c16-9087-dfdfe720c79c,Jason Hayes,powellkara@example.net,Europe,Salaried,Auto,84184,7712.666666666667,67347.2,12
+35428051-bf9e-43b9-afb0-c90600591846,Jackie Clements,brandi17@example.net,North America,Part-time,Education,29270,11319.083333333334,23416.0,48
+4d09bbd0-5930-4741-97a0-f7555a21e91b,Heather Brown,brobinson@example.org,North America,Part-time,Home,67336,9249.0,53868.8,48
+8d2a8849-56a2-4471-a271-eec917ec0ba4,Frank Campbell MD,ashleewashington@example.com,South America,Part-time,Auto,38894,4857.25,31115.2,36
+4c0b647d-b986-492e-89ff-c4d2066c11a5,Pamela Williams,ksmith@example.com,Africa,Self-Employed,Education,170645,5371.416666666667,136516.0,36
+39dada6c-4a91-4733-a4b2-d2326b3cb625,William Patterson,nicoleturner@example.com,Europe,Unemployed,Business,168426,4001.1666666666665,134740.80000000002,12
+6f55d45d-2eeb-49e1-8611-6828cf6f6c89,Isaac Miller,brettgarrett@example.net,Europe,Self-Employed,Business,184724,6930.666666666667,147779.2,60
+f7950279-0233-43aa-b143-4484f05c6cb0,Cynthia Rios,smiththomas@example.org,Africa,Self-Employed,Other,147179,2736.5833333333335,117743.20000000001,12
+5e0ccd5c-bf97-40b3-b9c2-bb5aa7e19c14,Kelly Wallace,dominguezlisa@example.com,Asia,Part-time,Other,34904,6996.166666666667,27923.2,36
+d051169e-0bff-4c08-b18e-9090a4c006b9,Karen Perez,crosscurtis@example.com,Africa,Part-time,Business,100714,4875.666666666667,80571.20000000001,12
+bc0fbf0c-b387-467b-95cf-9fa64184c243,Edwin Reyes,darlenebyrd@example.org,Europe,Unemployed,Other,181039,8717.5,144831.2,60
+d76aab04-57cf-4f6f-96bc-5bcd9fee0993,Alejandra Santos,nbell@example.net,North America,Unemployed,Education,70235,8686.833333333334,56188.0,48
+abd9c6a9-b339-4072-a764-05a4481e2937,Tamara Jensen,fheath@example.org,Europe,Part-time,Other,165662,8098.666666666667,132529.6,12
+608ba577-231f-4977-ab0c-f0e0f51bf4eb,Bryce Blair,sylvia52@example.org,South America,Part-time,Auto,192828,3782.5,154262.4,12
+b3ac163e-7d53-4401-85ab-c5dd637626c8,Bradley Tran,kimberly04@example.org,Asia,Part-time,Auto,179173,8332.25,143338.4,12
+8d1b0893-e9bc-4c38-a137-d301468ff41d,Katrina Adkins,debbie37@example.com,Asia,Unemployed,Other,26261,7210.75,21008.800000000003,36
+c76ee1f6-d5d3-4b90-baaf-ac59afe38f3a,Jonathan Wheeler,hatfieldsarah@example.org,South America,Unemployed,Business,210383,2355.5833333333335,168306.40000000002,12
+10aeca3f-2898-4ff6-9ade-b672a30da304,Ryan Fisher,kathrynbest@example.org,Asia,Unemployed,Business,236128,3204.4166666666665,188902.40000000002,48
+de79af78-0f36-475a-a94b-b770a71fac2a,Austin Baker,livingstonstacy@example.com,Europe,Self-Employed,Other,180880,3354.5,144704.0,36
+8a2ce976-7fd0-4594-9b5a-146429f72d0e,Lori Mason,zhenderson@example.org,South America,Unemployed,Home,172806,6340.416666666667,138244.80000000002,60
+a9fb206f-b2f1-4ec7-88f6-519a3da71233,Kimberly Hernandez,collinswilliam@example.org,South America,Unemployed,Education,133564,8338.833333333334,106851.20000000001,36
+4e1a0186-6360-4c88-b1d1-43d4e8d35da0,Brittney Murphy,collinssamuel@example.org,Africa,Unemployed,Education,160461,7807.25,128368.8,24
+16cd5a6e-2e75-42ae-97a9-f00281f05495,Brandon Hamilton,dsalazar@example.com,Africa,Part-time,Business,31357,11102.416666666666,25085.600000000002,60
+57aaa9a6-5afc-4112-a15a-303a90465974,Mary Thompson,zimmermanjacqueline@example.org,North America,Part-time,Business,245673,2899.75,196538.40000000002,48
+f880ef3a-76f8-4527-95b7-d5029a31bae5,Gregory Holmes PhD,gary24@example.net,Asia,Unemployed,Other,150582,2442.6666666666665,120465.6,12
