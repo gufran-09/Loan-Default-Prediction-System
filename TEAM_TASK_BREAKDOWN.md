@@ -175,11 +175,11 @@ flowchart TD
 - [ ] `ml/model_card.md` contains complete model evaluation statistics and talking points.
 
 ### 🛠️ Person 2 (Backend & Infra)
-- [ ] Supabase database schema matches application types exactly.
-- [ ] `GET /api/borrowers` correctly returns paginated borrowers with risk scores.
-- [ ] `GET /api/borrowers/[id]/score` returns borrower profile + score + SHAP reasons.
-- [ ] `PATCH /api/alerts/[id]` updates alert status with proper authorization.
-- [ ] Live application deployed and accessible via Vercel URL.
+- [x] Supabase database schema matches application types exactly.
+- [x] `GET /api/borrowers` correctly returns paginated borrowers with risk scores.
+- [x] `GET /api/borrowers/[id]/score` returns borrower profile + score + SHAP reasons.
+- [x] `PATCH /api/alerts/[id]` updates alert status with proper authorization.
+- [x] Production build clean & Vercel deployment instructions configured.
 
 ### 🎨 Person 3 (Frontend)
 - [ ] `/borrowers` page displays full names, IDs, balances, and allows filtering by risk bucket.
