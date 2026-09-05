@@ -17,7 +17,8 @@ export async function GET() {
   // Fetch borrowers with loan parameters, balances, and risk scores
   const { data, error } = await supabase
     .from('borrowers')
-    .select('loan_type, loan_purpose, geography, tenure_months, loan_amount, outstanding_balance, risk_scores(bucket, score)')
+    .select('loan_type, geography, tenure_months, loan_amount, outstanding_balance, risk_scores(bucket, score)')
+
 
   if (error) {
     console.error('Error fetching portfolio analytics:', error)
