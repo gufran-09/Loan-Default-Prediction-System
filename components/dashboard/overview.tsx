@@ -106,8 +106,10 @@ export function Overview() {
             <div className="flex gap-3">
               <ShieldCheck className="mt-0.5 size-5 text-primary" />
               <div>
-                <h2 className="font-semibold">Baseline model active</h2>
-                <p className="mt-1 text-sm leading-6 text-muted-foreground">Scores are being served through the baseline-v1 scoring contract. Replace the scoring swap-point when the production model is ready.</p>
+                <h2 className="font-semibold text-foreground">Production Model Active (xgb-v1.0.0)</h2>
+                <p className="mt-1 text-sm leading-6 text-muted-foreground">
+                  Serving calibrated Probability of Default (PD) scoring with SHAP local explainability. Decoupled scoring seam integrated with AWS S3 model registry and audit telemetry.
+                </p>
               </div>
             </div>
           </div>
