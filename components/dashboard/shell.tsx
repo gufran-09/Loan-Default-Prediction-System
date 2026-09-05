@@ -17,7 +17,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
 
   async function logout() {
     await createClient().auth.signOut()
-    window.location.href = '/login'
+    window.location.href = '/signin'
   }
 
   return (

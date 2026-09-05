@@ -37,16 +37,23 @@ export async function middleware(request: NextRequest) {
   const protectedRoutes = ['/borrowers', '/alerts', '/analytics']
   const isProtectedRoute = protectedRoutes.some((route) => pathname.startsWith(route)) || pathname.startsWith('/api/')
 
-  // Exclude login and auth-related API routes from protection if necessary
-  const isAuthRoute = pathname.startsWith('/login')
-
-  if (!user && isProtectedRoute) {
+  // Redirect legacy /login to /signin
+  if (pathname.startsWith('/login')) {
     const url = request.nextUrl.clone()
-    url.pathname = '/login'
+    url.pathname = '/signin'
     return NextResponse.redirect(url)
   }
 
-  // If user is logged in and tries to access /login, redirect to /borrowers
+  // Exclude signin, signup, and auth-related API routes from protection
+  const isAuthRoute = pathname.startsWith('/signin') || pathname.startsWith('/signup')
+
+  if (!user && isProtectedRoute) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/signin'
+    return NextResponse.redirect(url)
+  }
+
+  // If user is logged in and tries to access /signin or /signup, redirect to /borrowers
   if (user && isAuthRoute) {
     const url = request.nextUrl.clone()
     url.pathname = '/borrowers'

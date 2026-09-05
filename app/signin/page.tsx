@@ -1,14 +1,16 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { ShieldCheck, ArrowRight } from "lucide-react";
 
-export default function LoginPage() {
+export default function SignInPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
   async function submit(event: FormEvent) {
     event.preventDefault();
     setLoading(true);
@@ -18,15 +20,18 @@ export default function LoginPage() {
       email,
       password,
     });
-    if (error)
+    if (error) {
       setError(
         error.message.toLowerCase().includes("confirm")
           ? "Please confirm your email before signing in."
           : "Invalid email or password.",
       );
-    else window.location.href = "/";
+    } else {
+      window.location.href = "/";
+    }
     setLoading(false);
   }
+
   return (
     <main className="min-h-screen bg-background text-foreground">
       <div className="grid min-h-screen lg:grid-cols-[1.05fr_0.95fr]">
@@ -53,6 +58,7 @@ export default function LoginPage() {
             Private workspace for authorized risk teams.
           </p>
         </section>
+
         <section className="flex items-center justify-center px-6 py-12">
           <div className="w-full max-w-sm">
             <div className="mb-10 flex items-center gap-3 lg:hidden">
@@ -65,7 +71,7 @@ export default function LoginPage() {
               Risk officer console
             </p>
             <h2 className="mt-3 text-3xl font-semibold tracking-tight">
-              Welcome back
+              Sign in to Aegis
             </h2>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">
               Sign in to review portfolio signals and borrower exposure.
@@ -106,8 +112,14 @@ export default function LoginPage() {
                 <ArrowRight className="size-4" />
               </button>
             </form>
-            <p className="mt-8 text-center text-xs text-muted-foreground">
-              Access is provisioned by your workspace administrator.
+            <p className="mt-6 text-center text-sm text-muted-foreground">
+              Don&apos;t have an account?{" "}
+              <Link href="/signup" className="font-medium text-foreground underline underline-offset-4 hover:text-primary">
+                Sign up
+              </Link>
+            </p>
+            <p className="mt-4 text-center text-xs text-muted-foreground">
+              Access is provisioned for authorized risk officers.
             </p>
           </div>
         </section>
