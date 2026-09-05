@@ -1,62 +1,76 @@
+import os
+import json
 import pandas as pd
 import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import roc_auc_score, accuracy_score
 import xgboost as xgb
+from sklearn.metrics import roc_auc_score
 
-def main():
+def run_drift_simulation():
     print("Loading data for drift simulation...")
-    df = pd.read_csv('Loan_default_cleaned.csv')
-    
-    # ML-05: Model Drift Simulation (Presentation Asset)
-    # Let's say we train on younger borrowers (<40) and test on older (>=40)
-    # to simulate demographic drift.
-    
-    df_train = df[df['Age'] < 40]
-    df_test = df[df['Age'] >= 40]
-    
-    print(f"Training set (Age < 40) shape: {df_train.shape}")
-    print(f"Testing set (Age >= 40) shape: {df_test.shape}")
-    
-    X_train = df_train.drop(columns=['Default'])
-    y_train = df_train['Default']
-    
-    X_test = df_test.drop(columns=['Default'])
-    y_test = df_test['Default']
-    
-    # Also evaluate on a random holdout from the <40 group to show baseline performance
-    X_train_split, X_val, y_train_split, y_val = train_test_split(
-        X_train, y_train, test_size=0.2, random_state=42
-    )
-    
+    data_path = "Loan_default_cleaned.csv"
+    if not os.path.exists(data_path):
+        raise FileNotFoundError(f"{data_path} not found.")
+
+    df = pd.read_csv(data_path)
+
+    # Demographic split based on Age
+    train_df = df[df['Age'] < 40]
+    test_df = df[df['Age'] >= 40]
+
+    print(f"Training set (Age < 40) shape: {train_df.shape}")
+    print(f"Testing set (Age >= 40) shape: {test_df.shape}")
+
+    # Exclude non-feature columns
+    drop_cols = ['LoanID', 'Default']
+    feature_cols = [c for c in df.columns if c not in drop_cols]
+
+    X_train, y_train = train_df[feature_cols], train_df['Default']
+    X_test, y_test = test_df[feature_cols], test_df['Default']
+
+    dtrain = xgb.DMatrix(X_train, label=y_train)
+    dtest = xgb.DMatrix(X_test, label=y_test)
+
     print("Training drift demonstration model...")
-    scale_pos_weight = (len(y_train_split) - y_train_split.sum()) / y_train_split.sum()
-    
-    model = xgb.XGBClassifier(
-        n_estimators=50,
-        max_depth=4,
-        learning_rate=0.1,
-        scale_pos_weight=scale_pos_weight,
-        random_state=42,
-        use_label_encoder=False,
-        eval_metric='logloss'
-    )
-    model.fit(X_train_split, y_train_split)
-    
-    # In-distribution evaluation
-    val_preds = model.predict_proba(X_val)[:, 1]
-    val_auc = roc_auc_score(y_val, val_preds)
-    
-    # Out-of-distribution (drift) evaluation
-    test_preds = model.predict_proba(X_test)[:, 1]
-    test_auc = roc_auc_score(y_test, test_preds)
-    
+    params = {
+        'objective': 'binary:logistic',
+        'eval_metric': 'auc',
+        'max_depth': 5,
+        'eta': 0.1,
+        'seed': 42
+    }
+
+    model = xgb.train(params, dtrain, num_boost_round=50)
+
+    # Predict
+    preds_train = model.predict(dtrain)
+    preds_test = model.predict(dtest)
+
+    auc_in = float(roc_auc_score(y_train, preds_train))
+    auc_out = float(roc_auc_score(y_test, preds_test))
+    degradation = float(auc_in - auc_out)
+
     print("\n--- Drift Simulation Results ---")
-    print(f"In-Distribution AUC (Age < 40): {val_auc:.4f}")
-    print(f"Out-of-Distribution AUC (Age >= 40): {test_auc:.4f}")
-    print(f"AUC Degradation due to demographic drift: {val_auc - test_auc:.4f}")
-    
-    print("\nSimulation complete. Use these metrics for the presentation.")
+    print(f"In-Distribution AUC (Age < 40): {auc_in:.4f}")
+    print(f"Out-of-Distribution AUC (Age >= 40): {auc_out:.4f}")
+    print(f"AUC Degradation: {degradation:.4f}")
+
+    # Save metrics to ml/drift_report.json
+    os.makedirs("ml", exist_ok=True)
+    report_data = {
+        "simulation_type": "Demographic Drift (Age Split)",
+        "in_distribution_group": "Age < 40",
+        "out_of_distribution_group": "Age >= 40",
+        "in_distribution_auc": round(auc_in, 4),
+        "out_of_distribution_auc": round(auc_out, 4),
+        "auc_degradation": round(degradation, 4),
+        "status": "Drift Report Generated Successfully"
+    }
+
+    report_path = os.path.join("ml", "drift_report.json")
+    with open(report_path, "w", encoding="utf-8") as f:
+        json.dump(report_data, f, indent=2)
+
+    print(f"Drift report saved to {report_path}")
 
 if __name__ == "__main__":
-    main()
+    run_drift_simulation()
