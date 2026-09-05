@@ -1,0 +1,9 @@
+{
+  "simulation_type": "Demographic Drift (Age Split)",
+  "in_distribution_group": "Age < 40",
+  "out_of_distribution_group": "Age >= 40",
+  "in_distribution_auc": 0.7448,
+  "out_of_distribution_auc": 0.7099,
+  "auc_degradation": 0.0349,
+  "status": "Drift Report Generated Successfully"
+}
