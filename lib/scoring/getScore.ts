@@ -113,15 +113,15 @@ export async function getScore(borrowerId: string): Promise<BorrowerScoreDetail 
     borrower: {
       id: borrower.id,
       external_id: borrower.external_id || borrower.id.slice(0, 8),
-      full_name: borrower.full_name || borrower.name || 'Unknown Borrower',
+      full_name: borrower.full_name || 'Unknown Borrower',
       email: borrower.email,
-      loan_type: borrower.loan_type || borrower.loan_purpose || 'Standard',
+      loan_type: borrower.loan_type || 'Standard',
       loan_amount: Number(borrower.loan_amount || 0),
       outstanding_balance: Number(borrower.outstanding_balance || 0),
       geography: borrower.geography || 'Global',
       tenure_months: Number(borrower.tenure_months || 0),
       monthly_income: Number(borrower.monthly_income || 0),
-      employment_status: borrower.employment_status || borrower.employment_type || 'Unknown',
+      employment_status: borrower.employment_status || 'Unknown',
     },
   }
 }
