@@ -82,8 +82,10 @@ flowchart TB
 
 ### 1.3 Architectural Decoupling: The Scoring Seam
 The application enforces strict architectural isolation between the UI client and the scoring inference engine via [`lib/scoring/getScore.ts`](file:///d:/Java-%20Backend/Project/Mass%20Mutual/ai-powered-loan-default-prediction-system/lib/scoring/getScore.ts). 
-- In development/demonstration mode: `getScore(borrowerId)` reads seeded scores and SHAP reasons from Supabase with zero client-side dependencies on Python.
-- In production cloud mode: this function serves as the single seam that can be modified to call an **AWS SageMaker Serverless Inference** endpoint or real-time Lambda function. The REST API contract and frontend consumers require zero code modifications.
+- **Active Production Cloud Mode:** Configured with live **AWS Lambda + API Gateway** (`https://a3q6b9scn0.execute-api.ap-southeast-2.amazonaws.com/`). When enabled via `AWS_INFERENCE_ENDPOINT_URL`, live credit feature vectors are scored in real time with automated TreeSHAP attribution generation.
+- **Graceful Fallback Mode:** If the cloud endpoint is unreachable or in offline demonstration mode, `getScore(borrowerId)` transparently falls back to Supabase pre-computed cache. The REST API contract and frontend consumers require zero code modifications.
+- **Regulatory Telemetry:** Every assessment access event is automatically dispatched to **Amazon CloudWatch Logs** (`/aegis-risk/audit-trail`), and **CRITICAL** risk evaluations trigger push alerts to underwriting teams via **Amazon SNS** (`arn:aws:sns:ap-southeast-2:022671037337:aegis-risk-critical-alerts`).
+
 
 ---
 
@@ -597,12 +599,19 @@ When reviewing a high or critical risk applicant on `/borrowers/[id]`, credit of
 - Automatically inserts the **top specific adverse factors derived directly from local SHAP values**.
 - Includes mandatory statutory disclosures informing the consumer of their credit bureau rights and dispute avenues under the **Equal Credit Opportunity Act (ECOA)** and the **Fair Credit Reporting Act (FCRA)**.
 
-#### 3. Live New Applicant Credit Scorer Modal
+#### 3. Amazon Bedrock GenAI Credit Underwriting Memorandum
+Located on `/borrowers/[id]`. Underwriters can click **"Generate AI Credit Memo (AWS Bedrock)"**:
+- Dispatches an asynchronous request to Amazon Bedrock Runtime invoking **Claude 3.5 Haiku**.
+- Synthesizes borrower Debt-to-Income, financial leverage, and local XGBoost SHAP feature attributions into an institutional-grade Credit Committee Memorandum.
+- Delivers a structured four-part narrative: Executive Underwriting Recommendation, Quantitative Risk Decomposition, Stress Considerations, and Model Risk Governance compliance.
+
+#### 4. Live New Applicant Credit Scorer Modal
 Accessible from `/borrowers`:
 - Allows underwriters to input parameters for prospective applicants on the fly (Name, Loan Type, Loan Amount, Monthly Income, Credit Score, Tenure, Employment).
 - Instantly computes probability score, assigns risk bucket, and displays immediate underwriting recommendations (Approved, Manual Review, or Decline).
 
-#### 4. Macroeconomic Stress-Testing & Expected Loss Calculator
+#### 5. Macroeconomic Stress-Testing & Expected Loss Calculator
+
 Located on `/analytics`:
 - **Expected Loss Metric:** Displays portfolio financial exposure in dollars:
   $$\text{Expected Loss (EL)} = \sum_{i} \text{Score}_i \times \text{Balance}_i \times \text{LGD}$$ *(assuming standard institutional LGD = 45%)*.
