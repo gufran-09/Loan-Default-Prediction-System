@@ -13,8 +13,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def sync_artifacts():
-    bucket_name = os.getenv("AWS_S3_BUCKET_NAME", "aegis-risk-model-registry")
-    region = os.getenv("AWS_REGION", "us-east-1")
+    bucket_name = os.getenv("AWS_S3_BUCKET_NAME", "aegis-risk-storage-022671037337")
+    region = os.getenv("AWS_REGION", "ap-southeast-2")
+
 
     artifacts = [
         ("ml/model.pkl", "models/v1.0.0/model.pkl"),
