@@ -1,0 +1,78 @@
+{
+  "Comment": "Aegis Risk - Institutional Credit Decisioning & Underwriting State Machine",
+  "StartAt": "ScoreBorrowerRisk",
+  "States": {
+    "ScoreBorrowerRisk": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:ap-southeast-2:022671037337:function:aegis-risk-scoring-engine",
+      "Parameters": {
+        "borrower_id.$": "$.borrower_id",
+        "features.$": "$.features"
+      },
+      "ResultPath": "$.scoring_result",
+      "Next": "EvaluateRiskTier"
+    },
+    "EvaluateRiskTier": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.scoring_result.bucket",
+          "StringEquals": "CRITICAL",
+          "Next": "CriticalRiskAlertAndDecline"
+        },
+        {
+          "Variable": "$.scoring_result.bucket",
+          "StringEquals": "HIGH",
+          "Next": "RouteToHumanUnderwriter"
+        },
+        {
+          "Variable": "$.scoring_result.bucket",
+          "StringEquals": "MEDIUM",
+          "Next": "RouteToHumanUnderwriter"
+        }
+      ],
+      "Default": "AutoApproveLowRisk"
+    },
+    "CriticalRiskAlertAndDecline": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::sns:publish",
+      "Parameters": {
+        "TopicArn": "arn:aws:sns:ap-southeast-2:022671037337:aegis-risk-critical-alerts",
+        "Subject": "STATE MACHINE ALERT: Loan Declined Due to Critical Risk",
+        "Message.$": "States.Format('Borrower {} declined. Score: {}/1000. Reasons: {}', $.borrower_id, $.scoring_result.score, $.scoring_result.risk_reasons)"
+      },
+      "ResultPath": "$.sns_result",
+      "Next": "DeclinedFinalState"
+    },
+    "RouteToHumanUnderwriter": {
+      "Type": "Pass",
+      "Result": {
+        "decision": "MANUAL_REVIEW_REQUIRED",
+        "protocol": "OCC SR 11-7 Secondary Review",
+        "status": "QUEUED_FOR_UNDERWRITER"
+      },
+      "ResultPath": "$.underwriting_action",
+      "End": true
+    },
+    "AutoApproveLowRisk": {
+      "Type": "Pass",
+      "Result": {
+        "decision": "AUTO_APPROVED",
+        "protocol": "Straight-Through Processing (STP)",
+        "status": "APPROVED"
+      },
+      "ResultPath": "$.underwriting_action",
+      "End": true
+    },
+    "DeclinedFinalState": {
+      "Type": "Pass",
+      "Result": {
+        "decision": "DECLINED",
+        "adverse_action_required": true,
+        "status": "ADVERSE_ACTION_PENDING"
+      },
+      "ResultPath": "$.underwriting_action",
+      "End": true
+    }
+  }
+}

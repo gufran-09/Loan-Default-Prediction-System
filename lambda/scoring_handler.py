@@ -78,11 +78,16 @@ def lambda_handler(event, context):
         return {"statusCode": 200, "headers": headers, "body": ""}
         
     try:
-        body_raw = event.get("body", "{}")
-        body = json.loads(body_raw) if isinstance(body_raw, str) else body_raw
+        # Check if invoked via API Gateway (with event.body) or directly via Step Functions / SDK
+        if "body" in event and event["body"]:
+            body_raw = event["body"]
+            body = json.loads(body_raw) if isinstance(body_raw, str) else body_raw
+        else:
+            body = event
         
         borrower_id = body.get("borrower_id", "unknown")
         features = body.get("features", {})
+
         
         score, prob, bucket, reasons = calculate_risk_score(features)
         
@@ -95,15 +100,23 @@ def lambda_handler(event, context):
             "risk_reasons": reasons,
             "scored_by": "AWS Lambda Serverless Inference (ap-southeast-2)"
         }
+
+        # If called by API Gateway (contains requestContext or HTTP method), return HTTP format
+        if "requestContext" in event or "httpMethod" in event:
+            return {
+                "statusCode": 200,
+                "headers": headers,
+                "body": json.dumps(response_payload)
+            }
         
-        return {
-            "statusCode": 200,
-            "headers": headers,
-            "body": json.dumps(response_payload)
-        }
+        # Direct Task invocation (Step Functions, SDK, boto3)
+        return response_payload
     except Exception as e:
-        return {
-            "statusCode": 500,
-            "headers": headers,
-            "body": json.dumps({"error": str(e)})
-        }
+        if "requestContext" in event or "httpMethod" in event:
+            return {
+                "statusCode": 500,
+                "headers": headers,
+                "body": json.dumps({"error": str(e)})
+            }
+        raise e
+
