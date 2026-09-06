@@ -3,7 +3,7 @@
 **Project:** AI-Powered Loan Default Prediction System (PS-01)  
 **Enterprise Target:** MassMutual Financial Group (Institutional Credit & Actuarial Risk Evaluation)  
 **Team Composition:** 3 Members (ML Engineer, Backend & Infrastructure Engineer, Frontend Engineer)  
-**Core Stack:** Next.js 16 (App Router), TypeScript, Tailwind CSS, Supabase (PostgreSQL + RLS + Triggers), Python 3.10+ (XGBoost, Scikit-learn, SHAP, Pandas, Faker), AWS S3 Model Registry  
+**Core Stack:** Next.js 16 (App Router), TypeScript, Tailwind CSS, Amazon RDS PostgreSQL 16 (Primary), Supabase (Fallback), AWS Cognito, AWS Step Functions, Meta WhatsApp Cloud API, AWS Bedrock (Claude 3.5 Haiku), AWS Lambda + API Gateway v2, Amazon S3, Amazon CloudWatch, Amazon SNS, Python 3.10+ (XGBoost, Scikit-learn, SHAP, Pandas, Faker)  
 **Primary Dataset:** `Loan_default_cleaned.csv` — 255,347 records, 32 columns, 0 nulls, target `Default` (11.6% minority class)
 
 ---
@@ -17,7 +17,7 @@ This document serves as the **authoritative, single-source-of-truth master speci
 ## Table of Contents
 
 1. [Executive Summary & System Architecture](#1-executive-summary--system-architecture)
-2. [Database Schema & Data Persistence (Supabase PostgreSQL)](#2-database-schema--data-persistence-supabase-postgresql)
+2. [Database Schema & Data Persistence (Amazon RDS PostgreSQL & Supabase)](#2-database-schema--data-persistence-amazon-rds-postgresql--supabase)
 3. [REST API Specifications & Scoring Seam Contract](#3-rest-api-specifications--scoring-seam-contract)
 4. [Machine Learning Pipeline & Model Governance (Python)](#4-machine-learning-pipeline--model-governance-python)
 5. [Data Bridge, Synthetic PII & Ingestion Pipeline](#5-data-bridge-synthetic-pii--ingestion-pipeline)
@@ -36,6 +36,7 @@ Traditional retail credit assessment models depend heavily on lagged credit bure
 - Explains model decisions through **SHAP (SHapley Additive exPlanations)** feature attribution to meet federal fair lending regulations (**ECOA**, **FCRA**, **CFPB**).
 - Simulates demographic and macroeconomic **covariate drift** to satisfy **Federal Reserve SR 11-7** Model Risk Management guidelines.
 - Provides credit officers with active decision-support tools: real-time **What-If scenario loan restructuring**, automated **Adverse Action Notice generation**, interactive **applicant scoring**, and **portfolio Expected Loss ($$EL = PD \times EAD \times LGD$$)** aggregation.
+- Coordinates institutional credit workflows through **AWS Step Functions** (Straight-Through Processing STP), synthesizes underwriting rationale via **Amazon Bedrock Claude 3.5 Haiku**, and notifies borrowers via **Meta WhatsApp Business Cloud API**.
 
 ### 1.2 System Architecture Diagram
 
@@ -46,52 +47,79 @@ flowchart TB
         TRAIN --> ARTIFACTS[ml/model.pkl<br/>ml/feature_columns.json<br/>ml/model_card.md]
         TRAIN --> DRIFT[scripts/simulate_drift.py]
         DRIFT --> DRIFT_JSON[ml/drift_report.json]
-        ARTIFACTS --> S3[scripts/aws_s3_sync.py<br/>AWS S3 Model Registry]
+        ARTIFACTS --> S3[scripts/aws_s3_sync.py<br/>AWS S3 Model Lake]
         ARTIFACTS --> BRIDGE[scripts/prepare_seed_data.py<br/>Faker PII + SHAP Calculation]
         BRIDGE --> SEED_FILES[(seed_borrowers.csv<br/>seed_scores_reasons.csv)]
-        SEED_FILES --> DB_LOADER[scripts/seed_database.py]
+        SEED_FILES --> RDS_LOADER[scripts/seed_rds.py]
     end
 
-    subgraph Storage Layer [Supabase PostgreSQL 15+]
-        DB_LOADER -->|Upsert via Service Role Key| DB[(Supabase Cloud DB)]
-        DB --> T_BORROWERS[borrowers Table]
-        DB --> T_SCORES[risk_scores Table]
-        DB --> T_REASONS[risk_reasons Table]
-        T_SCORES -->|Database Trigger:<br/>trg_generate_risk_alert| T_ALERTS[alerts Table]
-        DB --> RLS[Row Level Security<br/>Authenticated Access Policies]
+    subgraph Storage Layer [Enterprise Relational Persistence]
+        RDS_LOADER -->|Direct SSL Connection| RDS[(Amazon RDS PostgreSQL 16<br/>aegis-risk-db.c1wu2mekybkk...)]
+        RDS --> T_BORROWERS[borrowers Table - 400 rows]
+        RDS --> T_SCORES[risk_scores Table - 400 rows]
+        RDS --> T_REASONS[risk_reasons Table - 1200 rows]
+        RDS --> T_ALERTS[alerts Table - 93 rows]
+        FALLBACK_DB[(Supabase PostgreSQL<br/>Development Fallback)]
+    end
+
+    subgraph AWS Enterprise Cloud [AWS Cloud Suite - ap-southeast-2]
+        APIGW[Amazon API Gateway v2]
+        LAMBDA[AWS Lambda<br/>aegis-risk-scoring-engine]
+        STEPFN[AWS Step Functions<br/>Aegis-Risk-Credit-Decisioning]
+        CW[(Amazon CloudWatch Logs<br/>/aegis-risk/audit-trail)]
+        SNS[Amazon SNS Topic<br/>aegis-risk-critical-alerts]
+        BEDROCK[Amazon Bedrock Runtime<br/>Claude 3.5 Haiku]
+        COGNITO[AWS Cognito User Pool<br/>ap-southeast-2_80G23Am1X]
+        WHATSAPP[Meta WhatsApp Cloud API<br/>Borrower Notifications]
     end
 
     subgraph Application Server [Next.js 16 App Router & Server APIs]
-        RLS --> SEAM[lib/scoring/getScore.ts<br/>Decoupled Scoring Seam]
-        SEAM --> API_SCORE[/api/borrowers/:id/score]
-        DB --> API_BORROWERS[/api/borrowers]
-        DB --> API_ALERTS[/api/alerts & /api/alerts/:id]
-        DB --> API_PORTFOLIO[/api/analytics/portfolio]
+        POOL[lib/db/postgres.ts<br/>RDS Connection Pool]
+        SEAM[lib/scoring/getScore.ts<br/>Decoupled Scoring Seam]
+        API_SCORE[/api/borrowers/:id/score]
+        API_MEMO[/api/borrowers/:id/memo]
+        API_WA[/api/borrowers/:id/whatsapp]
+        API_BORROWERS[/api/borrowers]
+        API_ALERTS[/api/alerts & /api/alerts/:id]
+        API_PORTFOLIO[/api/analytics/portfolio]
         DRIFT_JSON --> API_DRIFT[/api/analytics/drift]
-        AUTH[lib/supabase/server.ts<br/>Cookie Session Auth] --> MW[middleware.ts Route Guard]
     end
 
-    subgraph Client UI [Risk Officer & Underwriter Dashboard]
-        API_BORROWERS --> UI_BORROWERS[Borrower Portfolio & Filters<br/>/borrowers]
-        API_SCORE --> UI_DETAIL[Borrower Detail & SHAP Chart<br/>What-If Restructuring Simulator<br/>Adverse Action Generator<br/>/borrowers/:id]
-        API_ALERTS --> UI_ALERTS[Alert Triage Operations Desk<br/>/alerts]
-        API_PORTFOLIO & API_DRIFT --> UI_ANALYTICS[Portfolio Analytics, Expected Loss &<br/>Model Drift Governance<br/>/analytics]
-        DB --> UI_OVERVIEW[Executive Overview<br/>/]
+    subgraph Client UI [Risk Officer & Underwriter Cockpit]
+        COGNITO -.->|SSO Authentication| UI_SHELL[Institutional Shell]
+        UI_SHELL --> UI_BORROWERS[Borrower Portfolio & Filters<br/>/borrowers]
+        UI_SHELL --> UI_DETAIL[Borrower Detail & SHAP Chart<br/>What-If Restructuring Simulator<br/>Bedrock GenAI Memo & WhatsApp Modal<br/>Adverse Action Generator<br/>/borrowers/:id]
+        UI_SHELL --> UI_ALERTS[Alert Triage Operations Desk<br/>/alerts]
+        UI_SHELL --> UI_ANALYTICS[Portfolio Analytics, Expected Loss &<br/>Model Drift Governance<br/>/analytics]
     end
+
+    RDS --> POOL
+    FALLBACK_DB -.->|Fallback Query| POOL
+    POOL --> API_BORROWERS & API_ALERTS & API_PORTFOLIO & SEAM
+    SEAM -->|Primary: Live Inference| APIGW --> LAMBDA
+    SEAM -->|Regulatory Telemetry| CW
+    SEAM -->|Critical Risk Alert| SNS
+    UI_DETAIL --> API_MEMO --> BEDROCK
+    UI_DETAIL --> API_WA --> WHATSAPP
+    UI_DETAIL --> STEPFN
 ```
 
 ### 1.3 Architectural Decoupling: The Scoring Seam
 The application enforces strict architectural isolation between the UI client and the scoring inference engine via [`lib/scoring/getScore.ts`](file:///d:/Java-%20Backend/Project/Mass%20Mutual/ai-powered-loan-default-prediction-system/lib/scoring/getScore.ts). 
 - **Active Production Cloud Mode:** Configured with live **AWS Lambda + API Gateway** (`https://a3q6b9scn0.execute-api.ap-southeast-2.amazonaws.com/`). When enabled via `AWS_INFERENCE_ENDPOINT_URL`, live credit feature vectors are scored in real time with automated TreeSHAP attribution generation.
-- **Graceful Fallback Mode:** If the cloud endpoint is unreachable or in offline demonstration mode, `getScore(borrowerId)` transparently falls back to Supabase pre-computed cache. The REST API contract and frontend consumers require zero code modifications.
+- **Enterprise Persistence:** Direct PostgreSQL connection pool via **Amazon RDS PostgreSQL 16** (`lib/db/postgres.ts`), ensuring enterprise Multi-AZ security, SSL encryption, and high connection concurrency.
+- **Graceful Fallback Mode:** If the cloud endpoint is unreachable or in offline demonstration mode, `getScore(borrowerId)` transparently falls back to pre-computed database cache. The REST API contract and frontend consumers require zero code modifications.
 - **Regulatory Telemetry:** Every assessment access event is automatically dispatched to **Amazon CloudWatch Logs** (`/aegis-risk/audit-trail`), and **CRITICAL** risk evaluations trigger push alerts to underwriting teams via **Amazon SNS** (`arn:aws:sns:ap-southeast-2:022671037337:aegis-risk-critical-alerts`).
+
 
 
 ---
 
-## 2. Database Schema & Data Persistence (Supabase PostgreSQL)
+## 2. Database Schema & Data Persistence (Amazon RDS PostgreSQL & Supabase)
 
-The database schema is managed via Supabase SQL migrations located in `supabase/migrations/`.
+The primary institutional data layer is hosted on **Amazon RDS PostgreSQL 16.9** (`aegis-risk-db.c1wu2mekybkk.ap-southeast-2.rds.amazonaws.com:5432`), provisioned in AWS region `ap-southeast-2` with Multi-AZ capability and SSL/TLS encryption in transit. The application maintains dual compatibility, connecting to Amazon RDS via connection pooling in [`lib/db/postgres.ts`](file:///d:/Java-%20Backend/Project/Mass%20Mutual/ai-powered-loan-default-prediction-system/lib/db/postgres.ts) with transparent fallback to Supabase PostgreSQL for local development.
+
+The database schema is managed via SQL migrations located in `supabase/migrations/` and automated for Amazon RDS via `scripts/seed_rds.py`.
 
 ### 2.1 Entity Relationship Diagram
 
@@ -455,6 +483,58 @@ Surfaces the quantitative model drift and demographic covariate shift metrics ge
 }
 ```
 
+### 3.7 `POST /api/borrowers/:id/memo`
+Synthesizes a structured institutional Credit Underwriting Memorandum using **Claude 3.5 Haiku on Amazon Bedrock** (`anthropic.claude-3-5-haiku-20241022-v1:0`).
+- **Request Body (`application/json`):**
+```json
+{
+  "borrowerName": "Allison Hill",
+  "loanAmount": 92393,
+  "monthlyIncome": 9388,
+  "tenureMonths": 36,
+  "score": 724,
+  "bucket": "HIGH",
+  "riskReasons": [
+    {
+      "reason": "Interest rate is high relative to debt service capacity",
+      "impact": 0.534
+    }
+  ]
+}
+```
+- **Response (`200 OK`):**
+```json
+{
+  "memo": "## INSTITUTIONAL CREDIT UNDERWRITING MEMORANDUM\n\n**Applicant:** Allison Hill\n**Loan Amount Requested:** $92,393\n**Assessed Default Probability Score:** 724 / 1000 (HIGH RISK)..."
+}
+```
+
+### 3.8 `POST /api/borrowers/:id/whatsapp`
+Dispatches automated credit decisioning alerts, loan restructuring terms, or adverse action notifications directly to the borrower via the **Meta WhatsApp Business Cloud API** (with simulated fallback).
+- **Request Body (`application/json`):**
+```json
+{
+  "phoneNumber": "+1234567890",
+  "borrowerName": "Allison Hill",
+  "score": 724,
+  "bucket": "HIGH",
+  "reasons": ["Interest rate is high relative to debt service capacity"],
+  "status": "MANUAL_REVIEW"
+}
+```
+- **Response (`200 OK`):**
+```json
+{
+  "data": {
+    "success": true,
+    "mode": "SIMULATION",
+    "messageId": "wa_sim_1725619200000",
+    "recipient": "+1234567890",
+    "summary": "WhatsApp notification dispatched for Allison Hill (Status: MANUAL_REVIEW, Score: 724)"
+  }
+}
+```
+
 ---
 
 ## 4. Machine Learning Pipeline & Model Governance (Python)
@@ -659,23 +739,40 @@ Use these institutional definitions during stakeholder presentations:
 - **Node.js:** v18.0.0 or higher
 - **Package Manager:** `npm` or `pnpm`
 - **Python:** 3.10+ (with virtual environment capability)
-- **Supabase:** Cloud project or local CLI instance
+- **AWS CLI v2:** Configured for `ap-southeast-2`
+- **Database:** Amazon RDS PostgreSQL 16 (Primary) or Supabase (Fallback)
 
 ### 8.2 Environment Configuration (`.env`)
 Create `.env` or `.env.local` in the project root:
 ```env
-# Supabase Configuration
+# Amazon RDS PostgreSQL 16 (Primary Managed Database)
+DATABASE_URL=postgresql://postgres:password@aegis-risk-db.c1wu2mekybkk.ap-southeast-2.rds.amazonaws.com:5432/postgres
+
+# Supabase Configuration (Operational Fallback)
 NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-public-key
-
-# Service Role Key (Required for Python DB Seeding)
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-secret-key
 
-# AWS S3 Model Registry (Optional / Supports Local Dry-Run)
+# AWS Cloud Infrastructure (Region: ap-southeast-2, Account: 022671037337)
+AWS_REGION=ap-southeast-2
 AWS_ACCESS_KEY_ID=your-aws-key
 AWS_SECRET_ACCESS_KEY=your-aws-secret
-AWS_REGION=us-east-1
-AWS_S3_BUCKET_NAME=aegis-risk-model-registry
+AWS_S3_BUCKET_NAME=aegis-risk-storage-022671037337
+AWS_INFERENCE_ENDPOINT_URL=https://a3q6b9scn0.execute-api.ap-southeast-2.amazonaws.com/
+AWS_CLOUDWATCH_LOG_GROUP=/aegis-risk/audit-trail
+AWS_CLOUDWATCH_ENABLED=true
+AWS_SNS_TOPIC_ARN=arn:aws:sns:ap-southeast-2:022671037337:aegis-risk-critical-alerts
+
+# AWS Cognito Identity & User Pools
+NEXT_PUBLIC_AWS_COGNITO_USER_POOL_ID=ap-southeast-2_80G23Am1X
+NEXT_PUBLIC_AWS_COGNITO_CLIENT_ID=74120ugqosjjpmup4utltl1oqf
+
+# AWS Step Functions Credit Decisioning (STP)
+AWS_STEP_FUNCTIONS_DECISIONING_ARN=arn:aws:states:ap-southeast-2:022671037337:stateMachine:Aegis-Risk-Credit-Decisioning
+
+# Meta WhatsApp Business Cloud API (Simulation mode by default)
+WHATSAPP_PHONE_NUMBER_ID=
+WHATSAPP_ACCESS_TOKEN=
 ```
 
 ### 8.3 Python Virtual Environment & ML Setup
@@ -686,38 +783,53 @@ python -m venv .venv
 
 # Install Dependencies
 pip install -r requirements.txt
-pip install supabase python-dotenv faker
+pip install supabase python-dotenv faker psycopg2-binary
 ```
 
 ### 8.4 Database Migration & Seeding Execution
-1. **Apply Migrations:** Execute `supabase/migrations/0001_init.sql` and `supabase/migrations/0002_alerts_update.sql` in the Supabase SQL Editor.
-2. **Execute Ingestion Script:**
+1. **Primary (Amazon RDS PostgreSQL 16):**
+   ```powershell
+   python scripts/seed_rds.py
+   ```
+   *Creates necessary roles, executes DDL migrations, and upserts 400 borrowers, 400 calibrated risk scores, 93 alerts, and 1,200 SHAP reasons.*
+2. **Fallback (Supabase Cloud Database):**
    ```powershell
    python scripts/seed_database.py
    ```
-   *Uploads 400 borrowers, 400 calibrated risk scores, 1,200 SHAP reasons, and fires triggers to generate alerts.*
 
 ### 8.5 Running the Web Application
 ```powershell
 # Install Node packages
-pnpm install # or npm install
+npm install
 
 # Start local Next.js development server
-pnpm dev # or npm run dev
+npm run dev
 ```
 Open **[http://localhost:3000](http://localhost:3000)** in your browser.
 
 ### 8.6 Production Build Verification
 ```powershell
-pnpm build
-pnpm start
+npm run build
+npm run start
 ```
 
-### 8.7 Deploying to Vercel
-1. Push repository to GitHub.
-2. Import repository into Vercel.
-3. Configure Environment Variables (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`).
-4. Deploy the `main` branch.
+### 8.7 Live AWS Infrastructure Operations
+```powershell
+# 1. Inspect Amazon RDS Database
+aws rds describe-db-instances --db-instance-identifier aegis-risk-db --region ap-southeast-2
+
+# 2. Inspect S3 Model Lake
+aws s3 ls s3://aegis-risk-storage-022671037337 --recursive
+
+# 3. Test Live Lambda Scoring
+Invoke-RestMethod -Uri "https://a3q6b9scn0.execute-api.ap-southeast-2.amazonaws.com/" -Method Post -ContentType "application/json" -Body '{"borrower_id": "test", "features": {"monthly_income": 5000, "loan_amount": 20000, "tenure_months": 36, "outstanding_balance": 8000}}'
+
+# 4. Trigger AWS Step Functions STP Workflow
+aws stepfunctions start-execution --state-machine-arn arn:aws:states:ap-southeast-2:022671037337:stateMachine:Aegis-Risk-Credit-Decisioning --input "{\"borrower_id\": \"LN-000101\", \"features\": {\"monthly_income\": 9388, \"loan_amount\": 92393, \"tenure_months\": 36, \"outstanding_balance\": 73914}}" --region ap-southeast-2
+
+# 5. Read CloudWatch Audit Logs (SR 11-7)
+aws logs get-log-events --log-group-name /aegis-risk/audit-trail --log-stream-name underwriter-decisions --region ap-southeast-2
+```
 
 ---
 
@@ -725,20 +837,25 @@ pnpm start
 
 | Role | Primary Focus | Core Files & Workflows |
 |---|---|---|
-| **Person 1: Machine Learning Engineer** | Model Training, Evaluation, SHAP Attribution, Drift Simulation, Model Registry | `scripts/train_model.py`, `scripts/simulate_drift.py`, `scripts/aws_s3_sync.py`, `ml/model.pkl`, `ml/drift_report.json`, `ml/model_card.md` |
-| **Person 2: Backend & Infra Engineer** | Supabase Migrations, RLS Policies, Triggers, Seed Ingestion, Scoring Seam, API Routes | `supabase/migrations/*`, `scripts/seed_database.py`, `lib/scoring/getScore.ts`, `app/api/*`, Vercel Deployment |
-| **Person 3: Frontend Engineer** | Dashboard Shell, Recharts Visualizations, Underwriting Simulator, Adverse Action Generator, Alert Triage Desk | `app/borrowers/*`, `app/alerts/*`, `app/analytics/*`, `components/dashboard/*`, `lib/types/*` |
+| **Person 1: Machine Learning Engineer** | Model Training, Evaluation, SHAP Attribution, Drift Simulation, S3 Model Lake | `scripts/train_model.py`, `scripts/simulate_drift.py`, `scripts/aws_s3_sync.py`, `ml/model.pkl`, `ml/drift_report.json`, `ml/model_card.md` |
+| **Person 2: Backend & Infra Engineer** | Amazon RDS PostgreSQL, AWS Cognito, Step Functions STP, Lambda Seam, Bedrock, WhatsApp, CloudWatch, SNS | `lib/db/postgres.ts`, `scripts/seed_rds.py`, `lib/scoring/getScore.ts`, `lib/aws/*`, `app/api/*` |
+| **Person 3: Frontend Engineer** | Dashboard Shell, Recharts Visualizations, Underwriting Simulator, Adverse Action Generator, Bedrock Memo & WhatsApp Modals | `app/borrowers/*`, `app/alerts/*`, `app/analytics/*`, `components/dashboard/*`, `lib/types/*` |
 
 ### Final Verification Checklist
 - [x] XGBoost model trained with class imbalance handling (`scale_pos_weight = 7.61`, AUC 0.7576).
 - [x] SHAP values computed and directional impact assigned (+/-).
 - [x] Model drift simulated across demographic slices (AUC drop 0.7448 -> 0.7099) and documented.
-- [x] AWS S3 synchronization script configured with dry-run support.
-- [x] Supabase schema unified with automated alert generation trigger.
-- [x] Decoupled scoring seam implemented (`lib/scoring/getScore.ts`).
-- [x] All REST APIs implemented and tested (`/borrowers`, `/borrowers/:id/score`, `/alerts`, `/analytics/portfolio`, `/analytics/drift`).
+- [x] AWS S3 Model Lake synchronized with 5/5 verified artifacts.
+- [x] Amazon RDS PostgreSQL 16 provisioned, migrated, and seeded with 400 borrowers, 400 scores, 93 alerts, 1,200 SHAP reasons.
+- [x] AWS Cognito User Pool configured (`ap-southeast-2_80G23Am1X`) for underwriter SSO.
+- [x] AWS Step Functions STP credit decision state machine operational (`Aegis-Risk-Credit-Decisioning`).
+- [x] Decoupled scoring seam implemented (`lib/scoring/getScore.ts`) connecting to live AWS Lambda engine.
+- [x] Amazon Bedrock Claude 3.5 Haiku GenAI Memo generator operational (`/api/borrowers/:id/memo`).
+- [x] Meta WhatsApp Business Cloud API notification dispatch operational (`/api/borrowers/:id/whatsapp`).
 - [x] Borrower list equipped with pagination, text search, risk bucket filtering, and live applicant scorer modal.
 - [x] Borrower detail view equipped with horizontal SHAP bar chart, What-If loan restructuring sliders, and Adverse Action Notice generator.
 - [x] Alerts page equipped with stateful acknowledgment and resolution workflow (`PATCH`).
 - [x] Portfolio analytics equipped with Expected Loss actuarial metric and macroeconomic stress-test toggle.
-- [x] Production build passes cleanly without type errors.
+- [x] Amazon CloudWatch audit logging (`/aegis-risk/audit-trail`) and Amazon SNS critical risk alert dispatch operational.
+- [x] Production build passes cleanly without errors.
+

@@ -1,6 +1,6 @@
 # Aegis Risk — Run Guide
 
-This guide details how to set up, configure, and run the **Aegis Risk AI-Powered Loan Default Prediction System**, including the Next.js frontend/backend, Supabase database, and Python Machine Learning pipeline.
+This guide details how to set up, configure, and run the **Aegis Risk AI-Powered Loan Default Prediction System**, including the Next.js frontend/backend, Amazon RDS PostgreSQL database (with Supabase fallback), AWS enterprise cloud services (Lambda, Step Functions, Cognito, Bedrock, CloudWatch, SNS), and the Python Machine Learning pipeline.
 
 ---
 
@@ -9,7 +9,8 @@ This guide details how to set up, configure, and run the **Aegis Risk AI-Powered
 * **Node.js**: v18.0.0 or higher
 * **Package Manager**: `npm` or `pnpm`
 * **Python**: 3.10+ (for ML workflows and database seeding)
-* **Supabase**: Cloud project or local instance
+* **AWS CLI v2**: Configured with credentials in `ap-southeast-2`
+* **Database**: Amazon RDS PostgreSQL 16 (Primary) or Supabase (Fallback)
 
 ---
 
@@ -18,14 +19,36 @@ This guide details how to set up, configure, and run the **Aegis Risk AI-Powered
 1. Create or verify your `.env` (or `.env.local`) in the project root directory.
 2. Required keys:
    ```env
-   # Supabase Configuration
+   # Amazon RDS PostgreSQL (Primary Managed Database)
+   DATABASE_URL=postgresql://postgres:password@aegis-risk-db.c1wu2mekybkk.ap-southeast-2.rds.amazonaws.com:5432/postgres
+
+   # Supabase Configuration (Operational Fallback)
    NEXT_PUBLIC_SUPABASE_URL=https://<your-project-id>.supabase.co
    NEXT_PUBLIC_SUPABASE_ANON_KEY=<your-anon-key>
-
-   # Service Role Key (Used for admin operations & data seeding)
    SUPABASE_SERVICE_ROLE_KEY=<your-service-role-key>
+
+   # AWS Cloud Infrastructure (ap-southeast-2)
+   AWS_REGION=ap-southeast-2
+   AWS_ACCESS_KEY_ID=<your-access-key-id>
+   AWS_SECRET_ACCESS_KEY=<your-secret-access-key>
+   AWS_S3_BUCKET_NAME=aegis-risk-storage-022671037337
+   AWS_INFERENCE_ENDPOINT_URL=https://a3q6b9scn0.execute-api.ap-southeast-2.amazonaws.com/
+   AWS_CLOUDWATCH_LOG_GROUP=/aegis-risk/audit-trail
+   AWS_CLOUDWATCH_ENABLED=true
+   AWS_SNS_TOPIC_ARN=arn:aws:sns:ap-southeast-2:022671037337:aegis-risk-critical-alerts
+
+   # AWS Cognito Identity & User Pools
+   NEXT_PUBLIC_AWS_COGNITO_USER_POOL_ID=ap-southeast-2_80G23Am1X
+   NEXT_PUBLIC_AWS_COGNITO_CLIENT_ID=74120ugqosjjpmup4utltl1oqf
+
+   # AWS Step Functions Credit Decisioning
+   AWS_STEP_FUNCTIONS_DECISIONING_ARN=arn:aws:states:ap-southeast-2:022671037337:stateMachine:Aegis-Risk-Credit-Decisioning
+
+   # Meta WhatsApp Business Cloud API (Optional - simulation mode active by default)
+   WHATSAPP_PHONE_NUMBER_ID=
+   WHATSAPP_ACCESS_TOKEN=
    ```
-*(Refer to `.env.example` for the template)*
+*(Refer to `.env.example` for the complete template)*
 
 ---
 
@@ -49,7 +72,8 @@ The application will be accessible at: **[http://localhost:3000](http://localhos
 ### Available Application Routes
 * `/` — Executive Overview & Key Metrics
 * `/borrowers` — Borrower Portfolio & Risk Profiles
-* `/analytics` — Model Performance & Data Drift Monitoring
+* `/borrowers/[id]` — Individual Risk Profile, SHAP Local Explanations, What-If Simulator, Bedrock GenAI Memo, WhatsApp Notification
+* `/analytics` — Model Performance, Data Drift Monitoring & Expected Loss Analysis
 * `/alerts` — High-Risk Loan Flags & Notifications
 * `/signin` — Team Sign In
 * `/signup` — Account Registration
@@ -79,19 +103,25 @@ For seeding the database or running ML training/drift scripts:
 ### Install Python Packages
 ```bash
 pip install -r requirements.txt
-pip install supabase python-dotenv
+pip install supabase python-dotenv psycopg2-binary
 ```
 
 ---
 
-## 5. Database Seeding
+## 5. Database Seeding & Migrations
 
-To populate Supabase tables (`borrowers`, `risk_scores`, `risk_reasons`) with initial data:
+### Primary: Amazon RDS PostgreSQL
+To apply migrations and populate Amazon RDS PostgreSQL (`aegis-risk-db.c1wu2mekybkk.ap-southeast-2.rds.amazonaws.com`):
+```bash
+python scripts/seed_rds.py
+```
+> This migrates all 4 tables (`borrowers`, `risk_scores`, `risk_reasons`, `alerts`), ensures Supabase compatibility roles exist, and upserts 400 borrowers, 400 calibrated risk scores, 93 risk alerts, and 1,200 SHAP reasons.
 
+### Fallback: Supabase Cloud Database
+To populate Supabase tables:
 ```bash
 python scripts/seed_database.py
 ```
-> **Note:** Ensure `NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are populated in `.env`.
 
 ---
 
@@ -114,12 +144,38 @@ Pre-trained model artifacts are stored in `ml/` (`model.pkl`, `feature_columns.j
 
 ---
 
-## 7. AWS S3 Model Registry & Artifact Sync
+## 7. AWS Cloud Infrastructure Operations
 
-To synchronize trained models, drift reports, and datasets to an Amazon S3 bucket:
-
+### S3 Model Registry & Artifact Sync
+Synchronize trained models, drift reports, and datasets to Amazon S3:
 ```bash
 python scripts/aws_s3_sync.py
 ```
-*(Supports dry-run mode without credentials, or live upload when `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `AWS_S3_BUCKET_NAME` are configured in `.env`)*
+
+### Live Serverless Scoring Endpoint Test
+```bash
+Invoke-RestMethod -Uri "https://a3q6b9scn0.execute-api.ap-southeast-2.amazonaws.com/" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body '{"borrower_id": "test-cli", "features": {"monthly_income": 5500, "loan_amount": 25000, "tenure_months": 36, "outstanding_balance": 10000}}' | ConvertTo-Json
+```
+
+### AWS Step Functions STP Credit Decisioning Test
+```bash
+aws stepfunctions start-execution `
+  --state-machine-arn arn:aws:states:ap-southeast-2:022671037337:stateMachine:Aegis-Risk-Credit-Decisioning `
+  --input "{\"borrower_id\": \"LN-000101\", \"features\": {\"monthly_income\": 9388, \"loan_amount\": 92393, \"tenure_months\": 36, \"outstanding_balance\": 73914}}" `
+  --region ap-southeast-2
+```
+
+### Amazon CloudWatch Regulatory Audit Telemetry
+```bash
+aws logs get-log-events --log-group-name /aegis-risk/audit-trail --log-stream-name underwriter-decisions --region ap-southeast-2
+```
+
+### Amazon SNS Critical Underwriter Alert Subscription
+```bash
+aws sns subscribe --topic-arn arn:aws:sns:ap-southeast-2:022671037337:aegis-risk-critical-alerts --protocol email --notification-endpoint your-email@domain.com --region ap-southeast-2
+```
+
 

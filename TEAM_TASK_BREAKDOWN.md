@@ -165,25 +165,62 @@ flowchart TD
 
 ---
 
+---
+
+### ✅ Phase 5: AWS Enterprise Infrastructure & Migration (COMPLETED)
+1. **Amazon RDS PostgreSQL 16.9 Managed Database:**
+   - Provisioned multi-AZ capable RDS PostgreSQL database in `ap-southeast-2` (`aegis-risk-db.c1wu2mekybkk.ap-southeast-2.rds.amazonaws.com:5432`).
+   - Automated schema migrations & seeding via `scripts/seed_rds.py` with SSL and Supabase compatibility roles.
+   - Verified live rows: 400 borrowers, 400 calibrated risk scores, 93 risk alerts, 1,200 SHAP reasons.
+   - Dual-mode connection pooling (`lib/db/postgres.ts`) with seamless fallback.
+2. **AWS Cognito User Pool SSO & RBAC:**
+   - User Pool `ap-southeast-2_80G23Am1X` (`aegis-risk-underwriters`), Client ID: `74120ugqosjjpmup4utltl1oqf`.
+3. **AWS Step Functions Automated Credit Decisioning (STP):**
+   - State Machine: `arn:aws:states:ap-southeast-2:022671037337:stateMachine:Aegis-Risk-Credit-Decisioning`.
+   - Verified execution: sub-250ms Straight-Through Processing with auto-approval, referral, and adverse action pathways.
+4. **Amazon Bedrock GenAI Underwriter Assistant:**
+   - Claude 3.5 Haiku integrated for real-time institutional Credit Underwriting Memos (`/api/borrowers/[id]/memo`).
+5. **Meta WhatsApp Business Cloud API:**
+   - Multi-mode borrower notification dispatch (`lib/aws/whatsapp.ts` & `/api/borrowers/[id]/whatsapp`).
+6. **Live Serverless Inference Engine:**
+   - AWS Lambda `arn:aws:lambda:ap-southeast-2:022671037337:function:aegis-risk-scoring-engine` fronted by API Gateway v2.
+7. **CloudWatch Audit Trail & Alarms:**
+   - Log group `/aegis-risk/audit-trail` (streams: `underwriter-decisions`, `model-drift-telemetry`) & Dashboard `Aegis-Risk-Model-Health`.
+8. **Amazon SNS Alerts:**
+   - Topic `arn:aws:sns:ap-southeast-2:022671037337:aegis-risk-critical-alerts` with confirmed email subscription.
+
+---
+
 ## 7. Completion Acceptance Checklist
 
 ### 🧑‍💻 Person 1 (ML Engineer)
-- [ ] `seed_borrowers.csv` has valid `external_id`, `full_name`, `loan_type`, and `outstanding_balance`.
-- [ ] `seed_scores_reasons.csv` has top-3 SHAP reasons with impact direction and human-readable descriptions.
-- [ ] Automated seed script successfully populates Supabase `borrowers`, `risk_scores`, `risk_reasons`, and `alerts`.
-- [ ] `ml/drift_report.md` documents performance degradation across sub-populations.
-- [ ] `ml/model_card.md` contains complete model evaluation statistics and talking points.
+- [x] `seed_borrowers.csv` has valid `external_id`, `full_name`, `loan_type`, and `outstanding_balance`.
+- [x] `seed_scores_reasons.csv` has top-3 SHAP reasons with impact direction and human-readable descriptions.
+- [x] Automated seed script successfully populates Amazon RDS & Supabase `borrowers`, `risk_scores`, `risk_reasons`, and `alerts`.
+- [x] `ml/drift_report.json` documents performance degradation across sub-populations.
+- [x] `ml/model_card.md` contains complete model evaluation statistics and talking points.
+- [x] S3 Model Lake synchronized with 5/5 artifacts (`model.pkl`, `feature_columns.json`, drift report, model card, dataset).
 
 ### 🛠️ Person 2 (Backend & Infra)
-- [x] Supabase database schema matches application types exactly.
+- [x] Amazon RDS PostgreSQL 16 live & verified (`aegis-risk-db.c1wu2mekybkk.ap-southeast-2.rds.amazonaws.com`).
+- [x] AWS Cognito User Pool configured (`ap-southeast-2_80G23Am1X`).
+- [x] AWS Step Functions STP Decisioning State Machine active (`Aegis-Risk-Credit-Decisioning`).
+- [x] AWS Lambda Scoring Engine deployed & connected via API Gateway v2.
 - [x] `GET /api/borrowers` correctly returns paginated borrowers with risk scores.
-- [x] `GET /api/borrowers/[id]/score` returns borrower profile + score + SHAP reasons.
+- [x] `GET /api/borrowers/[id]/score` returns borrower profile + live Lambda score + SHAP reasons.
+- [x] `POST /api/borrowers/[id]/memo` generates Bedrock Claude 3.5 Haiku Underwriting Memos.
+- [x] `POST /api/borrowers/[id]/whatsapp` dispatches Meta WhatsApp decision notices.
 - [x] `PATCH /api/alerts/[id]` updates alert status with proper authorization.
-- [x] Production build clean & Vercel deployment instructions configured.
+- [x] Amazon CloudWatch audit trail and Amazon SNS critical alerts active.
 
 ### 🎨 Person 3 (Frontend)
-- [ ] `/borrowers` page displays full names, IDs, balances, and allows filtering by risk bucket.
-- [ ] `/borrowers/[id]` displays borrower details and Recharts horizontal SHAP bar chart (Red/Green).
-- [ ] `/alerts` displays open high/critical alerts and allows marking alerts as acknowledged/resolved.
-- [ ] `/analytics` displays 4 top-line KPI metrics and distribution charts.
-- [ ] All pages display loading states without layout jitter.
+- [x] `/borrowers` page displays full names, IDs, balances, and allows filtering by risk bucket.
+- [x] `/borrowers/[id]` displays borrower details and Recharts horizontal SHAP bar chart (Red/Green).
+- [x] Interactive What-If Loan Restructuring Simulator recalculating risk in real time.
+- [x] CFPB Regulation B Adverse Action Notice generator modal with top SHAP reasons.
+- [x] Amazon Bedrock GenAI Underwriting Memo modal with copy/export capability.
+- [x] Meta WhatsApp notification dispatch modal with recipient phone input and status feedback.
+- [x] `/alerts` displays open high/critical alerts and allows marking alerts as acknowledged/resolved.
+- [x] `/analytics` displays 4 top-line KPI metrics, Expected Loss calculator, and macro stress toggle.
+- [x] All pages display loading states without layout jitter.
+

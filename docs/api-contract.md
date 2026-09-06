@@ -192,6 +192,72 @@ Aggregates book-level distribution and top-line portfolio KPIs.
 
 ---
 
+### 1.6 `POST /api/borrowers/:id/memo`
+Generates an institutional Credit Underwriting Memo using **Amazon Bedrock** (`anthropic.claude-3-5-haiku-20241022-v1:0`).
+
+**Request Body (`application/json`):**
+```json
+{
+  "borrowerName": "Allison Hill",
+  "loanAmount": 92393,
+  "monthlyIncome": 9388,
+  "tenureMonths": 36,
+  "score": 724,
+  "bucket": "HIGH",
+  "riskReasons": [
+    {
+      "reason": "Interest rate is high relative to debt service capacity",
+      "impact": 0.534
+    }
+  ]
+}
+```
+
+**Response (`200 OK`):**
+```json
+{
+  "memo": "## INSTITUTIONAL CREDIT UNDERWRITING MEMORANDUM\n\n**Applicant:** Allison Hill\n**Loan Amount Requested:** $92,393\n**Assessed Default Probability Score:** 724 / 1000 (HIGH RISK)\n\n### 1. Executive Summary & Recommendation\nBased on calibrated XGBoost scoring and TreeSHAP attribution analysis, conditional approval is recommended only with secondary collateral enhancement..."
+}
+```
+
+---
+
+### 1.7 `POST /api/borrowers/:id/whatsapp`
+Dispatches an automated borrower decision notification via the **Meta WhatsApp Business Cloud API** (with simulated sandbox fallback when credentials are not configured).
+
+**Request Body (`application/json`):**
+```json
+{
+  "phoneNumber": "+1234567890",
+  "borrowerName": "Allison Hill",
+  "score": 724,
+  "bucket": "HIGH",
+  "reasons": [
+    "Interest rate is high relative to debt service capacity"
+  ],
+  "status": "MANUAL_REVIEW"
+}
+```
+
+**Response (`200 OK`):**
+```json
+{
+  "data": {
+    "success": true,
+    "mode": "SIMULATION",
+    "messageId": "wa_sim_1725619200000",
+    "recipient": "+1234567890",
+    "summary": "WhatsApp notification dispatched for Allison Hill (Status: MANUAL_REVIEW, Score: 724)"
+  }
+}
+```
+
+---
+
 ## 2. Architecture & Scoring Seam Note
 
-The scoring seam is encapsulated in [`lib/scoring/getScore.ts`](file:///d:/Java-%20Backend/Project/Mass%20Mutual/ai-powered-loan-default-prediction-system/lib/scoring/getScore.ts). In production, live machine learning predictions (via AWS SageMaker or custom Python microservice) replace the internal Supabase lookup query within that function alone, preserving zero frontend breaking changes.
+The scoring seam is encapsulated in [`lib/scoring/getScore.ts`](file:///d:/Java-%20Backend/Project/Mass%20Mutual/ai-powered-loan-default-prediction-system/lib/scoring/getScore.ts). 
+- **Operational Data Store:** Primary database operations connect directly to **Amazon RDS PostgreSQL 16** (`aegis-risk-db.c1wu2mekybkk.ap-southeast-2.rds.amazonaws.com`) via `lib/db/postgres.ts`, with graceful fallback to Supabase PostgreSQL.
+- **Inference Engine:** Live inference runs serverless via **AWS Lambda + API Gateway** in `ap-southeast-2` (`https://a3q6b9scn0.execute-api.ap-southeast-2.amazonaws.com/`).
+- **Telemetry & Alerts:** Underwriter score requests stream audit events directly to **Amazon CloudWatch Logs** (`/aegis-risk/audit-trail`), and scores triggering `CRITICAL` risk automatically alert risk officers via **Amazon SNS** (`aegis-risk-critical-alerts`).
+
