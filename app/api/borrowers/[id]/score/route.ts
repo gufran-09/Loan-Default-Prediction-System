@@ -47,8 +47,9 @@ export async function GET(
   }).catch((cwErr) => console.warn('[CloudWatch Log Notice]:', cwErr))
 
   // If borrower falls into CRITICAL risk bucket, trigger Amazon SNS underwriter alert
-  if (scoreData.bucket === 'CRITICAL') {
+  if (String(scoreData.bucket).toLowerCase() === 'critical') {
     const { sendCriticalRiskAlert } = await import('@/lib/aws/sns')
+
     sendCriticalRiskAlert({
       borrowerId: id,
       borrowerName: scoreData.borrower.full_name,
