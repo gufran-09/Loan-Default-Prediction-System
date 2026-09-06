@@ -33,6 +33,38 @@ export default function BorrowerDetail({
   // Adverse Action Modal State
   const [showNotice, setShowNotice] = useState(false);
 
+  // AWS Bedrock GenAI Credit Memo State
+  const [showMemoModal, setShowMemoModal] = useState(false);
+  const [memoLoading, setMemoLoading] = useState(false);
+  const [creditMemo, setCreditMemo] = useState<string | null>(null);
+
+  const fetchCreditMemo = async () => {
+    if (!data) return;
+    setMemoLoading(true);
+    setShowMemoModal(true);
+    try {
+      const res = await fetch(`/api/borrowers/${data.borrower.id}/memo`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          borrowerName: data.borrower.full_name,
+          loanAmount: data.borrower.loan_amount,
+          monthlyIncome: data.borrower.monthly_income,
+          tenureMonths: data.borrower.tenure_months,
+          score: data.score,
+          bucket: data.bucket,
+          riskReasons: data.risk_reasons,
+        }),
+      });
+      const result = await res.json();
+      setCreditMemo(result.memo);
+    } catch (e) {
+      setCreditMemo("Unable to generate automated memo. Please try again.");
+    } finally {
+      setMemoLoading(false);
+    }
+  };
+
   useEffect(() => {
     params.then((p) => {
       fetch(`/api/borrowers/${p.id}/score`)
@@ -98,15 +130,25 @@ export default function BorrowerDetail({
           </Link>
 
           {data && (
-            <button
-              onClick={() => setShowNotice(true)}
-              className="inline-flex items-center gap-2 rounded-lg border border-primary/20 bg-primary/5 px-3.5 py-2 text-xs font-medium text-primary transition-colors hover:bg-primary/10"
-            >
-              <FileText className="size-4" />
-              Generate Adverse Action Notice (ECOA/CFPB)
-            </button>
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                onClick={fetchCreditMemo}
+                className="inline-flex items-center gap-2 rounded-lg border border-purple-500/30 bg-purple-500/10 px-3.5 py-2 text-xs font-medium text-purple-400 transition-colors hover:bg-purple-500/20"
+              >
+                <Sparkles className="size-4" />
+                Generate AI Credit Memo (AWS Bedrock)
+              </button>
+              <button
+                onClick={() => setShowNotice(true)}
+                className="inline-flex items-center gap-2 rounded-lg border border-primary/20 bg-primary/5 px-3.5 py-2 text-xs font-medium text-primary transition-colors hover:bg-primary/10"
+              >
+                <FileText className="size-4" />
+                Generate Adverse Action Notice (ECOA/CFPB)
+              </button>
+            </div>
           )}
         </div>
+
 
         {loading ? (
           <div className="flex flex-col gap-4">
@@ -414,7 +456,56 @@ export default function BorrowerDetail({
             </div>
           </div>
         )}
+
+        {/* AWS Bedrock GenAI Credit Memo Modal */}
+        {showMemoModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+            <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-xl border bg-card p-6 shadow-2xl">
+              <div className="flex items-center justify-between border-b pb-4">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="size-5 text-purple-400" />
+                  <h3 className="font-semibold text-lg">
+                    Credit Underwriting Memorandum
+                  </h3>
+                </div>
+                <button
+                  onClick={() => setShowMemoModal(false)}
+                  className="rounded-lg p-1 text-muted-foreground hover:bg-muted"
+                >
+                  <X className="size-4" />
+                </button>
+              </div>
+
+              <div className="mt-4">
+                {memoLoading ? (
+                  <div className="flex flex-col items-center justify-center py-12 text-center">
+                    <div className="size-8 animate-spin rounded-full border-2 border-purple-500 border-t-transparent" />
+                    <p className="mt-4 text-sm font-medium">Invoking Amazon Bedrock GenAI Runtime...</p>
+                    <p className="text-xs text-muted-foreground">Synthesizing XGBoost weights, SHAP vectors, and leverage ratios</p>
+                  </div>
+                ) : (
+                  <div className="prose prose-sm dark:prose-invert max-w-none whitespace-pre-wrap rounded-lg bg-muted/40 p-4 font-mono text-xs leading-relaxed">
+                    {creditMemo}
+                  </div>
+                )}
+              </div>
+
+              <div className="mt-6 flex justify-between border-t pt-4">
+                <span className="text-[11px] text-muted-foreground flex items-center">
+                  Engine: AWS Bedrock Runtime · Model: Claude 3.5 Haiku
+                </span>
+                <button
+                  onClick={() => setShowMemoModal(false)}
+                  className="rounded-lg bg-purple-600 px-4 py-2 text-xs font-medium text-white hover:bg-purple-700"
+                >
+                  Done
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
+
     </Shell>
   );
 }
