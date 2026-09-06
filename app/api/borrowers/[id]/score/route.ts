@@ -36,6 +36,30 @@ export async function GET(
     )
   }
 
+  // Asynchronously log access to Amazon CloudWatch for OCC SR 11-7 compliance
+  const { logUnderwriterAudit } = await import('@/lib/aws/cloudwatch')
+  logUnderwriterAudit({
+    underwriterId: user.id,
+    borrowerId: id,
+    action: 'REVIEWED',
+    score: scoreData.score,
+    bucket: scoreData.bucket,
+  }).catch((cwErr) => console.warn('[CloudWatch Log Notice]:', cwErr))
+
+  // If borrower falls into CRITICAL risk bucket, trigger Amazon SNS underwriter alert
+  if (scoreData.bucket === 'CRITICAL') {
+    const { sendCriticalRiskAlert } = await import('@/lib/aws/sns')
+    sendCriticalRiskAlert({
+      borrowerId: id,
+      borrowerName: scoreData.borrower.full_name,
+      score: scoreData.score,
+      bucket: scoreData.bucket,
+      reasons: scoreData.risk_reasons,
+    }).catch((snsErr) => console.warn('[SNS Alert Notice]:', snsErr))
+  }
+
+
   return NextResponse.json({ data: scoreData })
 }
+
 

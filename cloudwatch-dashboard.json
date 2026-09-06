@@ -1,0 +1,39 @@
+{
+  "widgets": [
+    {
+      "type": "metric",
+      "x": 0,
+      "y": 0,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "metrics": [
+          [ "AWS/Lambda", "Invocations", "FunctionName", "aegis-risk-scoring-engine", { "stat": "Sum", "color": "#1f77b4" } ],
+          [ ".", "Errors", ".", ".", { "stat": "Sum", "color": "#d62728" } ]
+        ],
+        "view": "timeSeries",
+        "stacked": false,
+        "region": "ap-southeast-2",
+        "title": "Aegis Risk - Live Scoring Engine Invocations & Errors",
+        "period": 300
+      }
+    },
+    {
+      "type": "metric",
+      "x": 12,
+      "y": 0,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "metrics": [
+          [ "AWS/Lambda", "Duration", "FunctionName", "aegis-risk-scoring-engine", { "stat": "Average", "color": "#2ca02c" } ]
+        ],
+        "view": "timeSeries",
+        "stacked": false,
+        "region": "ap-southeast-2",
+        "title": "Aegis Risk - Scoring Engine Latency (ms)",
+        "period": 300
+      }
+    }
+  ]
+}
