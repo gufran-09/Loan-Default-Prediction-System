@@ -52,7 +52,59 @@ export async function getScore(borrowerId: string): Promise<BorrowerScoreDetail 
     return null
   }
 
-  // Fetch risk score
+  // 1. Check if AWS Live Inference Seam is enabled
+  const awsInferenceUrl = process.env.AWS_INFERENCE_ENDPOINT_URL
+  if (awsInferenceUrl) {
+    try {
+      const response = await fetch(awsInferenceUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          borrower_id: borrower.id,
+          features: {
+            monthly_income: Number(borrower.monthly_income || 5000),
+            loan_amount: Number(borrower.loan_amount || 20000),
+            tenure_months: Number(borrower.tenure_months || 36),
+            outstanding_balance: Number(borrower.outstanding_balance || 12000),
+          }
+        }),
+        cache: 'no-store'
+      })
+
+      if (response.ok) {
+        const liveResult = await response.json()
+        return {
+          score: Number(liveResult.score),
+          bucket: liveResult.bucket as RiskBucket,
+          model_version: liveResult.model_version || 'v1.0.0-aws-lambda',
+          scored_at: new Date().toISOString(),
+          risk_reasons: (liveResult.risk_reasons || []).map((r: any, idx: number) => ({
+            reason: r.reason || `Impact of ${r.feature}`,
+            feature: r.feature || 'risk_signal',
+            impact: Number(r.impact || 0),
+            rank: r.rank ?? idx + 1
+          })),
+          borrower: {
+            id: borrower.id,
+            external_id: borrower.external_id || borrower.id.slice(0, 8),
+            full_name: borrower.full_name || 'Unknown Borrower',
+            email: borrower.email,
+            loan_type: borrower.loan_type || 'Standard',
+            loan_amount: Number(borrower.loan_amount || 0),
+            outstanding_balance: Number(borrower.outstanding_balance || 0),
+            geography: borrower.geography || 'Global',
+            tenure_months: Number(borrower.tenure_months || 0),
+            monthly_income: Number(borrower.monthly_income || 0),
+            employment_status: borrower.employment_status || 'Unknown',
+          }
+        }
+      }
+    } catch (awsErr) {
+      console.warn('[AWS Live Scoring Seam] Lambda call failed, falling back to cached DB score:', awsErr)
+    }
+  }
+
+  // 2. Fetch risk score from Supabase (Local/Cached Fallback)
   const { data: scoreData, error: scoreError } = await supabase
     .from('risk_scores')
     .select('id, score, bucket, model_version, scored_at')
@@ -65,6 +117,7 @@ export async function getScore(borrowerId: string): Promise<BorrowerScoreDetail 
     console.warn(`No risk score found for borrower ${borrowerId}`, scoreError)
     return null
   }
+
 
   // Fetch risk reasons (supports both schema column variants: 'reason' vs 'description', 'feature' vs 'feature_name')
   const { data: reasonsData, error: reasonsError } = await supabase
