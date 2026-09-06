@@ -12,9 +12,11 @@ import {
   Printer,
   X,
   Sparkles,
+  MessageSquare,
   TrendingDown,
   TrendingUp,
 } from "lucide-react";
+
 
 export default function BorrowerDetail({
   params,
@@ -64,6 +66,49 @@ export default function BorrowerDetail({
       setMemoLoading(false);
     }
   };
+
+  // WhatsApp Notification State
+
+  const [showWhatsAppModal, setShowWhatsAppModal] = useState(false);
+  const [waPhoneNumber, setWaPhoneNumber] = useState("+91");
+  const [waLoading, setWaLoading] = useState(false);
+  const [waResult, setWaResult] = useState<{ success: boolean; message: string } | null>(null);
+
+  const handleSendWhatsApp = async () => {
+    if (!data || !waPhoneNumber) return;
+    setWaLoading(true);
+    setWaResult(null);
+    try {
+      const res = await fetch(`/api/borrowers/${data.borrower.id}/whatsapp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          phoneNumber: waPhoneNumber,
+          borrowerName: data.borrower.full_name,
+          score: data.score,
+          bucket: data.bucket,
+          reasons: data.risk_reasons,
+          status: Number(data.score) >= 650 ? "DECLINED" : Number(data.score) >= 450 ? "MANUAL_REVIEW" : "APPROVED",
+        }),
+      });
+      const json = await res.json();
+      if (json.data?.success) {
+        setWaResult({
+          success: true,
+          message: json.data.simulated
+            ? "Notification logged in simulation mode (ready for live Meta Cloud API keys)."
+            : "WhatsApp message successfully delivered to recipient!",
+        });
+      } else {
+        setWaResult({ success: false, message: json.data?.error || "Failed to dispatch WhatsApp message" });
+      }
+    } catch (e: any) {
+      setWaResult({ success: false, message: e.message || "Network error" });
+    } finally {
+      setWaLoading(false);
+    }
+  };
+
 
   useEffect(() => {
     params.then((p) => {
@@ -132,6 +177,16 @@ export default function BorrowerDetail({
           {data && (
             <div className="flex flex-wrap items-center gap-2">
               <button
+                onClick={() => {
+                  setWaResult(null);
+                  setShowWhatsAppModal(true);
+                }}
+                className="inline-flex items-center gap-2 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-2 text-xs font-medium text-emerald-400 transition-colors hover:bg-emerald-500/20"
+              >
+                <MessageSquare className="size-4" />
+                Notify via WhatsApp
+              </button>
+              <button
                 onClick={fetchCreditMemo}
                 className="inline-flex items-center gap-2 rounded-lg border border-purple-500/30 bg-purple-500/10 px-3.5 py-2 text-xs font-medium text-purple-400 transition-colors hover:bg-purple-500/20"
               >
@@ -148,6 +203,7 @@ export default function BorrowerDetail({
             </div>
           )}
         </div>
+
 
 
         {loading ? (
@@ -504,7 +560,96 @@ export default function BorrowerDetail({
             </div>
           </div>
         )}
+
+        {/* WhatsApp Notification Dispatch Modal */}
+        {showWhatsAppModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+            <div className="w-full max-w-md rounded-xl border bg-card p-6 shadow-2xl">
+              <div className="flex items-center justify-between border-b pb-3">
+                <div className="flex items-center gap-2">
+                  <MessageSquare className="size-5 text-emerald-400" />
+                  <h3 className="font-semibold text-base">
+                    Dispatch WhatsApp Notification
+                  </h3>
+                </div>
+                <button
+                  onClick={() => setShowWhatsAppModal(false)}
+                  className="rounded-lg p-1 text-muted-foreground hover:bg-muted"
+                >
+                  <X className="size-4" />
+                </button>
+              </div>
+
+              <div className="mt-4 space-y-4">
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  Sends an automated credit decision update to the borrower or co-signer via Meta WhatsApp Business Cloud API.
+                </p>
+
+                <div>
+                  <label className="text-xs font-medium text-foreground">
+                    Recipient Mobile Number (with Country Code)
+                  </label>
+                  <input
+                    type="text"
+                    value={waPhoneNumber}
+                    onChange={(e) => setWaPhoneNumber(e.target.value)}
+                    placeholder="+919876543210 or +1234567890"
+                    className="mt-1 w-full rounded-lg border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  />
+                </div>
+
+                <div className="rounded-lg border border-muted bg-muted/30 p-3 text-xs space-y-1">
+                  <p className="font-semibold text-foreground">Message Payload Preview:</p>
+                  <p className="text-muted-foreground">Borrower: {data?.borrower?.full_name}</p>
+                  <p className="text-muted-foreground">Score: {data?.score}/1000 ({data?.bucket} RISK)</p>
+                  <p className="text-muted-foreground">
+                    Status: {Number(data?.score) >= 650 ? "DECLINED" : Number(data?.score) >= 450 ? "MANUAL_REVIEW" : "APPROVED"}
+                  </p>
+                </div>
+
+                {waResult && (
+                  <div
+                    className={`rounded-lg p-3 text-xs ${
+                      waResult.success
+                        ? "border border-emerald-500/30 bg-emerald-500/10 text-emerald-300"
+                        : "border border-destructive/30 bg-destructive/10 text-destructive"
+                    }`}
+                  >
+                    {waResult.message}
+                  </div>
+                )}
+              </div>
+
+              <div className="mt-6 flex justify-end gap-2 border-t pt-4">
+                <button
+                  onClick={() => setShowWhatsAppModal(false)}
+                  className="rounded-lg border px-3 py-2 text-xs font-medium hover:bg-muted"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSendWhatsApp}
+                  disabled={waLoading || !waPhoneNumber}
+                  className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-xs font-medium text-white transition-opacity hover:bg-emerald-700 disabled:opacity-50"
+                >
+                  {waLoading ? (
+                    <>
+                      <div className="size-3 animate-spin rounded-full border border-white border-t-transparent" />
+                      Dispatching...
+                    </>
+                  ) : (
+                    <>
+                      <MessageSquare className="size-3.5" />
+                      Send WhatsApp Alert
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
+
 
     </Shell>
   );
