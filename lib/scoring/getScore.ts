@@ -38,19 +38,40 @@ export interface BorrowerScoreDetail {
  * to invoke the live inference endpoint without breaking any API or UI consumers.
  */
 export async function getScore(borrowerId: string): Promise<BorrowerScoreDetail | null> {
-  const supabase = await createClient()
+  let borrower: any = null
 
-  // Fetch borrower profile
-  const { data: borrower, error: borrowerError } = await supabase
-    .from('borrowers')
-    .select('id, external_id, full_name, email, loan_type, loan_amount, outstanding_balance, geography, tenure_months, monthly_income, employment_status')
-    .eq('id', borrowerId)
-    .single()
+  // 1. Try fetching directly from Amazon RDS PostgreSQL if DATABASE_URL is configured
+  if (process.env.DATABASE_URL) {
+    try {
+      const { queryOne } = await import('@/lib/db/postgres')
+      borrower = await queryOne(
+        `SELECT id, external_id, full_name, email, loan_type, loan_amount, outstanding_balance, geography, tenure_months, monthly_income, employment_status 
+         FROM borrowers WHERE id = $1`,
+        [borrowerId]
+      )
+    } catch (rdsErr) {
+      console.warn('[AWS RDS Query Note] Falling back to Supabase client:', rdsErr)
+    }
+  }
 
-  if (borrowerError || !borrower) {
-    console.error('Error fetching borrower profile in scoring seam:', borrowerError)
+  // 2. Fallback to Supabase client if not found in RDS
+  if (!borrower) {
+    const supabase = await createClient()
+    const { data, error } = await supabase
+      .from('borrowers')
+      .select('id, external_id, full_name, email, loan_type, loan_amount, outstanding_balance, geography, tenure_months, monthly_income, employment_status')
+      .eq('id', borrowerId)
+      .single()
+    if (!error && data) {
+      borrower = data
+    }
+  }
+
+  if (!borrower) {
+    console.error('Borrower profile not found in RDS or Supabase:', borrowerId)
     return null
   }
+
 
   // 1. Check if AWS Live Inference Seam is enabled
   const awsInferenceUrl = process.env.AWS_INFERENCE_ENDPOINT_URL
