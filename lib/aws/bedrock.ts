@@ -4,9 +4,15 @@ let bedrockClient: BedrockRuntimeClient | null = null
 
 function getClient() {
   if (!bedrockClient) {
-    bedrockClient = new BedrockRuntimeClient({
-      region: process.env.AWS_REGION || 'ap-southeast-2',
-    })
+    const region = process.env.AWS_REGION || 'ap-southeast-2'
+    const config: { region: string; credentials?: { accessKeyId: string; secretAccessKey: string } } = { region }
+    if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY) {
+      config.credentials = {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      }
+    }
+    bedrockClient = new BedrockRuntimeClient(config)
   }
   return bedrockClient
 }
@@ -63,8 +69,9 @@ Format your response with:
       ]
     }
 
+    const modelId = process.env.BEDROCK_MODEL_ID || 'apac.anthropic.claude-3-haiku-20240307-v1:0'
     const command = new InvokeModelCommand({
-      modelId: 'anthropic.claude-3-5-haiku-20241022-v1:0',
+      modelId,
       contentType: 'application/json',
       accept: 'application/json',
       body: JSON.stringify(payload)
@@ -74,7 +81,8 @@ Format your response with:
     const rawResult = new TextDecoder().decode(response.body)
     const parsed = JSON.parse(rawResult)
     return parsed.content?.[0]?.text || parsed.completion || ''
-  } catch (err) {
+  } catch (err: any) {
+    console.warn('[AWS Bedrock Notice] Live invocation fell back to deterministic memo:', err?.message || err)
     // Fallback: Professional deterministic institutional credit memo
     return `### Institutional Credit Underwriting Memorandum (Automated Rationale)
 

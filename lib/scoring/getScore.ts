@@ -54,9 +54,10 @@ export async function getScore(borrowerId: string): Promise<BorrowerScoreDetail 
     }
   }
 
+  const supabase = await createClient()
+
   // 2. Fallback to Supabase client if not found in RDS
   if (!borrower) {
-    const supabase = await createClient()
     const { data, error } = await supabase
       .from('borrowers')
       .select('id, external_id, full_name, email, loan_type, loan_amount, outstanding_balance, geography, tenure_months, monthly_income, employment_status')
