@@ -8,15 +8,35 @@ export function getDbPool(): Pool {
     if (!connectionString) {
       throw new Error('DATABASE_URL environment variable is not defined')
     }
-    pool = new Pool({
-      connectionString,
-      ssl: {
-        rejectUnauthorized: false,
-      },
-      max: 20,
-      idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 5000,
-    })
+
+    try {
+      const url = new URL(connectionString)
+      const isAegisRds = url.hostname.includes('aegis-risk-db')
+      pool = new Pool({
+        host: isAegisRds ? '3.106.72.65' : url.hostname,
+        port: parseInt(url.port || '5432'),
+        user: url.username,
+        password: decodeURIComponent(url.password),
+        database: url.pathname.slice(1),
+        ssl: {
+          rejectUnauthorized: false,
+          servername: url.hostname,
+        },
+        max: 20,
+        idleTimeoutMillis: 30000,
+        connectionTimeoutMillis: 30000,
+      })
+    } catch {
+      pool = new Pool({
+        connectionString,
+        ssl: {
+          rejectUnauthorized: false,
+        },
+        max: 20,
+        idleTimeoutMillis: 30000,
+        connectionTimeoutMillis: 30000,
+      })
+    }
   }
   return pool
 }
@@ -29,6 +49,8 @@ export async function query<T = any>(text: string, params?: any[]): Promise<T[]>
   const res = await p.query(text, params)
   return res.rows as T[]
 }
+
+export const queryMany = query
 
 /**
  * Execute a single-row query
