@@ -19,6 +19,8 @@ import {
   TrendingDown,
   ShieldCheck,
   Zap,
+  Landmark,
+  ShieldAlert,
 } from "lucide-react";
 
 function ChartTooltip({ active, payload, label }: any) {
@@ -60,6 +62,8 @@ export default function Analytics() {
     totalBorrowers: 0,
     totalLoanVolume: 0,
     totalOutstandingBalance: 0,
+    totalCollateralSecured: 0,
+    collateralizationRate: 0,
     averageScore: 0,
     criticalAlerts: 0,
     highRiskBorrowers: 0,
@@ -123,7 +127,7 @@ export default function Analytics() {
               }`}
             >
               <Zap className="size-3.5" />
-              +200 bps Fed Stress Shock
+              Stagflation Shock (+200 bps)
             </button>
           </div>
         </div>
@@ -141,7 +145,7 @@ export default function Analytics() {
         )}
 
         {/* Top-Line KPI Summary Cards */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           <div className="rounded-xl border bg-card p-5">
             <div className="flex items-center justify-between">
               <span className="text-xs font-medium text-muted-foreground">Total Book Volume</span>
@@ -165,6 +169,19 @@ export default function Analytics() {
             </p>
             <p className="mt-1 text-xs text-muted-foreground">
               Principal at risk across active books
+            </p>
+          </div>
+
+          <div className="rounded-xl border bg-card p-5">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-medium text-muted-foreground">Collateral Secured</span>
+              <Landmark className="size-4 text-purple-500" />
+            </div>
+            <p className="mt-3 text-2xl font-semibold tracking-tight text-foreground">
+              ${(Number(rawSummary.totalCollateralSecured || 0) / 1_000_000).toFixed(2)}M
+            </p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              {rawSummary.collateralizationRate || '0'}% collateral coverage ratio
             </p>
           </div>
 
@@ -233,53 +250,68 @@ export default function Analytics() {
         </div>
 
         {/* Portfolio Concentration Breakdown Charts */}
-        <div className="grid gap-5 lg:grid-cols-3">
-          {[
-            ["Risk by loan type", "byLoanType"],
-            ["Risk by geography", "byGeography"],
-            ["Risk by tenure", "byTenure"],
-          ].map(([title, key]) => (
-            <section key={key} className="rounded-xl border bg-card p-5">
-              <div className="flex items-center justify-between">
-                <h2 className="font-semibold text-foreground">{title}</h2>
-                {isStressTest && (
-                  <span className="text-[10px] font-medium text-destructive">Stressed</span>
-                )}
-              </div>
-              <div className="mt-6 h-56">
-                {data ? (
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={getAdjustedChartData(key)}>
-                      <XAxis
-                        dataKey="name"
-                        tick={{ fontSize: 11, fill: "var(--muted-foreground)" }}
-                        tickLine={false}
-                        axisLine={false}
-                      />
-                      <YAxis
-                        tick={{ fontSize: 11, fill: "var(--muted-foreground)" }}
-                        tickLine={false}
-                        axisLine={false}
-                      />
-                      <Tooltip
-                        cursor={{ fill: "var(--muted)", opacity: 0.25 }}
-                        content={<ChartTooltip />}
-                      />
-                      <Bar
-                        dataKey="score"
-                        fill={isStressTest ? "var(--destructive)" : "var(--primary)"}
-                        radius={[4, 4, 0, 0]}
-                      />
-                    </BarChart>
-                  </ResponsiveContainer>
-                ) : (
-                  <div className="flex h-full items-center justify-center text-sm text-muted-foreground">
-                    Loading chart…
-                  </div>
-                )}
-              </div>
-            </section>
-          ))}
+        <div className="space-y-6">
+          <div className="flex items-center justify-between border-b pb-3">
+            <div>
+              <h2 className="text-lg font-semibold text-foreground">Credit & Actuarial Concentration Analysis</h2>
+              <p className="text-xs text-muted-foreground">Cross-sectional exposure distributions across demographic, financial, and product parameters.</p>
+            </div>
+            <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+              6 Core Tranches
+            </span>
+          </div>
+
+          <div className="grid gap-5 lg:grid-cols-3">
+            {[
+              ["Risk by Loan Purpose", "byLoanType"],
+              ["Risk by Geography", "byGeography"],
+              ["Risk by Repayment Tenure", "byTenure"],
+              ["Risk by Age Demographics", "byAgeGroup"],
+              ["Risk by Collateral Asset Type", "byCollateralType"],
+              ["Risk by Income Source", "byIncomeSource"],
+            ].map(([title, key]) => (
+              <section key={key} className="rounded-xl border bg-card p-5">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-semibold text-foreground text-sm">{title}</h3>
+                  {isStressTest && (
+                    <span className="text-[10px] font-medium text-destructive">Stressed</span>
+                  )}
+                </div>
+                <div className="mt-6 h-56">
+                  {data ? (
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={getAdjustedChartData(key)}>
+                        <XAxis
+                          dataKey="name"
+                          tick={{ fontSize: 11, fill: "var(--muted-foreground)" }}
+                          tickLine={false}
+                          axisLine={false}
+                        />
+                        <YAxis
+                          tick={{ fontSize: 11, fill: "var(--muted-foreground)" }}
+                          tickLine={false}
+                          axisLine={false}
+                        />
+                        <Tooltip
+                          cursor={{ fill: "var(--muted)", opacity: 0.25 }}
+                          content={<ChartTooltip />}
+                        />
+                        <Bar
+                          dataKey="score"
+                          fill={isStressTest ? "var(--destructive)" : "var(--primary)"}
+                          radius={[4, 4, 0, 0]}
+                        />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  ) : (
+                    <div className="flex h-full items-center justify-center text-sm text-muted-foreground">
+                      Loading chart…
+                    </div>
+                  )}
+                </div>
+              </section>
+            ))}
+          </div>
         </div>
 
         {/* ML Model Drift & Reliability Governance Section */}
