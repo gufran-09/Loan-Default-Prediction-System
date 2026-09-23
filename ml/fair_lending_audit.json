@@ -1,0 +1,56 @@
+{
+  "regulatory_standard": "ECOA / CFPB Regulation B / Four-Fifths Rule (80% AIR)",
+  "approval_threshold_pd": 0.45,
+  "overall_approval_rate": 0.8549,
+  "demographic_evaluations": {
+    "age_cohorts": {
+      "benchmark_group": "Prime Working (30 - 50 yrs)",
+      "benchmark_approval_rate": 0.8492,
+      "groups": {
+        "Emerging Credit (< 30 yrs)": {
+          "applicant_count": 37316,
+          "approval_rate": 0.7625,
+          "adverse_impact_ratio": 0.8978,
+          "four_fifths_compliant": true
+        },
+        "Prime Working (30 - 50 yrs)": {
+          "applicant_count": 64745,
+          "approval_rate": 0.8492,
+          "adverse_impact_ratio": 1.0,
+          "four_fifths_compliant": true
+        },
+        "Mature / Senior (> 50 yrs)": {
+          "applicant_count": 57795,
+          "approval_rate": 0.9211,
+          "adverse_impact_ratio": 1.0847,
+          "four_fifths_compliant": true
+        }
+      }
+    },
+    "marital_status": {
+      "benchmark_group": "Married",
+      "benchmark_approval_rate": 0.8679,
+      "groups": {
+        "Married": {
+          "applicant_count": 56088,
+          "approval_rate": 0.8679,
+          "adverse_impact_ratio": 1.0,
+          "four_fifths_compliant": true
+        },
+        "Single": {
+          "applicant_count": 56047,
+          "approval_rate": 0.8518,
+          "adverse_impact_ratio": 0.9815,
+          "four_fifths_compliant": true
+        },
+        "Divorced": {
+          "applicant_count": 56123,
+          "approval_rate": 0.845,
+          "adverse_impact_ratio": 0.9736,
+          "four_fifths_compliant": true
+        }
+      }
+    }
+  },
+  "compliance_summary": "COMPLIANT (AIR >= 0.80 across all cohorts)"
+}
