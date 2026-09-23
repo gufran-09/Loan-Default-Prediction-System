@@ -62,6 +62,11 @@ def generate_seed_data():
             "has_dependents": bool(row.get('HasDependents_Yes', 0) == 1),
             "loan_purpose": purpose,
             "has_cosigner": bool(row.get('HasCoSigner_Yes', 0) == 1),
+            "credit_utilization": round(float(row.get('credit_utilization', 0.38)), 4),
+            "delinquency_count_12m": int(row.get('delinquency_count_12m', 0)),
+            "num_inquiries_6m": int(row.get('num_inquiries_6m', 1)),
+            "prior_defaults": int(row.get('prior_defaults', 0)),
+            "collateral_value": round(float(row.get('collateral_value', 0.0)), 2),
         }
         borrowers_data.append(borrower)
 
@@ -115,6 +120,17 @@ def generate_seed_data():
             vec[f_map["HasCoSigner_Yes"]] = 1.0
         else:
             vec[f_map["HasCoSigner_No"]] = 1.0
+
+        if "credit_utilization" in f_map:
+            vec[f_map["credit_utilization"]] = float(b["credit_utilization"])
+        if "delinquency_count_12m" in f_map:
+            vec[f_map["delinquency_count_12m"]] = float(b["delinquency_count_12m"])
+        if "num_inquiries_6m" in f_map:
+            vec[f_map["num_inquiries_6m"]] = float(b["num_inquiries_6m"])
+        if "prior_defaults" in f_map:
+            vec[f_map["prior_defaults"]] = float(b["prior_defaults"])
+        if "collateral_value" in f_map:
+            vec[f_map["collateral_value"]] = float(b["collateral_value"])
 
         dmat = xgb.DMatrix(vec.reshape(1, -1), feature_names=feature_columns)
         prob = float(booster.predict(dmat)[0])
