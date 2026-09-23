@@ -4,9 +4,9 @@
 During the demo, it is critical that stakeholders understand the origin of our data. 
 
 **What is REAL:**
-- The underlying machine learning model is trained on a genuine, structured dataset (`Loan_default_cleaned.csv`). 
-- The patterns, feature importances (SHAP values), and mathematical relationships driving the scores are real ML outputs.
-- The AUC-ROC metrics represent actual predictive power on the provided dataset.
+- The underlying machine learning model is trained on a genuine, structured institutional dataset (`Loan_default_v2.csv`), filtered to seasoned loans with known outcomes.
+- The patterns, feature importances (TreeSHAP values), and mathematical relationships driving the scores are real ML outputs from 100 decision trees.
+- The AUC-ROC metrics represent actual predictive power on the provided dataset with learned missing-value branch routing.
 
 **What is SIMULATED:**
 - Personally Identifiable Information (PII) such as Borrower Names, Email Addresses, and exact Geographic Locations are synthetic. These were generated via the `Faker` library in Python to ensure data privacy during the demo.
