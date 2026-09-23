@@ -32,10 +32,28 @@ export async function middleware(request: NextRequest) {
   } = await supabase.auth.getUser()
 
   const { pathname } = request.nextUrl
-  
-  // Protected routes
+
+  // 1. Unconditionally allow container health probes & public endpoints
+  const isPublicRoute =
+    pathname.startsWith('/api/health') ||
+    pathname.startsWith('/api/auth') ||
+    pathname.startsWith('/api/webhooks') ||
+    pathname.startsWith('/signin') ||
+    pathname.startsWith('/signup')
+
+  if (isPublicRoute) {
+    return supabaseResponse
+  }
+
+  // 2. Check for Bearer token in Authorization header (Cognito / API client)
+  const authHeader = request.headers.get('authorization')
+  const hasBearerToken = authHeader?.startsWith('Bearer ') && authHeader.length > 20
+
+  // 3. Protected routes definition
   const protectedRoutes = ['/borrowers', '/alerts', '/analytics']
-  const isProtectedRoute = protectedRoutes.some((route) => pathname.startsWith(route)) || pathname.startsWith('/api/')
+  const isProtectedRoute =
+    protectedRoutes.some((route) => pathname.startsWith(route)) ||
+    (pathname.startsWith('/api/') && !isPublicRoute)
 
   // Redirect legacy /login to /signin
   if (pathname.startsWith('/login')) {
@@ -44,10 +62,12 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
-  // Exclude signin, signup, and auth-related API routes from protection
+  // Exclude signin, signup from protection
   const isAuthRoute = pathname.startsWith('/signin') || pathname.startsWith('/signup')
 
-  if (!user && isProtectedRoute) {
+  const isAuthenticated = Boolean(user || hasBearerToken)
+
+  if (!isAuthenticated && isProtectedRoute) {
     if (pathname.startsWith('/api/')) {
       return NextResponse.json(
         { error: { code: 'UNAUTHORIZED', message: 'Authentication required' } },
