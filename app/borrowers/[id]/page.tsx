@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Shell } from "@/components/dashboard/shell";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import {
   ArrowLeft,
   ShieldAlert,
@@ -30,8 +31,11 @@ import { generateLimeCards, LimeCard } from "@/lib/scoring/explainability";
 export default function BorrowerDetail({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params?: Promise<{ id: string }>;
 }) {
+  const routerParams = useParams();
+  const routeBorrowerId = (routerParams?.id as string) || "";
+
   const [data, setData] = useState<any>();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -125,39 +129,64 @@ export default function BorrowerDetail({
 
 
   useEffect(() => {
-    params.then((p) => {
-      // 1. Fetch primary score & borrower profile
-      fetch(`/api/borrowers/${p.id}/score`)
-        .then((r) => r.json())
-        .then((x) => {
-          if (x.error) throw new Error(x.error.message);
-          setData(x.data);
-          if (x.data?.borrower) {
-            setSimLoanAmount(Number(x.data.borrower.loan_amount || 20000));
-            setSimTenure(Number(x.data.borrower.tenure_months || 36));
-            setSimIncome(Number(x.data.borrower.monthly_income || 5000));
-          }
-        })
-        .catch((e) => setError(e.message))
-        .finally(() => setLoading(false));
+    let active = true;
+
+    async function loadBorrowerData(id: string) {
+      if (!id) return;
+      setLoading(true);
+      setError(null);
+
+      try {
+        // 1. Fetch primary score & borrower profile
+        const r = await fetch(`/api/borrowers/${id}/score`);
+        const x = await r.json().catch(() => ({}));
+        if (!r.ok || x.error) {
+          throw new Error(x.error?.message || `Failed to load borrower record (Status: ${r.status})`);
+        }
+        if (!active) return;
+        setData(x.data);
+        if (x.data?.borrower) {
+          setSimLoanAmount(Number(x.data.borrower.loan_amount || 20000));
+          setSimTenure(Number(x.data.borrower.tenure_months || 36));
+          setSimIncome(Number(x.data.borrower.monthly_income || 5000));
+        }
+      } catch (e: any) {
+        if (active) setError(e.message || "Failed to load borrower record");
+      } finally {
+        if (active) setLoading(false);
+      }
 
       // 2. Fetch alternative credit payment history
-      fetch(`/api/borrowers/${p.id}/alternative-credit`)
+      fetch(`/api/borrowers/${id}/alternative-credit`)
         .then((r) => r.json())
         .then((x) => {
-          if (x.data) setAltCredit(x.data);
+          if (active && x.data) setAltCredit(x.data);
         })
         .catch(console.warn);
 
       // 3. Fetch scoring history audit trail
-      fetch(`/api/borrowers/${p.id}/scoring-history`)
+      fetch(`/api/borrowers/${id}/scoring-history`)
         .then((r) => r.json())
         .then((x) => {
-          if (x.data) setScoringHistory(x.data);
+          if (active && x.data) setScoringHistory(x.data);
         })
         .catch(console.warn);
-    });
-  }, [params]);
+    }
+
+    if (routeBorrowerId) {
+      loadBorrowerData(routeBorrowerId);
+    } else if (params && typeof (params as any).then === "function") {
+      params.then((p) => {
+        if (p?.id) loadBorrowerData(p.id);
+      }).catch((err) => {
+        if (active) setError(err.message || "Failed to resolve route parameters");
+      });
+    }
+
+    return () => {
+      active = false;
+    };
+  }, [routeBorrowerId, params]);
 
   // Dynamic What-If Risk Recalculation (Local Elasticity Baseline)
   const baselineScore = data ? Number(data.score) : 0.5;
@@ -324,19 +353,13 @@ export default function BorrowerDetail({
                     Secured ({data.borrower.collateral_type})
                   </span>
                 )}
-
-                {data.borrower?.income_verified && (
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-                    <CheckCircle2 className="size-3.5" />
-                    Verified Income
-                  </span>
-                )}
               </div>
             </div>
 
             {/* Comprehensive Multi-Factor Underwriting Dossier */}
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
               {/* Block 1: Loan & Debt Obligations */}
+              {/* Block 1: Credit & Debt Obligations */}
               <div className="rounded-xl border bg-card p-5 space-y-4 shadow-sm">
                 <div className="flex items-center gap-2 border-b pb-3">
                   <CreditCard className="size-4 text-primary" />
@@ -349,8 +372,10 @@ export default function BorrowerDetail({
                   <Field label="Principal Requested" value={`$${Number(data.borrower?.loan_amount || 0).toLocaleString()}`} />
                   <Field label="Outstanding Balance" value={`$${Number(data.borrower?.outstanding_balance || 0).toLocaleString()}`} />
                   <Field label="Repayment Tenure" value={`${data.borrower?.tenure_months || 0} months`} />
+                  <Field label="Interest Rate" value={data.borrower?.interest_rate != null ? `${data.borrower.interest_rate}%` : '—'} />
+                  <Field label="Open Credit Lines" value={data.borrower?.num_credit_lines != null ? String(data.borrower.num_credit_lines) : '—'} />
                   <Field label="Credit Card Debt" value={`$${Number(data.borrower?.existing_credit_card_debt || 0).toLocaleString()}`} />
-                  <Field label="Auto / Personal Loans" value={`$${(Number(data.borrower?.existing_auto_loans || 0) + Number(data.borrower?.existing_personal_loans || 0)).toLocaleString()}`} />
+                  <Field label="Co-Signer Backed" value={data.borrower?.has_cosigner ? 'Yes (Pledged)' : 'No'} />
                 </div>
               </div>
 
@@ -366,8 +391,8 @@ export default function BorrowerDetail({
                   <Field label="Collateral Pledged" value={data.borrower?.collateral_type !== 'none' ? data.borrower?.collateral_type : 'Unsecured'} />
                   <Field label="Collateral Value" value={data.borrower?.collateral_value ? `$${Number(data.borrower.collateral_value).toLocaleString()}` : '$0'} />
                   <Field label="Real Estate Assets" value={`$${Number(data.borrower?.real_estate_value || 0).toLocaleString()}`} />
+                  <Field label="Existing Mortgage" value={data.borrower?.has_mortgage ? 'Yes' : 'No'} />
                   <Field label="Liquid Cash Reserves" value={`$${Number(data.borrower?.liquid_savings || 0).toLocaleString()}`} />
-                  <Field label="Investments Portfolio" value={`$${Number(data.borrower?.investment_portfolio_value || 0).toLocaleString()}`} />
                   <Field
                     label="Collateral Coverage"
                     value={
@@ -384,27 +409,14 @@ export default function BorrowerDetail({
                 <div className="flex items-center gap-2 border-b pb-3">
                   <Users className="size-4 text-blue-500" />
                   <h3 className="text-xs font-semibold uppercase tracking-wider text-foreground">
-                    Demographic Profile
+                    Demographic & Education Profile
                   </h3>
                 </div>
                 <div className="grid grid-cols-2 gap-3">
-                  <Field label="Age" value={data.borrower?.age ? `${data.borrower.age} years` : '—'} />
+                  <Field label="Education Level" value={data.borrower?.education || '—'} />
                   <Field label="Marital Status" value={data.borrower?.marital_status ? data.borrower.marital_status[0].toUpperCase() + data.borrower.marital_status.slice(1) : '—'} />
-                  <Field label="Family Dependents" value={data.borrower?.num_dependents != null ? String(data.borrower.num_dependents) : '0'} />
-                  <Field
-                    label="Health Profile"
-                    value={
-                      data.borrower?.health_status === 'healthy'
-                        ? 'Healthy'
-                        : data.borrower?.health_status === 'chronic_condition'
-                        ? 'Chronic Condition'
-                        : data.borrower?.health_status === 'disability'
-                        ? 'Disability'
-                        : 'Standard'
-                    }
-                  />
+                  <Field label="Family Dependents" value={data.borrower?.has_dependents != null ? (data.borrower.has_dependents ? 'Yes' : 'No') : data.borrower?.num_dependents != null ? String(data.borrower.num_dependents) : '0'} />
                   <Field label="Geography" value={data.borrower?.geography} />
-                  <Field label="Disability Flag" value={data.borrower?.disability_flag ? 'Yes' : 'No'} />
                 </div>
               </div>
 
@@ -418,11 +430,11 @@ export default function BorrowerDetail({
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <Field label="Monthly Income" value={`$${Number(data.borrower?.monthly_income || 0).toLocaleString()}`} />
-                  <Field label="Income Source" value={data.borrower?.income_source ? data.borrower.income_source.replace('_', ' ') : 'Wages'} />
                   <Field label="Employment Status" value={data.borrower?.employment_status} />
-                  <Field label="Job Tenure" value={data.borrower?.months_at_current_job ? `${data.borrower.months_at_current_job} months` : '—'} />
-                  <Field label="Income Verified" value={data.borrower?.income_verified ? 'Verified (IRS/W2)' : 'Unverified'} />
-                  <Field label="Income Stability Score" value={data.borrower?.income_consistency_score ? `${Math.round(data.borrower.income_consistency_score * 100)}/100` : '75/100'} />
+                  <Field label="Months Employed" value={data.borrower?.months_employed != null ? `${data.borrower.months_employed} months` : data.borrower?.months_at_current_job != null ? `${data.borrower.months_at_current_job} months` : '—'} />
+                  <Field label="Income Source" value={data.borrower?.income_source ? data.borrower.income_source.replace('_', ' ') : 'Wages'} />
+                  <Field label="Income Consistency" value={data.borrower?.income_consistency_score ? `${Math.round(data.borrower.income_consistency_score * 100)}/100` : '75/100'} />
+                  <Field label="Credit Category" value={data.borrower?.loan_type || 'Standard'} />
                 </div>
               </div>
             </div>
@@ -501,19 +513,19 @@ export default function BorrowerDetail({
               </section>
             </div>
 
-            {/* LIME Multi-Factor Decision Explainability Cards */}
+            {/* Explainable AI (XAI) Attribution & Adverse Action Factors */}
             <section className="rounded-xl border bg-card p-6 shadow-sm">
               <div className="flex items-center justify-between border-b pb-4">
                 <div>
                   <h2 className="text-base font-semibold text-foreground">
-                    LIME Multi-Factor Decision Interpretability
+                    Explainable AI (XAI) Attribution & Adverse Action Factors
                   </h2>
                   <p className="text-xs text-muted-foreground">
-                    Local interpretable model-agnostic explanations across credit, demographic, and collateral dimensions.
+                    TreeSHAP game-theoretic feature sensitivity and principal risk drivers across credit, debt capacity, and collateral dimensions.
                   </p>
                 </div>
                 <span className="rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-medium text-primary">
-                  FCRA & ECOA Fair Lending
+                  TreeSHAP · FCRA & ECOA Fair Lending
                 </span>
               </div>
 
@@ -618,11 +630,11 @@ export default function BorrowerDetail({
                         Underwriter &ldquo;What-If&rdquo; Scenario Simulator
                       </h2>
                       <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-[11px] font-medium text-primary">
-                        Live AWS Lambda Rescoring
+                        Production XGBoost Rescoring
                       </span>
                     </div>
                     <p className="text-xs text-muted-foreground">
-                      Test loan restructuring parameters to find viable approval terms and trigger instant serverless inference.
+                      Test loan restructuring parameters to find viable approval terms and trigger instant calibrated model inference.
                     </p>
                   </div>
                 </div>
@@ -643,12 +655,12 @@ export default function BorrowerDetail({
                     {liveRescoreLoading ? (
                       <>
                         <RefreshCw className="size-3.5 animate-spin" />
-                        Invoking AWS Inference...
+                        Running XGBoost Trees...
                       </>
                     ) : (
                       <>
                         <Zap className="size-3.5" />
-                        Run Live Serverless Rescore (AWS)
+                        Run Live Model Rescore (XGBoost)
                       </>
                     )}
                   </button>
