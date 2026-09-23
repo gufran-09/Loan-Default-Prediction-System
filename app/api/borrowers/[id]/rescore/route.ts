@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { getScore } from '@/lib/scoring/getScore'
-import { computeLocalShapSurrogate } from '@/lib/scoring/explainability'
+import { predictXGBoost } from '@/lib/scoring/xgboostPredict'
+import { rescoreRequestSchema } from '@/lib/validation/schemas'
 
 export async function POST(
   request: Request,
@@ -11,15 +12,22 @@ export async function POST(
   const supabase = await createClient()
 
   try {
-    let requestBody: any = {}
+    let rawBody: any = {}
     try {
-      requestBody = await request.json()
+      rawBody = await request.json()
     } catch {
       // Body is optional
     }
 
-    const scoringMethod = requestBody.method || 'rescore'
-    const overrides = requestBody.overrides || {}
+    const parseResult = rescoreRequestSchema.safeParse(rawBody)
+    if (!parseResult.success) {
+      return NextResponse.json(
+        { error: { message: 'Invalid rescore payload', details: parseResult.error.format() } },
+        { status: 400 }
+      )
+    }
+
+    const { method: scoringMethod, overrides } = parseResult.data
 
     // 1. Fetch current borrower record
     const baseScoreDetail = await getScore(borrowerId)
@@ -33,77 +41,15 @@ export async function POST(
       ...overrides,
     }
 
-    // 2. Score via AWS Lambda if configured
-    let score = baseScoreDetail.score
-    let bucket = baseScoreDetail.bucket
-    let reasons = baseScoreDetail.risk_reasons
-    let shapValues = baseScoreDetail.shap_values
-    let limeExplanations = baseScoreDetail.lime_explanations
-    let modelVersion = 'v2.0.0-aws-rescore'
+    // 2. Perform Real XGBoost Model Inference (100 Trees + TreeSHAP Attributions)
+    const prediction = predictXGBoost(mergedBorrower)
 
-    const awsInferenceUrl = process.env.AWS_INFERENCE_ENDPOINT_URL
-    if (awsInferenceUrl) {
-      try {
-        const totalDebt =
-          Number(mergedBorrower.existing_credit_card_debt || 0) +
-          Number(mergedBorrower.existing_auto_loans || 0) +
-          Number(mergedBorrower.existing_personal_loans || 0) +
-          Number(mergedBorrower.alimony_obligations || 0)
-
-        const totalAssets =
-          Number(mergedBorrower.real_estate_value || 0) +
-          Number(mergedBorrower.liquid_savings || 0) +
-          Number(mergedBorrower.investment_portfolio_value || 0)
-
-        const resp = await fetch(awsInferenceUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            borrower_id: borrowerId,
-            features: {
-              monthly_income: mergedBorrower.monthly_income,
-              loan_amount: mergedBorrower.loan_amount,
-              tenure_months: mergedBorrower.tenure_months,
-              outstanding_balance: mergedBorrower.outstanding_balance,
-              age: mergedBorrower.age,
-              num_dependents: mergedBorrower.num_dependents,
-              health_status: mergedBorrower.health_status,
-              marital_status: mergedBorrower.marital_status,
-              total_existing_debt: totalDebt,
-              collateral_value: mergedBorrower.collateral_value,
-              collateral_type: mergedBorrower.collateral_type,
-              total_assets: totalAssets,
-              income_source: mergedBorrower.income_source,
-              income_verified: mergedBorrower.income_verified,
-              months_at_current_job: mergedBorrower.months_at_current_job,
-              income_consistency_score: mergedBorrower.income_consistency_score,
-              alternative_credit_score: mergedBorrower.alternative_credit_score,
-            },
-          }),
-          cache: 'no-store',
-        })
-
-        if (resp.ok) {
-          const liveData = await resp.json()
-          score = Number(liveData.score)
-          bucket = liveData.bucket
-          modelVersion = liveData.model_version || modelVersion
-          reasons = liveData.risk_reasons || reasons
-          shapValues = liveData.shap_values || shapValues
-          limeExplanations = liveData.lime_explanations || limeExplanations
-        }
-      } catch (awsErr) {
-        console.warn('AWS Lambda rescore failed, using surrogate:', awsErr)
-      }
-    }
-
-    // Fallback: local surrogate calculation
-    if (!shapValues || Object.keys(shapValues).length === 0) {
-      const local = computeLocalShapSurrogate(mergedBorrower as any)
-      shapValues = local.shapValues
-      limeExplanations = local.limeExplanations
-    }
-
+    const score = prediction.score
+    const bucket = prediction.bucket
+    const reasons = prediction.risk_reasons
+    const shapValues = prediction.shap_values
+    const limeExplanations = prediction.lime_explanations
+    const modelVersion = prediction.model_version
     const scoredAt = new Date().toISOString()
 
     // 3. Persist to scoring_history in RDS & Supabase
@@ -140,12 +86,13 @@ export async function POST(
           ]
         )
 
-        // Also update latest risk_scores in RDS
-        await queryOne(
+        // Also update latest risk_scores in RDS (or insert if not present)
+        const updateRes = await queryOne(
           `UPDATE risk_scores
            SET score = $1, bucket = $2, model_version = $3, scored_at = $4,
                shap_values = $5, lime_explanation = $6
-           WHERE borrower_id = $7`,
+           WHERE borrower_id = $7
+           RETURNING id`,
           [
             score,
             bucket,
@@ -156,25 +103,58 @@ export async function POST(
             borrowerId,
           ]
         )
+
+        if (!updateRes) {
+          await queryOne(
+            `INSERT INTO risk_scores (borrower_id, score, bucket, model_version, scored_at, shap_values, lime_explanation)
+             VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+            [
+              borrowerId,
+              score,
+              bucket,
+              modelVersion,
+              scoredAt,
+              JSON.stringify(shapValues),
+              JSON.stringify(limeExplanations),
+            ]
+          )
+        }
       } catch (rdsErr) {
         console.warn('[Rescore API] RDS write note:', rdsErr)
       }
     }
 
     // Supabase Insert & Update
-    await supabase.from('scoring_history').insert(historyPayload)
+    try {
+      await supabase.from('scoring_history').insert(historyPayload)
 
-    await supabase
-      .from('risk_scores')
-      .update({
-        score,
-        bucket,
-        model_version: modelVersion,
-        scored_at: scoredAt,
-        shap_values: shapValues,
-        lime_explanation: limeExplanations,
-      })
-      .eq('borrower_id', borrowerId)
+      const { data: updateData } = await supabase
+        .from('risk_scores')
+        .update({
+          score,
+          bucket,
+          model_version: modelVersion,
+          scored_at: scoredAt,
+          shap_values: shapValues,
+          lime_explanation: limeExplanations,
+        })
+        .eq('borrower_id', borrowerId)
+        .select('id')
+
+      if (!updateData || updateData.length === 0) {
+        await supabase.from('risk_scores').insert({
+          borrower_id: borrowerId,
+          score,
+          bucket,
+          model_version: modelVersion,
+          scored_at: scoredAt,
+          shap_values: shapValues,
+          lime_explanation: limeExplanations,
+        })
+      }
+    } catch (supaErr) {
+      console.warn('[Rescore API] Supabase write note:', supaErr)
+    }
 
     return NextResponse.json({
       success: true,
