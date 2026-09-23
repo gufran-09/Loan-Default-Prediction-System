@@ -12,13 +12,15 @@ function getClient() {
 }
 
 export interface UnderwriterAuditEntry {
+  correlationId?: string
   underwriterId: string
   borrowerId: string
-  action: 'APPROVED' | 'REJECTED' | 'MANUAL_OVERRIDE' | 'REVIEWED'
+  action: 'APPROVED' | 'REJECTED' | 'MANUAL_OVERRIDE' | 'REVIEWED' | 'RESCORED'
   score?: number
   bucket?: string
   overrideDelta?: number
   justification?: string
+  metadata?: Record<string, any>
 }
 
 /**
