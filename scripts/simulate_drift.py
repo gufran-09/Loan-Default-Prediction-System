@@ -6,26 +6,39 @@ import xgboost as xgb
 from sklearn.metrics import roc_auc_score
 
 def run_drift_simulation():
-    print("Loading data for drift simulation...")
-    data_path = "Loan_default_cleaned.csv"
+    print("Loading data for drift simulation from Loan_default_v2.csv...")
+    data_path = "Loan_default_v2.csv"
     if not os.path.exists(data_path):
         raise FileNotFoundError(f"{data_path} not found.")
 
     df = pd.read_csv(data_path)
+    
+    # Filter to mature/seasoned loans with verified default labels
+    df = df[df['default_label'].notna()].copy()
+    df['Age'] = df['Age'].fillna(43.0)
 
-    # Demographic split based on Age
+    # Demographic split based on Age (< 40 vs >= 40)
     train_df = df[df['Age'] < 40]
     test_df = df[df['Age'] >= 40]
 
     print(f"Training set (Age < 40) shape: {train_df.shape}")
     print(f"Testing set (Age >= 40) shape: {test_df.shape}")
 
-    # Exclude non-feature columns
-    drop_cols = ['LoanID', 'Default']
-    feature_cols = [c for c in df.columns if c not in drop_cols]
+    # Core 31 feature columns
+    feature_cols = [
+        "Age", "Income", "LoanAmount", "CreditScore", "MonthsEmployed",
+        "NumCreditLines", "InterestRate", "LoanTerm", "DTIRatio",
+        "Education_Bachelor's", "Education_High School", "Education_Master's", "Education_PhD",
+        "EmploymentType_Full-time", "EmploymentType_Part-time", "EmploymentType_Self-employed", "EmploymentType_Unemployed",
+        "MaritalStatus_Divorced", "MaritalStatus_Married", "MaritalStatus_Single",
+        "HasMortgage_No", "HasMortgage_Yes",
+        "HasDependents_No", "HasDependents_Yes",
+        "LoanPurpose_Auto", "LoanPurpose_Business", "LoanPurpose_Education", "LoanPurpose_Home", "LoanPurpose_Other",
+        "HasCoSigner_No", "HasCoSigner_Yes"
+    ]
 
-    X_train, y_train = train_df[feature_cols], train_df['Default']
-    X_test, y_test = test_df[feature_cols], test_df['Default']
+    X_train, y_train = train_df[feature_cols], train_df['default_label'].astype(int)
+    X_test, y_test = test_df[feature_cols], test_df['default_label'].astype(int)
 
     dtrain = xgb.DMatrix(X_train, label=y_train)
     dtest = xgb.DMatrix(X_test, label=y_test)
