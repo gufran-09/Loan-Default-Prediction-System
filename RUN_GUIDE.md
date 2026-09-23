@@ -77,11 +77,27 @@ The application will be accessible at: **[http://localhost:3000](http://localhos
 * `/alerts` — High-Risk Loan Flags & Notifications
 * `/signin` — Team Sign In
 * `/signup` — Account Registration
+* `/api/health` — Production Liveness & Readiness Probing (`/api/health?ready=true`)
 
-### Production Build
+### Automated Testing
+```bash
+npm test
+```
+> Executes automated unit tests for XGBoost 100-tree model architecture, TreeSHAP impact calculation, and logistic probability bounds.
+
+### Production Build & Standalone Run
 ```bash
 npm run build
 npm run start
+```
+
+### Containerized Deployment (Docker)
+```bash
+# Build production image
+docker build -t aegis-risk:latest .
+
+# Run container locally
+docker run -p 3000:3000 --env-file .env aegis-risk:latest
 ```
 
 ---
@@ -125,22 +141,27 @@ python scripts/seed_database.py
 
 ---
 
-## 6. Machine Learning Pipeline
+## 6. Machine Learning Pipeline (Dataset v2.0.0)
 
-Pre-trained model artifacts are stored in `ml/` (`model.pkl`, `feature_columns.json`, `drift_report.json`). If you want to re-execute any ML steps:
+Pre-trained model artifacts are stored in `ml/` (`model.pkl`, `model.json`, `feature_columns.json`, `drift_report.json`, `model_card.md`). The pipeline trains on seasoned loans from `Loan_default_v2.csv` with learned missing-value handling.
 
-* **Train XGBoost Model:**
+* **Train XGBoost Production Model:**
   ```bash
   python scripts/train_model.py
   ```
+  > Trains calibrated XGBoost on seasoned records, handles missing data, and exports `ml/model.pkl` and `ml/model.json` (100 decision trees).
+
 * **Simulate & Evaluate Feature Drift:**
   ```bash
   python scripts/simulate_drift.py
   ```
-* **Regenerate Seed Datasets from Raw CSV:**
+  > Evaluates demographic drift (Age split) on Dataset v2 and updates `ml/drift_report.json`.
+
+* **Regenerate Seed Datasets & True TreeSHAP Values:**
   ```bash
   python scripts/prepare_seed_data.py
   ```
+  > Samples 400 records from `Loan_default_v2.csv` and executes native XGBoost inference to write `seed_borrowers.csv` and `seed_scores_reasons.csv`.
 
 ---
 
