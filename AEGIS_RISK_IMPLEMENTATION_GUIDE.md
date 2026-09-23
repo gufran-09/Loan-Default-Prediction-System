@@ -4,7 +4,7 @@
 **Enterprise Target:** MassMutual Financial Group (Institutional Credit & Actuarial Risk Evaluation)  
 **Team Composition:** 3 Members (ML Engineer, Backend & Infrastructure Engineer, Frontend Engineer)  
 **Core Stack:** Next.js 16 (App Router), TypeScript, Tailwind CSS, Amazon RDS PostgreSQL 16 (Primary), Supabase (Fallback), AWS Cognito, AWS Step Functions, Meta WhatsApp Cloud API, AWS Bedrock (Claude 3.5 Haiku), AWS Lambda + API Gateway v2, Amazon S3, Amazon CloudWatch, Amazon SNS, Python 3.10+ (XGBoost, Scikit-learn, SHAP, Pandas, Faker)  
-**Primary Dataset:** `Loan_default_cleaned.csv` — 255,347 records, 32 columns, 0 nulls, target `Default` (11.6% minority class)
+**Primary Dataset:** `Loan_default_v2.csv` — 255,347 records, 43 columns, seasoned cohort filtering to 168,258 records (unseasoned/immature loans excluded), target `default_label` (13.38% default rate)
 
 ---
 
@@ -32,7 +32,7 @@ This document serves as the **authoritative, single-source-of-truth master speci
 
 ### 1.1 System Objectives
 Traditional retail credit assessment models depend heavily on lagged credit bureau scores (FICO) and linear scorecards that fail to capture non-linear default interactions and volatile macroeconomic pressures. Aegis Risk implements an end-to-end, enterprise-grade AI credit decisioning platform that:
-- Predicts individual borrower default probability using a calibrated **XGBoost gradient boosting classifier** with weighted loss functions (`scale_pos_weight = 7.6`).
+- Predicts individual borrower default probability using a calibrated **XGBoost gradient boosting classifier** with weighted loss functions (`scale_pos_weight = 6.48`).
 - Explains model decisions through **SHAP (SHapley Additive exPlanations)** feature attribution to meet federal fair lending regulations (**ECOA**, **FCRA**, **CFPB**).
 - Simulates demographic and macroeconomic **covariate drift** to satisfy **Federal Reserve SR 11-7** Model Risk Management guidelines.
 - Provides credit officers with active decision-support tools: real-time **What-If scenario loan restructuring**, automated **Adverse Action Notice generation**, interactive **applicant scoring**, and **portfolio Expected Loss ($$EL = PD \times EAD \times LGD$$)** aggregation.
@@ -43,12 +43,12 @@ Traditional retail credit assessment models depend heavily on lagged credit bure
 ```mermaid
 flowchart TB
     subgraph Data & ML Layer [Python 3.10+ Machine Learning Layer]
-        RAW[(Loan_default_cleaned.csv<br/>255,347 rows)] --> TRAIN[scripts/train_model.py]
-        TRAIN --> ARTIFACTS[ml/model.pkl<br/>ml/feature_columns.json<br/>ml/model_card.md]
+        RAW[(Loan_default_v2.csv<br/>255,347 rows -> 168k seasoned)] --> TRAIN[scripts/train_model.py]
+        TRAIN --> ARTIFACTS[ml/model.pkl<br/>ml/model.json<br/>ml/feature_columns.json<br/>ml/model_card.md]
         TRAIN --> DRIFT[scripts/simulate_drift.py]
         DRIFT --> DRIFT_JSON[ml/drift_report.json]
-        ARTIFACTS --> S3[scripts/aws_s3_sync.py<br/>AWS S3 Model Lake]
-        ARTIFACTS --> BRIDGE[scripts/prepare_seed_data.py<br/>Faker PII + SHAP Calculation]
+        ARTIFACTS --> S3[scripts/aws_s3_sync.py<br/>AWS S3 Model Lake v2.0.0]
+        ARTIFACTS --> BRIDGE[scripts/prepare_seed_data.py<br/>Faker PII + Real TreeSHAP]
         BRIDGE --> SEED_FILES[(seed_borrowers.csv<br/>seed_scores_reasons.csv)]
         SEED_FILES --> RDS_LOADER[scripts/seed_rds.py]
     end
@@ -539,12 +539,12 @@ Dispatches automated credit decisioning alerts, loan restructuring terms, or adv
 
 ## 4. Machine Learning Pipeline & Model Governance (Python)
 
-### 4.1 Dataset Profile: `Loan_default_cleaned.csv`
-- **Total Records:** 255,347 loans
-- **Total Features:** 31 input predictors + 1 binary target (`Default`)
-- **Data Hygiene:** 0 missing values, 0 duplicates, verified data types
-- **Target Distribution:** 225,699 non-defaults (88.4%) vs. 29,648 defaults (11.6%)
-- **Imbalance Ratio:** ~7.61 negatives to 1 positive
+### 4.1 Dataset Profile: `Loan_default_v2.csv`
+- **Total Records:** 255,347 loans (168,258 seasoned loans used for training; active `Current` loans excluded to prevent label noise)
+- **Total Features:** 31 input predictors + target `default_label`
+- **Data Hygiene:** Realistic non-linear distributions (log-normal income, Beta-distributed DTI), learned missingness handling
+- **Target Distribution (Seasoned):** 145,751 non-defaults (86.62%) vs. 22,507 defaults (13.38%)
+- **Imbalance Ratio:** ~6.48 negatives to 1 positive
 
 ### 4.2 Feature Space & Column Order (`ml/feature_columns.json`)
 The model expects exactly 31 features in deterministic order:
@@ -557,47 +557,53 @@ The model expects exactly 31 features in deterministic order:
 7. `InterestRate` (Continuous percentage)
 8. `LoanTerm` (Discrete months: 12, 24, 36, 48, 60)
 9. `DTIRatio` (Continuous debt-to-income ratio: 0.1 - 0.9)
-10. `Education_High School` (One-hot binary)
-11. `Education_Master's` (One-hot binary)
-12. `Education_PhD` (One-hot binary)
-13. `EmploymentType_Part-time` (One-hot binary)
-14. `EmploymentType_Self-employed` (One-hot binary)
-15. `EmploymentType_Unemployed` (One-hot binary)
-16. `MaritalStatus_Married` (One-hot binary)
-17. `MaritalStatus_Single` (One-hot binary)
-18. `HasMortgage_Yes` (One-hot binary)
-19. `HasDependents_Yes` (One-hot binary)
-20. `LoanPurpose_Business` (One-hot binary)
-21. `LoanPurpose_Education` (One-hot binary)
-22. `LoanPurpose_Home` (One-hot binary)
-23. `LoanPurpose_Other` (One-hot binary)
-24. `HasCoSigner_Yes` (One-hot binary)
-*(Plus additional categorical indicator encodings established during one-hot preprocessing)*
+10. `Education_Bachelor's` (One-hot binary)
+11. `Education_High School` (One-hot binary)
+12. `Education_Master's` (One-hot binary)
+13. `Education_PhD` (One-hot binary)
+14. `EmploymentType_Full-time` (One-hot binary)
+15. `EmploymentType_Part-time` (One-hot binary)
+16. `EmploymentType_Self-employed` (One-hot binary)
+17. `EmploymentType_Unemployed` (One-hot binary)
+18. `MaritalStatus_Divorced` (One-hot binary)
+19. `MaritalStatus_Married` (One-hot binary)
+20. `MaritalStatus_Single` (One-hot binary)
+21. `HasMortgage_No` (One-hot binary)
+22. `HasMortgage_Yes` (One-hot binary)
+23. `HasDependents_No` (One-hot binary)
+24. `HasDependents_Yes` (One-hot binary)
+25. `LoanPurpose_Auto` (One-hot binary)
+26. `LoanPurpose_Business` (One-hot binary)
+27. `LoanPurpose_Education` (One-hot binary)
+28. `LoanPurpose_Home` (One-hot binary)
+29. `LoanPurpose_Other` (One-hot binary)
+30. `HasCoSigner_No` (One-hot binary)
+31. `HasCoSigner_Yes` (One-hot binary)
 
 ### 4.3 Training Methodology & Class Imbalance Handling (`scripts/train_model.py`)
-1. **Stratified Split:** 80% train (204,277 rows) / 20% test (51,070 rows) using `stratify=y` to prevent target ratio distortion.
-2. **Benchmark Model:** Scikit-Learn `LogisticRegression(max_iter=1000)` establishing the linear regulatory baseline (**AUC-ROC: 0.7491**).
+1. **Stratified Split:** 80% train (134,606 rows) / 20% test (33,652 rows) using `stratify=y` to preserve the 13.38% seasoned default rate.
+2. **Benchmark Model:** Scikit-Learn `LogisticRegression(max_iter=1000)` establishing the linear regulatory baseline (**AUC-ROC: 0.7109**).
 3. **Primary Model:** `xgboost.XGBClassifier` with:
    - `n_estimators = 100`
    - `max_depth = 4` (controls tree complexity and prevents over-fitting)
    - `learning_rate = 0.1`
-   - `scale_pos_weight = 7.61` ($$\frac{N_{negative}}{N_{positive}}$$)
+   - `scale_pos_weight = 6.48` ($$\frac{N_{negative}}{N_{positive}}$$)
    - Objective: `binary:logistic`, Evaluation metric: `logloss`
 4. **Why `scale_pos_weight` over SMOTE?** In institutional credit modeling, synthetic oversampling (SMOTE) alters joint feature probability distributions and can synthesize unrealistic applicant profiles. Loss-weight scaling directly penalizes false negatives without corrupting underlying empirical distributions.
 
 ### 4.4 Quantitative Evaluation Results
-- **Primary XGBoost AUC-ROC:** **0.7576** (Outperforms baseline Logistic Regression 0.7491)
+- **Primary XGBoost AUC-ROC:** **0.7095** (Calibrated probability distribution on realistic missingness and non-linear distributions)
 - **Test Set Confusion Matrix (Threshold = 0.5):**
   | Metric | Predicted Non-Default | Predicted Default |
   |---|---|---|
-  | **Actual Non-Default (45,139)** | 31,184 (TN) | 13,955 (FP) |
-  | **Actual Default (5,931)** | 1,862 (FN) | 4,069 (TP) |
-- **Underwriting Trade-off:** High recall on defaults (68.6%) is prioritized to safeguard capital, with false positives systematically filtered via secondary credit committee reviews.
+  | **Actual Non-Default (29,151)** | 18,922 (TN) | 10,229 (FP) |
+  | **Actual Default (4,501)** | 1,576 (FN) | 2,925 (TP) |
+- **Underwriting Trade-off:** High recall on defaults (65.0%) is prioritized to safeguard capital, with false positives systematically filtered via secondary credit committee reviews.
 
-### 4.5 Explainability Engine (SHAP TreeExplainer)
+### 4.5 Explainability Engine (SHAP TreeExplainer & Native Tree Traversal)
 For every scored applicant, Aegis Risk calculates local Shapley values:
 $$\phi_i(f, x) = \sum_{S \subseteq F \setminus \{i\}} \frac{|S|!(|F| - |S| - 1)!}{|F|!} \left[ f_x(S \cup \{i\}) - f_x(S) \right]$$
-- **Top-3 Factor Extraction:** Extracts the three features with the highest absolute attribution $$|\phi_i|$$.
+- **Top-5 Factor Extraction:** Extracts the features with the highest absolute attribution $$|\phi_i|$$ and translates them into FCRA/ECOA-compliant adverse reasons.
 - **Directional Categorization:**
   - Positive impact ($$+$$): Increases borrower default probability (rendered in red in the UI).
   - Negative impact ($$-$$): Reduces borrower default probability (rendered in emerald in the UI).
@@ -842,11 +848,15 @@ aws logs get-log-events --log-group-name /aegis-risk/audit-trail --log-stream-na
 | **Person 3: Frontend Engineer** | Dashboard Shell, Recharts Visualizations, Underwriting Simulator, Adverse Action Generator, Bedrock Memo & WhatsApp Modals | `app/borrowers/*`, `app/alerts/*`, `app/analytics/*`, `components/dashboard/*`, `lib/types/*` |
 
 ### Final Verification Checklist
-- [x] XGBoost model trained with class imbalance handling (`scale_pos_weight = 7.61`, AUC 0.7576).
-- [x] SHAP values computed and directional impact assigned (+/-).
-- [x] Model drift simulated across demographic slices (AUC drop 0.7448 -> 0.7099) and documented.
-- [x] AWS S3 Model Lake synchronized with 5/5 verified artifacts.
-- [x] Amazon RDS PostgreSQL 16 provisioned, migrated, and seeded with 400 borrowers, 400 scores, 93 alerts, 1,200 SHAP reasons.
+- [x] XGBoost model trained on Dataset v2 with class imbalance handling (`scale_pos_weight = 6.48`, AUC 0.7095).
+- [x] TreeSHAP values computed and directional impact assigned (+/-) with native 100-tree JSON booster.
+- [x] Model drift simulated across demographic slices on v2 data (AUC drop 0.7064 -> 0.6496, degradation 0.0568) and documented in `ml/drift_report.json`.
+- [x] AWS S3 Model Lake synchronized with v2.0.0 verified artifacts.
+- [x] Amazon RDS PostgreSQL 16 connection pooling hardened, eliminating hardcoded IPs.
+- [x] Health probe endpoint (`/api/health`) active for container liveness and readiness probing.
+- [x] Multi-stage production Docker containerization and GitHub Actions CI/CD operational.
+- [x] Automated unit test suite (`npm test`) passing with 100% success rate.
+- [x] Strict Zod input validation schemas safeguarding borrower and rescoring API routes.
 - [x] AWS Cognito User Pool configured (`ap-southeast-2_80G23Am1X`) for underwriter SSO.
 - [x] AWS Step Functions STP credit decision state machine operational (`Aegis-Risk-Credit-Decisioning`).
 - [x] Decoupled scoring seam implemented (`lib/scoring/getScore.ts`) connecting to live AWS Lambda engine.
