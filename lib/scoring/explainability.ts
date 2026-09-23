@@ -27,14 +27,28 @@ const FEATURE_LABELS: Record<string, { label: string; category: LimeCard['catego
   debt_to_income: { label: 'Debt-to-Income (DTI)', category: 'credit' },
   loan_to_income: { label: 'Loan-to-Income Ratio', category: 'credit' },
   tenure_history: { label: 'Credit History Tenure', category: 'credit' },
-  applicant_age: { label: 'Applicant Age Profile', category: 'demographic' },
   dependents_burden: { label: 'Family Dependents', category: 'demographic' },
-  health_status: { label: 'Health & Medical Risk', category: 'demographic' },
   marital_status: { label: 'Household Structure', category: 'demographic' },
   collateral_coverage: { label: 'Collateral Cushion', category: 'financial' },
   asset_liquidity: { label: 'Liquid Asset Reserves', category: 'financial' },
   income_stability: { label: 'Income & Job Stability', category: 'financial' },
   alternative_credit: { label: 'Alternative Utility/Rent History', category: 'alternative' },
+  // Core 31-Feature Model Attributes
+  MonthsEmployed: { label: 'Employment Length (Months)', category: 'financial' },
+  months_employed: { label: 'Employment Length (Months)', category: 'financial' },
+  NumCreditLines: { label: 'Open Credit Lines', category: 'credit' },
+  num_credit_lines: { label: 'Open Credit Lines', category: 'credit' },
+  InterestRate: { label: 'Loan Interest Rate', category: 'credit' },
+  interest_rate: { label: 'Loan Interest Rate', category: 'credit' },
+  Education: { label: 'Education Level', category: 'demographic' },
+  education: { label: 'Education Level', category: 'demographic' },
+  HasMortgage: { label: 'Existing Mortgage Status', category: 'financial' },
+  has_mortgage: { label: 'Existing Mortgage Status', category: 'financial' },
+  HasDependents: { label: 'Family Dependents Status', category: 'demographic' },
+  has_dependents: { label: 'Family Dependents Status', category: 'demographic' },
+  HasCoSigner: { label: 'Credit Co-Signer Guarantee', category: 'credit' },
+  has_cosigner: { label: 'Credit Co-Signer Guarantee', category: 'credit' },
+  CreditScore: { label: 'Credit Score (FICO)', category: 'credit' },
 }
 
 /**
@@ -152,18 +166,36 @@ export function computeLocalShapSurrogate(borrower: Borrower): {
   const tenure = borrower.tenure_months || 36
   shapValues['tenure_history'] = Math.round(-(tenure - 24) * 0.015 * 100) / 100
 
-  // Demographics
-  if (borrower.age) {
-    shapValues['applicant_age'] = borrower.age < 24 ? 0.28 : borrower.age <= 55 ? -0.15 : 0.12
+  // Core 31-Feature Model Attributes (Top SHAP Drivers)
+  const rate = borrower.interest_rate ?? 10.5
+  shapValues['InterestRate'] = Math.round((rate - 10.0) * 0.035 * 100) / 100
+
+  const monthsEmp = borrower.months_employed ?? borrower.months_at_current_job ?? 24
+  shapValues['MonthsEmployed'] = Math.round(-(monthsEmp - 36) * 0.008 * 100) / 100
+
+  const lines = borrower.num_credit_lines ?? 3
+  shapValues['NumCreditLines'] = Math.round((lines - 4) * 0.02 * 100) / 100
+
+  if (borrower.has_cosigner) {
+    shapValues['HasCoSigner'] = -0.25
   }
-  if (borrower.num_dependents != null) {
-    shapValues['dependents_burden'] = Math.round(Math.min(0.35, borrower.num_dependents * 0.08) * 100) / 100
+
+  if (borrower.has_mortgage) {
+    shapValues['HasMortgage'] = 0.10
   }
-  if (borrower.health_status) {
-    shapValues['health_status'] = borrower.health_status === 'healthy' ? -0.05 : 0.35
+
+  if (borrower.has_dependents) {
+    shapValues['HasDependents'] = 0.12
   }
-  if (borrower.marital_status) {
-    shapValues['marital_status'] = borrower.marital_status === 'married' ? -0.10 : 0.05
+
+  if (borrower.education === 'PhD' || borrower.education === "Master's") {
+    shapValues['Education'] = -0.12
+  } else if (borrower.education === 'High School') {
+    shapValues['Education'] = 0.08
+  }
+
+  if (borrower.marital_status === 'married') {
+    shapValues['marital_status'] = -0.08
   }
 
   // Collateral & Assets
@@ -180,8 +212,9 @@ export function computeLocalShapSurrogate(borrower: Borrower): {
     shapValues['asset_liquidity'] = -0.25
   }
 
-  // Income stability
-  if (borrower.income_verified) {
+  // Income stability based on employment tenure
+  const jobTenure = borrower.months_employed || borrower.months_at_current_job || 12
+  if (jobTenure >= 24) {
     shapValues['income_stability'] = -0.20
   }
 
