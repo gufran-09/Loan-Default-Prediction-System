@@ -254,10 +254,40 @@ Dispatches an automated borrower decision notification via the **Meta WhatsApp B
 
 ---
 
+### 1.8 `GET /api/health`
+Production liveness and readiness health probe endpoint.
+
+**Query Parameters:**
+- `ready` (boolean, optional, default: `false`): If `true`, returns `503 Service Unavailable` if database or model artifacts are unhealthy.
+
+**Response (`200 OK` / `503 Service Unavailable`):**
+```json
+{
+  "status": "UP",
+  "timestamp": "2026-09-23T09:20:00.000Z",
+  "uptime_seconds": 1245,
+  "environment": "production",
+  "aws_region": "ap-southeast-2",
+  "checks": {
+    "database": {
+      "status": "healthy",
+      "latencyMs": 42
+    },
+    "model_artifact": {
+      "status": "ready"
+    }
+  },
+  "latency_ms": 45
+}
+```
+
+---
+
 ## 2. Architecture & Scoring Seam Note
 
 The scoring seam is encapsulated in [`lib/scoring/getScore.ts`](file:///d:/Java-%20Backend/Project/Mass%20Mutual/ai-powered-loan-default-prediction-system/lib/scoring/getScore.ts). 
-- **Operational Data Store:** Primary database operations connect directly to **Amazon RDS PostgreSQL 16** (`aegis-risk-db.c1wu2mekybkk.ap-southeast-2.rds.amazonaws.com`) via `lib/db/postgres.ts`, with graceful fallback to Supabase PostgreSQL.
-- **Inference Engine:** Live inference runs serverless via **AWS Lambda + API Gateway** in `ap-southeast-2` (`https://a3q6b9scn0.execute-api.ap-southeast-2.amazonaws.com/`).
+- **Operational Data Store:** Primary database operations connect directly to **Amazon RDS PostgreSQL 16** (`aegis-risk-db.c1wu2mekybkk.ap-southeast-2.rds.amazonaws.com`) via connection-pooled `lib/db/postgres.ts`, with graceful fallback to Supabase PostgreSQL.
+- **Inference Engine:** Live inference runs via native 100-tree booster evaluation (`lib/scoring/xgboostPredict.ts`) and serverless via **AWS Lambda + API Gateway** in `ap-southeast-2` (`https://a3q6b9scn0.execute-api.ap-southeast-2.amazonaws.com/`).
+- **Input Validation:** All endpoints and What-If simulation bodies are strictly validated at runtime with **Zod** (`lib/validation/schemas.ts`).
 - **Telemetry & Alerts:** Underwriter score requests stream audit events directly to **Amazon CloudWatch Logs** (`/aegis-risk/audit-trail`), and scores triggering `CRITICAL` risk automatically alert risk officers via **Amazon SNS** (`aegis-risk-critical-alerts`).
 
