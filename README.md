@@ -6,8 +6,9 @@ Aegis Risk is an institutional-grade credit risk decisioning and portfolio gover
 
 ## Key Highlights
 
-- **Predictive ML Core:** Calibrated XGBoost gradient boosting classifier with weighted loss functions (`scale_pos_weight = 7.6`) achieving **0.7576 AUC-ROC** across 31 continuous and categorical credit features.
+- **Predictive ML Core (v2.0.0):** Calibrated XGBoost gradient boosting classifier trained on seasoned loans from `Loan_default_v2.csv` (`scale_pos_weight = 6.48`) achieving **0.7095 AUC-ROC** across 31 continuous and categorical credit features with native handling of realistic missing data.
 - **Explainable AI (XAI):** Real-time TreeSHAP local attribution feature vectors explaining *why* an applicant was flagged or declined.
+- **Production Containerization & Health Probing:** Multi-stage production `Dockerfile` (Node.js 20 Alpine standalone) and `/api/health` liveness/readiness endpoint probing database, model artifacts, and AWS region.
 - **Serverless AWS Inference Seam:** Live serverless inference via **AWS Lambda + API Gateway** in `ap-southeast-2` (`https://a3q6b9scn0.execute-api.ap-southeast-2.amazonaws.com/`) with zero-downtime database cache fallback.
 - **Amazon RDS PostgreSQL 16 Enterprise Database:** Production-grade relational database running on Amazon RDS (`aegis-risk-db.c1wu2mekybkk.ap-southeast-2.rds.amazonaws.com:5432`) hosting 400 institutional borrowers, 400 calibrated risk scores, 93 risk alerts, and 1,200 SHAP reasons with automated SSL connection pooling and Supabase dual fallback.
 - **AWS Cognito Underwriter Authentication:** Institutional single sign-on (SSO) and role-based access control via **AWS Cognito User Pools** (`ap-southeast-2_80G23Am1X`).
