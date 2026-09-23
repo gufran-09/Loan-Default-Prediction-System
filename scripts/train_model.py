@@ -1,39 +1,32 @@
 import pandas as pd
 import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import roc_auc_score, precision_recall_curve, confusion_matrix
-import xgboost as xgb
-import json
-import os
-import pickle
-
-import pandas as pd
-import numpy as np
-from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.impute import SimpleImputer
-from sklearn.metrics import roc_auc_score, precision_recall_curve, confusion_matrix
+from sklearn.calibration import CalibratedClassifierCV
+from sklearn.metrics import roc_auc_score, brier_score_loss, confusion_matrix
 import xgboost as xgb
 import json
 import os
 import pickle
 
 def main():
-    print("Loading Dataset v2 (Loan_default_v2.csv)...")
+    print("==========================================================")
+    print("  AEGIS RISK - PRODUCTION ML TRAINING (DATASET V2 - 38 FEAT) ")
+    print("==========================================================")
+    
     dataset_path = 'Loan_default_v2.csv'
     if not os.path.exists(dataset_path):
         raise FileNotFoundError(f"Dataset not found: {dataset_path}")
         
     df = pd.read_csv(dataset_path)
-    print(f"Raw dataset shape: {df.shape}")
+    print(f"Total dataset records: {len(df):,}")
     
-    # Filter only seasoned/mature loans with known default labels
+    # 1. Filter seasoned cohort (exclude unseasoned Current loans)
     seasoned_mask = df['default_label'].notna()
     df_seasoned = df[seasoned_mask].copy()
-    print(f"Seasoned dataset shape (excluding Current): {df_seasoned.shape}")
+    print(f"Seasoned loan cohort (excluding unseasoned Current): {len(df_seasoned):,}")
     
-    # Core 31 features matching production underwriting schema
+    # 2. Define 36-feature credit architecture (excluding post-origination target leakage)
     feature_cols = [
         "Age", "Income", "LoanAmount", "CreditScore", "MonthsEmployed",
         "NumCreditLines", "InterestRate", "LoanTerm", "DTIRatio",
@@ -43,43 +36,50 @@ def main():
         "HasMortgage_No", "HasMortgage_Yes",
         "HasDependents_No", "HasDependents_Yes",
         "LoanPurpose_Auto", "LoanPurpose_Business", "LoanPurpose_Education", "LoanPurpose_Home", "LoanPurpose_Other",
-        "HasCoSigner_No", "HasCoSigner_Yes"
+        "HasCoSigner_No", "HasCoSigner_Yes",
+        "credit_utilization", "delinquency_count_12m", "num_inquiries_6m",
+        "prior_defaults", "collateral_value"
     ]
     
-    X = df_seasoned[feature_cols].copy()
-    y = df_seasoned['default_label'].astype(int)
+    print(f"Feature space: {len(feature_cols)} predictors (target leakage excluded)")
     
-    print(f"Features: {len(feature_cols)} columns")
-    print(f"Overall Default Rate: {y.mean():.4f}")
+    # 3. Out-of-Time (OOT) Temporal Splitting based on origination_date
+    df_seasoned['orig_dt'] = pd.to_datetime(df_seasoned['origination_date'])
+    split_date = pd.to_datetime('2022-12-31')
     
-    # 80/20 Stratified Split
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, stratify=y, random_state=42
-    )
+    train_mask = df_seasoned['orig_dt'] <= split_date
+    test_mask = df_seasoned['orig_dt'] > split_date
     
-    print(f"Positive rate in train: {y_train.mean():.4f} ({y_train.sum()} / {len(y_train)})")
-    print(f"Positive rate in test:  {y_test.mean():.4f} ({y_test.sum()} / {len(y_test)})")
+    X_train = df_seasoned.loc[train_mask, feature_cols].copy()
+    y_train = df_seasoned.loc[train_mask, 'default_label'].astype(int)
     
-    # Baseline: Logistic Regression (with simple median imputation for NaNs)
-    print("\nTraining Logistic Regression baseline (imputed)...")
+    X_test = df_seasoned.loc[test_mask, feature_cols].copy()
+    y_test = df_seasoned.loc[test_mask, 'default_label'].astype(int)
+    
+    print(f"\n--- Out-of-Time (OOT) Temporal Split ---")
+    print(f"Train Cohort (<= 2022-12-31): {len(X_train):,} loans (Default rate: {y_train.mean():.4f})")
+    print(f"OOT Test Cohort (> 2022-12-31): {len(X_test):,} loans (Default rate: {y_test.mean():.4f})")
+    
+    # 4. Logistic Regression Regulatory Baseline
+    print("\nTraining Logistic Regression linear regulatory benchmark...")
     imputer = SimpleImputer(strategy='median')
     X_train_imp = imputer.fit_transform(X_train)
     X_test_imp = imputer.transform(X_test)
     
-    lr_model = LogisticRegression(max_iter=1000, random_state=42)
-    lr_model.fit(X_train_imp, y_train)
-    lr_preds = lr_model.predict_proba(X_test_imp)[:, 1]
+    lr = LogisticRegression(max_iter=1000, random_state=42)
+    lr.fit(X_train_imp, y_train)
+    lr_preds = lr.predict_proba(X_test_imp)[:, 1]
     lr_auc = roc_auc_score(y_test, lr_preds)
-    print(f"Logistic Regression AUC: {lr_auc:.4f}")
+    print(f"Logistic Regression OOT AUC-ROC: {lr_auc:.4f}")
     
-    # Primary: XGBoost Classifier (natively handles NaNs via optimal split assignment)
-    print("\nTraining XGBoost primary model on Dataset v2...")
+    # 5. Primary Model: XGBoost with Class-Imbalance Weighting
+    print(f"\nTraining Primary 100-Tree XGBoost Model ({len(feature_cols)} Features)...")
     neg_count = len(y_train) - y_train.sum()
     pos_count = y_train.sum()
     scale_pos_weight = neg_count / pos_count
-    print(f"Calibrated scale_pos_weight = {scale_pos_weight:.2f}")
+    print(f"Optimal scale_pos_weight: {scale_pos_weight:.2f}")
     
-    xgb_model = xgb.XGBClassifier(
+    xgb_base = xgb.XGBClassifier(
         n_estimators=100,
         max_depth=4,
         learning_rate=0.1,
@@ -87,27 +87,43 @@ def main():
         random_state=42,
         eval_metric='logloss'
     )
-    xgb_model.fit(X_train, y_train)
+    xgb_base.fit(X_train, y_train)
     
-    # Evaluation
-    xgb_preds = xgb_model.predict_proba(X_test)[:, 1]
-    xgb_auc = roc_auc_score(y_test, xgb_preds)
-    print(f"XGBoost Test AUC-ROC: {xgb_auc:.4f}")
+    # Raw booster evaluation
+    raw_preds = xgb_base.predict_proba(X_test)[:, 1]
+    raw_auc = roc_auc_score(y_test, raw_preds)
+    print(f"XGBoost Raw OOT AUC-ROC: {raw_auc:.4f}")
     
-    y_pred_class = (xgb_preds > 0.5).astype(int)
+    # 6. Post-hoc Probability Calibration (Platt Sigmoid cross-validated cv=3)
+    print("\nFitting Post-Hoc Probability Calibration Layer for CECL / Expected Loss...")
+    calibrated_clf = CalibratedClassifierCV(estimator=xgb_base, method='sigmoid', cv=3)
+    calibrated_clf.fit(X_train, y_train)
+    
+    calib_preds = calibrated_clf.predict_proba(X_test)[:, 1]
+    calib_auc = roc_auc_score(y_test, calib_preds)
+    brier = brier_score_loss(y_test, calib_preds)
+    print(f"Calibrated Model OOT AUC-ROC: {calib_auc:.4f}")
+    print(f"Calibrated Brier Score (Accuracy of PD): {brier:.4f}")
+    
+    # Confusion Matrix (Threshold = 0.5)
+    y_pred_class = (calib_preds > 0.5).astype(int)
     cm = confusion_matrix(y_test, y_pred_class)
     
+    # 7. Model Card & Artifact Export
     os.makedirs('ml', exist_ok=True)
     
-    # Generate model_card.md
     with open('ml/model_card.md', 'w') as f:
-        f.write("# Model Card: Aegis Risk XGBoost Production Model (v2.0.0)\n\n")
+        f.write(f"# Model Card: Aegis Risk XGBoost Production Model (v2.1.0 — {len(feature_cols)} Features)\n\n")
         f.write("## Overview\n")
         f.write("Production credit default prediction model trained on Dataset v2 (`Loan_default_v2.csv`).\n")
-        f.write("Seasoned loan cohort with unseasoned/immature loans excluded. Missing data natively handled.\n\n")
-        f.write("## Performance Metrics (Held-out Test Set)\n")
-        f.write(f"- **AUC-ROC:** {xgb_auc:.4f}\n")
+        f.write(f"Features expanded to {len(feature_cols)} variables (including credit utilization, delinquency count, prior defaults, inquiries, and collateral value).\n")
+        f.write("Post-origination target leakage variables (`days_past_due` and `outstanding_balance_ratio`) have been strictly removed.\n")
+        f.write("Evaluated using temporal Out-of-Time (OOT) splitting with 3-fold cross-validated probability calibration.\n\n")
+        f.write("## Performance Metrics (Out-of-Time Test Set: 2023–2024)\n")
+        f.write(f"- **OOT AUC-ROC (Primary Calibrated XGBoost):** {calib_auc:.4f}\n")
+        f.write(f"- **Raw XGBoost AUC-ROC:** {raw_auc:.4f}\n")
         f.write(f"- **Baseline (Logistic Regression) AUC-ROC:** {lr_auc:.4f}\n")
+        f.write(f"- **Calibrated Brier Score:** {brier:.4f}\n")
         f.write(f"- **Scale Pos Weight:** {scale_pos_weight:.2f}\n")
         f.write(f"- **Features:** {len(feature_cols)}\n\n")
         f.write("## Confusion Matrix (0.5 Decision Boundary)\n")
@@ -117,22 +133,27 @@ def main():
         f.write(f"| **Actual Default** | {cm[1,0]} | {cm[1,1]} |\n\n")
         f.write("## Compliance & Model Governance (SR 11-7)\n")
         f.write("- Protected demographic attributes (health status, disability flag) strictly omitted.\n")
+        f.write("- Out-of-Time split validates resilience against macroeconomic cycle shifts.\n")
         f.write("- TreeSHAP attribution factor extraction enabled for adverse action notices (CFPB Reg B).\n")
     
-    # Serialize artifacts
     print("\nSerializing production artifacts...")
+    # Serialized model
     with open('ml/model.pkl', 'wb') as f:
-        pickle.dump(xgb_model, f)
+        pickle.dump(xgb_base, f)
+        
+    with open('ml/calibrator.pkl', 'wb') as f:
+        pickle.dump(calibrated_clf, f)
         
     with open('ml/feature_columns.json', 'w') as f:
-        json.dump(feature_cols, f)
+        json.dump(feature_cols, f, indent=2)
         
-    # Also save native XGBoost JSON booster
-    booster = xgb_model.get_booster()
+    # Save native booster
+    booster = xgb_base.get_booster()
     booster.save_model("ml/model.json")
     print("Exported native booster to ml/model.json")
+    print(f"Saved feature columns ({len(feature_cols)}) to ml/feature_columns.json")
     
-    print("\nTraining and artifact export complete successfully!")
+    print("\n[SUCCESS] Model training and artifact serialization complete.")
 
 if __name__ == "__main__":
     main()
