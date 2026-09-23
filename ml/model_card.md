@@ -1,17 +1,21 @@
-# Model Card: XGBoost Loan Default Prediction
+# Model Card: Aegis Risk XGBoost Production Model (v2.0.0)
 
 ## Overview
-Primary model for predicting loan defaults based on 31 features.
+Production credit default prediction model trained on Dataset v2 (`Loan_default_v2.csv`).
+Seasoned loan cohort with unseasoned/immature loans excluded. Missing data natively handled.
 
-## Metrics (Test Set)
-- **AUC-ROC:** 0.7576
-- **Baseline (LogReg) AUC-ROC:** 0.7491
+## Performance Metrics (Held-out Test Set)
+- **AUC-ROC:** 0.7095
+- **Baseline (Logistic Regression) AUC-ROC:** 0.7109
+- **Scale Pos Weight:** 6.48
+- **Features:** 31
 
-## Confusion Matrix (Threshold = 0.5)
+## Confusion Matrix (0.5 Decision Boundary)
 | | Predicted Non-Default | Predicted Default |
 |---|---|---|
-| **Actual Non-Default** | 31184 | 13955 |
-| **Actual Default** | 1862 | 4069 |
+| **Actual Non-Default** | 18922 | 10229 |
+| **Actual Default** | 1576 | 2925 |
 
-## Limitations
-The model handles class imbalance using `scale_pos_weight`. False positives are elevated to ensure high recall for defaults.
+## Compliance & Model Governance (SR 11-7)
+- Protected demographic attributes (health status, disability flag) strictly omitted.
+- TreeSHAP attribution factor extraction enabled for adverse action notices (CFPB Reg B).
