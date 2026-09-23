@@ -1,6 +1,5 @@
 export type RiskBucket = 'low' | 'medium' | 'high' | 'critical'
 
-export type HealthStatus = 'healthy' | 'chronic_condition' | 'disability'
 export type MaritalStatus = 'single' | 'married' | 'divorced' | 'widowed'
 export type IncomeSource = 'wages' | 'self_employment' | 'investments' | 'rental' | 'pension' | 'mixed'
 export type CollateralType = 'none' | 'real_estate' | 'vehicle' | 'securities' | 'other'
@@ -20,8 +19,6 @@ export type Borrower = {
   // Phase 1: Demographic & Personal Data
   age?: number
   date_of_birth?: string
-  health_status?: HealthStatus
-  disability_flag?: boolean
   num_dependents?: number
   marital_status?: MaritalStatus
   // Phase 2: Financial & Credit Profile
@@ -35,11 +32,19 @@ export type Borrower = {
   collateral_type?: CollateralType
   collateral_value?: number
   income_source?: IncomeSource
-  income_verified?: boolean
   months_at_current_job?: number
   income_consistency_score?: number
   // Phase 3: Alternative Credit
   alternative_credit_score?: number
+  // Core Model Features (31-Feature XGBoost Architecture)
+  credit_score?: number
+  months_employed?: number
+  num_credit_lines?: number
+  interest_rate?: number
+  education?: string
+  has_mortgage?: boolean
+  has_dependents?: boolean
+  has_cosigner?: boolean
 }
 
 export type RiskScore = {
