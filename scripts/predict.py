@@ -137,6 +137,29 @@ def build_feature_vector(raw_features, feature_columns):
         vec[f_map["HasCoSigner_Yes"]] = 1.0 if has_cosigner else 0.0
         vec[f_map["HasCoSigner_No"]] = 0.0 if has_cosigner else 1.0
 
+    # 32. credit_utilization
+    if "credit_utilization" in f_map:
+        vec[f_map["credit_utilization"]] = float(raw_features.get("credit_utilization", 0.38))
+
+    # 33. delinquency_count_12m
+    if "delinquency_count_12m" in f_map:
+        vec[f_map["delinquency_count_12m"]] = float(raw_features.get("delinquency_count_12m", raw_features.get("delinquencies_last_12m", 0.0)))
+
+    # 34. num_inquiries_6m
+    if "num_inquiries_6m" in f_map:
+        vec[f_map["num_inquiries_6m"]] = float(raw_features.get("num_inquiries_6m", raw_features.get("inquiries_last_6m", 1.0)))
+
+    # 35. prior_defaults
+    if "prior_defaults" in f_map:
+        vec[f_map["prior_defaults"]] = float(raw_features.get("prior_defaults", 0.0))
+
+    # 36. collateral_value
+    if "collateral_value" in f_map:
+        cv = raw_features.get("collateral_value")
+        if cv is None and ("home" in purpose.lower() or "auto" in purpose.lower()):
+            cv = loan_amt * 1.1
+        vec[f_map["collateral_value"]] = float(cv or 0.0)
+
     return vec
 
 def predict_borrower(raw_features):
@@ -185,6 +208,16 @@ def predict_borrower(raw_features):
             desc = f"Credit score of {int(vec[feature_columns.index('CreditScore')])} {'demonstrates strong creditworthiness' if impact < 0 else 'indicates higher delinquency risk'}"
         elif feat == "InterestRate":
             desc = f"Loan interest rate of {vec[feature_columns.index('InterestRate')]:.1f}% {'adds borrowing cost burden' if impact > 0 else 'keeps payments manageable'}"
+        elif feat == "credit_utilization":
+            desc = f"Revolving credit line utilization ({vec[feature_columns.index('credit_utilization')]*100:.1f}%) {'signals heavy reliance on credit' if impact > 0 else 'demonstrates disciplined utilization'}"
+        elif feat == "delinquency_count_12m":
+            desc = f"{int(vec[feature_columns.index('delinquency_count_12m')])} delinquency incident(s) in last 12 months {'substantially elevates risk' if impact > 0 else 'indicates clean payment track'}"
+        elif feat == "num_inquiries_6m":
+            desc = f"{int(vec[feature_columns.index('num_inquiries_6m')])} credit inquiries in last 6 months {'suggests credit distress' if impact > 0 else 'reflects controlled borrowing inquiries'}"
+        elif feat == "prior_defaults":
+            desc = f"{int(vec[feature_columns.index('prior_defaults')])} historical defaults on record {'markedly increases default risk' if impact > 0 else 'maintains unblemished credit record'}"
+        elif feat == "collateral_value":
+            desc = f"Collateral value of ${int(vec[feature_columns.index('collateral_value')]):,} {'mitigates loss given default' if impact < 0 else 'provides zero secured coverage'}"
 
         reasons.append({
             "rank": rank,
