@@ -11,9 +11,10 @@ export function getDbPool(): Pool {
 
     try {
       const url = new URL(connectionString)
-      const isAegisRds = url.hostname.includes('aegis-risk-db')
+      const host = process.env.RDS_HOST_OVERRIDE || url.hostname
+      
       pool = new Pool({
-        host: isAegisRds ? '3.106.72.65' : url.hostname,
+        host,
         port: parseInt(url.port || '5432'),
         user: url.username,
         password: decodeURIComponent(url.password),
@@ -22,9 +23,9 @@ export function getDbPool(): Pool {
           rejectUnauthorized: false,
           servername: url.hostname,
         },
-        max: 20,
-        idleTimeoutMillis: 30000,
-        connectionTimeoutMillis: 30000,
+        max: 10,
+        idleTimeoutMillis: 10000,
+        connectionTimeoutMillis: 10000,
       })
     } catch {
       pool = new Pool({
@@ -32,13 +33,32 @@ export function getDbPool(): Pool {
         ssl: {
           rejectUnauthorized: false,
         },
-        max: 20,
-        idleTimeoutMillis: 30000,
-        connectionTimeoutMillis: 30000,
+        max: 10,
+        idleTimeoutMillis: 10000,
+        connectionTimeoutMillis: 10000,
       })
     }
+
+    // Prevent process crashes from unhandled errors on idle clients
+    pool.on('error', (err) => {
+      console.error('[PostgreSQL Pool Error] Unexpected error on idle client:', err)
+    })
   }
   return pool
+}
+
+/**
+ * Health probe for PostgreSQL connection
+ */
+export async function checkDbHealth(): Promise<{ status: 'healthy' | 'unhealthy'; latencyMs: number; error?: string }> {
+  const start = Date.now()
+  try {
+    const p = getDbPool()
+    await p.query('SELECT 1')
+    return { status: 'healthy', latencyMs: Date.now() - start }
+  } catch (err: any) {
+    return { status: 'unhealthy', latencyMs: Date.now() - start, error: err.message }
+  }
 }
 
 /**
