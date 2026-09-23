@@ -164,6 +164,39 @@ export function buildXGBoostVector(raw: any, featureColumns: string[]): number[]
     vec[fMap['HasCoSigner_No']] = hasCosigner ? 0 : 1
   }
 
+  // 32. credit_utilization
+  const credUtil = Number(raw.credit_utilization ?? raw.creditUtilization ?? 0.38)
+  if (fMap['credit_utilization'] !== undefined) {
+    vec[fMap['credit_utilization']] = isNaN(credUtil) || credUtil < 0 ? 0.38 : Math.min(1.0, credUtil)
+  }
+
+  // 33. delinquency_count_12m
+  const delinq = Number(raw.delinquency_count_12m ?? raw.delinquencies_last_12m ?? 0)
+  if (fMap['delinquency_count_12m'] !== undefined) {
+    vec[fMap['delinquency_count_12m']] = isNaN(delinq) || delinq < 0 ? 0 : Math.min(20, delinq)
+  }
+
+  // 34. num_inquiries_6m
+  const inq = Number(raw.num_inquiries_6m ?? raw.inquiries_last_6m ?? 1)
+  if (fMap['num_inquiries_6m'] !== undefined) {
+    vec[fMap['num_inquiries_6m']] = isNaN(inq) || inq < 0 ? 1 : Math.min(20, inq)
+  }
+
+  // 35. prior_defaults
+  const priors = Number(raw.prior_defaults ?? raw.priorDefaults ?? 0)
+  if (fMap['prior_defaults'] !== undefined) {
+    vec[fMap['prior_defaults']] = isNaN(priors) || priors < 0 ? 0 : Math.min(10, priors)
+  }
+
+  // 36. collateral_value
+  let collat = Number(raw.collateral_value ?? raw.collateralValue ?? 0)
+  if (collat === 0 && (purpose.includes('home') || purpose.includes('auto'))) {
+    collat = loanAmt * 1.1
+  }
+  if (fMap['collateral_value'] !== undefined) {
+    vec[fMap['collateral_value']] = isNaN(collat) || collat < 0 ? 0 : collat
+  }
+
   return vec
 }
 
@@ -271,6 +304,21 @@ export function predictXGBoost(rawBorrower: any): XGBoostInferenceResult {
     } else if (feat === 'MonthsEmployed') {
       const me = Math.round(x[fMap['MonthsEmployed']])
       reason = impact < 0 ? `${me} months of continuous employment reflects stable earnings` : `Employment history (${me} months) introduces income variability`
+    } else if (feat === 'credit_utilization') {
+      const utilPct = ((x[fMap['credit_utilization']] ?? 0) * 100).toFixed(1)
+      reason = impact > 0 ? `High revolving credit line utilization (${utilPct}%) indicates financial stretch` : `Conservative credit utilization (${utilPct}%) signals disciplined line management`
+    } else if (feat === 'delinquency_count_12m') {
+      const dCnt = Math.round(x[fMap['delinquency_count_12m']] ?? 0)
+      reason = impact > 0 ? `${dCnt} recent delinquency incident(s) in past 12 months elevates default probability` : `Clean payment history with 0 recent delinquencies in past 12 months`
+    } else if (feat === 'num_inquiries_6m') {
+      const inqCnt = Math.round(x[fMap['num_inquiries_6m']] ?? 0)
+      reason = impact > 0 ? `${inqCnt} hard credit inquiries in past 6 months suggests credit-seeking distress` : `Minimal credit inquiries (${inqCnt}) over prior 6 months indicates balance`
+    } else if (feat === 'prior_defaults') {
+      const pdCnt = Math.round(x[fMap['prior_defaults']] ?? 0)
+      reason = impact > 0 ? `Record of ${pdCnt} prior credit default(s) significantly elevates risk profile` : `Zero historical default records strengthens borrowing integrity`
+    } else if (feat === 'collateral_value') {
+      const cv = Math.round(x[fMap['collateral_value']] ?? 0)
+      reason = impact < 0 ? `Pledged collateral value ($${cv.toLocaleString()}) cushions loss given default (LGD)` : `Unsecured debt without collateral increases unhedged loss exposure`
     }
 
     return {
