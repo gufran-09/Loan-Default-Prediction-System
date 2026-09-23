@@ -49,11 +49,11 @@ python scripts/aws_s3_sync.py
 ```
 Or directly via AWS CLI:
 ```bash
-aws s3 sync artifacts/ s3://aegis-risk-storage-022671037337/models/v1/ --region ap-southeast-2
+aws s3 sync ml/ s3://aegis-risk-storage-022671037337/models/v2.0.0/ --region ap-southeast-2
 ```
 *Verification:*
 ```bash
-aws s3 ls s3://aegis-risk-storage-022671037337/models/v1/ --recursive
+aws s3 ls s3://aegis-risk-storage-022671037337/models/v2.0.0/ --recursive
 ```
 
 ---
@@ -66,11 +66,11 @@ aws s3 ls s3://aegis-risk-storage-022671037337/models/v1/ --recursive
 ### Verified Model Artifacts Stored:
 | Object Key | Type | Description |
 | :--- | :--- | :--- |
-| `models/v1/xgboost_loan_default.json` | Model Binary | Calibrated XGBoost gradient-boosted classifier (`scale_pos_weight = 7.61`) |
-| `models/v1/preprocessor.joblib` | Scikit-learn Pipeline | Numerical scaler and categorical one-hot encoder definitions |
-| `models/v1/feature_names.json` | Feature Manifest | Canonical order and types of the 31 input features |
-| `models/v1/demographic_baseline.json` | Telemetry Baseline | Reference distributions across demographic slices for drift tracking |
-| `models/v1/training_metadata.json` | MLOps Audit Trail | Hyperparameters, AUC (0.7576), train/test split hashes, and training timestamp |
+| `models/v2.0.0/model.json` | Model Binary | Calibrated XGBoost 100-tree booster (`scale_pos_weight = 6.48`) |
+| `models/v2.0.0/model.pkl` | Serialized Model | Pickle binary serialized from trained XGBClassifier on Dataset v2 |
+| `models/v2.0.0/feature_columns.json` | Feature Manifest | Canonical order and names of the 31 input features |
+| `documentation/v2.0.0/model_card.md` | Model Card | Performance metrics (AUC 0.7095, confusion matrix, SR 11-7 notes) |
+| `audits/drift_report_latest.json` | Drift Telemetry | Empirical Age demographic drift metrics and degradation |
 
 ---
 
