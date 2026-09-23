@@ -74,7 +74,7 @@
 | **ML-NEW-02** | **Regenerate Seed Datasets & Validate Distributions** | **P0** | Re-run script to export fresh `seed_borrowers.csv` and `seed_scores_reasons.csv`. Verify risk bucket distribution (`low` < 0.3, `medium` < 0.6, `high` < 0.85, `critical` ≥ 0.85) and confirm non-zero SHAP values for all rows. | `seed_borrowers.csv`, `seed_scores_reasons.csv` |
 | **ML-NEW-03** | **Automated Supabase Data Ingestion Script** | **P0** | Build Python/Node ingestion script (`scripts/seed_database.py` or `.ts`) using Supabase Service Key to batch-upsert all 400 borrowers, their risk scores, reasons, and auto-insert `alerts` for all `high` and `critical` borrowers. | `scripts/seed_database.py` |
 | **ML-NEW-04** | **Model Drift Simulation Report & Visual Artifacts** | **P1** | Enhance `scripts/simulate_drift.py` to save demographic/macro drift comparison metrics (AUC drop from 0.88 to 0.74) to `ml/drift_report.json` or markdown table for the live presentation slides. | `scripts/simulate_drift.py`, `ml/drift_report.md` |
-| **ML-NEW-05** | **ML Model Card & Stakeholder Talking Points** | **P1** | Finalize `ml/model_card.md` with: Class imbalance strategy (`scale_pos_weight = 7.6`), XGBoost vs. Logistic Regression comparison, SHAP interpretability breakdown, and "What is Real vs. Simulated" talking points. | `ml/model_card.md` |
+| **ML-NEW-05** | **ML Model Card & Stakeholder Talking Points** | **P1** | Finalize `ml/model_card.md` with: Class imbalance strategy (`scale_pos_weight = 6.48`), XGBoost vs. Logistic Regression comparison, SHAP interpretability breakdown, and "What is Real vs. Simulated" talking points. | `ml/model_card.md` |
 
 ---
 
