@@ -47,12 +47,19 @@ export default function Borrowers() {
   const [creditScore, setCreditScore] = useState(710)
   const [tenure, setTenure] = useState(36)
   const [employment, setEmployment] = useState('Full-time')
-  const [age, setAge] = useState(34)
   const [maritalStatus, setMaritalStatus] = useState<'single' | 'married' | 'divorced' | 'widowed'>('married')
   const [collateralType, setCollateralType] = useState<'none' | 'real_estate' | 'vehicle' | 'securities'>('none')
   const [collateralValue, setCollateralValue] = useState(0)
   const [existingDebt, setExistingDebt] = useState(3500)
-  const [altCreditScore, setAltCreditScore] = useState(720)
+
+  // Core 31-Feature Model Inputs (Aligned with XGBoost & SHAP drivers)
+  const [monthsEmployed, setMonthsEmployed] = useState(36)
+  const [numCreditLines, setNumCreditLines] = useState(4)
+  const [interestRate, setInterestRate] = useState(10.5)
+  const [education, setEducation] = useState<"Bachelor's" | "High School" | "Master's" | "PhD">("Bachelor's")
+  const [hasMortgage, setHasMortgage] = useState(false)
+  const [hasDependents, setHasDependents] = useState(false)
+  const [hasCoSigner, setHasCoSigner] = useState(false)
 
   const [calculatedScore, setCalculatedScore] = useState<any>(null)
   const [savingApplicant, setSavingApplicant] = useState(false)
@@ -93,26 +100,47 @@ export default function Borrowers() {
   // Live Underwriting Score Calculation & Telemetry
   const runAssessment = async (e: React.FormEvent) => {
     e.preventDefault()
-    const monthlyPayment = (loanAmount / tenure) * 1.08 // estimated with interest
+    const monthlyPayment = (loanAmount / tenure) * (1 + (interestRate / 100))
     const dti = (monthlyPayment + existingDebt / 12) / Math.max(monthlyIncome, 500)
 
-    // Calibrated credit baseline with multi-factor weighting
+    // Calibrated credit baseline with multi-factor weighting using top SHAP drivers
     let rawScore = 0.28
     if (dti > 0.45) rawScore += 0.28
     else if (dti > 0.35) rawScore += 0.14
     else if (dti < 0.20) rawScore -= 0.10
 
-    if (creditScore < 600) rawScore += 0.32
-    else if (creditScore < 680) rawScore += 0.16
+    if (creditScore < 600) rawScore += 0.30
+    else if (creditScore < 680) rawScore += 0.15
     else if (creditScore > 740) rawScore -= 0.12
 
-    if (employment === 'Unemployed') rawScore += 0.38
+    if (employment === 'Unemployed') rawScore += 0.35
     else if (employment === 'Self-Employed') rawScore += 0.06
 
-    // Multi-factor adjustments
+    // Top-3 SHAP Driver 1: Interest Rate (higher rate = higher default hazard)
+    if (interestRate > 15) rawScore += 0.14
+    else if (interestRate > 12) rawScore += 0.07
+    else if (interestRate < 8) rawScore -= 0.08
+
+    // Top-3 SHAP Driver 2: Months Employed (longer tenure = strong stabilizing factor)
+    if (monthsEmployed < 12) rawScore += 0.14
+    else if (monthsEmployed >= 48) rawScore -= 0.12
+    else if (monthsEmployed >= 24) rawScore -= 0.06
+
+    // Active Credit Lines
+    if (numCreditLines > 8) rawScore += 0.06
+    else if (numCreditLines < 2) rawScore += 0.04
+
+    // Mitigating & Risk Flags
+    if (hasCoSigner) rawScore -= 0.15
+    if (hasMortgage) rawScore += 0.05
+    if (hasDependents) rawScore += 0.05
+
+    // Education Level Credential
+    if (education === 'PhD' || education === "Master's") rawScore -= 0.06
+    else if (education === 'High School') rawScore += 0.05
+
+    // Collateral Cushion
     if (collateralValue > loanAmount * 0.8) rawScore -= 0.14
-    if (altCreditScore > 720) rawScore -= 0.08
-    if (age < 24) rawScore += 0.06
 
     const score = Math.max(0.04, Math.min(0.96, Number(rawScore.toFixed(2))))
     const tier = score < 0.3 ? 'low' : score < 0.6 ? 'medium' : score < 0.85 ? 'high' : 'critical'
@@ -168,13 +196,20 @@ export default function Borrowers() {
         tenure_months: tenure,
         monthly_income: monthlyIncome,
         employment_status: employment,
-        age,
         marital_status: maritalStatus,
         collateral_type: collateralType,
         collateral_value: collateralValue,
         existing_credit_card_debt: existingDebt,
-        alternative_credit_score: altCreditScore,
-        income_verified: true,
+        // Core 31-Feature Model Inputs
+        months_employed: monthsEmployed,
+        num_credit_lines: numCreditLines,
+        interest_rate: interestRate,
+        education: education,
+        has_mortgage: hasMortgage,
+        has_dependents: hasDependents,
+        has_cosigner: hasCoSigner,
+        initial_score: calculatedScore.score,
+        initial_tier: calculatedScore.tier,
       }
 
       const res = await fetch('/api/borrowers', {
@@ -333,151 +368,255 @@ export default function Borrowers() {
               </div>
 
               <form onSubmit={runAssessment} className="mt-5 space-y-4">
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div>
-                    <label className="text-xs font-medium text-foreground">Applicant Full Name</label>
-                    <input
-                      required
-                      value={applicantName}
-                      onChange={(e) => { setApplicantName(e.target.value); recordRevision() }}
-                      className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-xs font-medium text-foreground">Loan Purpose</label>
-                    <select
-                      value={loanType}
-                      onChange={(e) => { setLoanType(e.target.value); recordRevision() }}
-                      className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
-                    >
-                      <option value="Personal">Personal Loan</option>
-                      <option value="Auto">Auto Loan</option>
-                      <option value="Home">Home Mortgage</option>
-                      <option value="Education">Education Loan</option>
-                      <option value="Business">Small Business Loan</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="text-xs font-medium text-foreground">Loan Amount ($)</label>
-                    <input
-                      type="number"
-                      required
-                      value={loanAmount}
-                      onChange={(e) => { setLoanAmount(Number(e.target.value)); recordRevision() }}
-                      className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-xs font-medium text-foreground">Monthly Income ($)</label>
-                    <input
-                      type="number"
-                      required
-                      value={monthlyIncome}
-                      onChange={(e) => { setMonthlyIncome(Number(e.target.value)); recordRevision() }}
-                      className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-xs font-medium text-foreground">Credit Score (FICO)</label>
-                    <input
-                      type="number"
-                      min={300}
-                      max={850}
-                      required
-                      value={creditScore}
-                      onChange={(e) => { setCreditScore(Number(e.target.value)); recordRevision() }}
-                      className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-xs font-medium text-foreground">Tenure (Months)</label>
-                    <input
-                      type="number"
-                      required
-                      value={tenure}
-                      onChange={(e) => { setTenure(Number(e.target.value)); recordRevision() }}
-                      className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-xs font-medium text-foreground">Age</label>
-                    <input
-                      type="number"
-                      min={18}
-                      max={95}
-                      required
-                      value={age}
-                      onChange={(e) => { setAge(Number(e.target.value)); recordRevision() }}
-                      className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-xs font-medium text-foreground">Marital Status</label>
-                    <select
-                      value={maritalStatus}
-                      onChange={(e) => { setMaritalStatus(e.target.value as any); recordRevision() }}
-                      className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
-                    >
-                      <option value="single">Single</option>
-                      <option value="married">Married</option>
-                      <option value="divorced">Divorced</option>
-                      <option value="widowed">Widowed</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="text-xs font-medium text-foreground">Collateral Type</label>
-                    <select
-                      value={collateralType}
-                      onChange={(e) => { setCollateralType(e.target.value as any); recordRevision() }}
-                      className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
-                    >
-                      <option value="none">None (Unsecured)</option>
-                      <option value="real_estate">Real Estate</option>
-                      <option value="vehicle">Vehicle Title</option>
-                      <option value="securities">Securities Portfolio</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="text-xs font-medium text-foreground">Collateral Value ($)</label>
-                    <input
-                      type="number"
-                      value={collateralValue}
-                      onChange={(e) => { setCollateralValue(Number(e.target.value)); recordRevision() }}
-                      className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-xs font-medium text-foreground">Existing Monthly Debt ($)</label>
-                    <input
-                      type="number"
-                      value={existingDebt}
-                      onChange={(e) => { setExistingDebt(Number(e.target.value)); recordRevision() }}
-                      className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-xs font-medium text-foreground">Alternative Credit Score (300-850)</label>
-                    <input
-                      type="number"
-                      value={altCreditScore}
-                      onChange={(e) => { setAltCreditScore(Number(e.target.value)); recordRevision() }}
-                      className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
-                    />
+                {/* Section 1: Loan & Financial Parameters */}
+                <div>
+                  <h4 className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+                    Loan & Financial Parameters
+                  </h4>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <div>
+                      <label className="text-xs font-medium text-foreground">Applicant Full Name</label>
+                      <input
+                        required
+                        value={applicantName}
+                        onChange={(e) => { setApplicantName(e.target.value); recordRevision() }}
+                        className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium text-foreground">Loan Purpose</label>
+                      <select
+                        value={loanType}
+                        onChange={(e) => { setLoanType(e.target.value); recordRevision() }}
+                        className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
+                      >
+                        <option value="Personal">Personal Loan</option>
+                        <option value="Auto">Auto Loan</option>
+                        <option value="Home">Home Mortgage</option>
+                        <option value="Education">Education Loan</option>
+                        <option value="Business">Small Business Loan</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium text-foreground">Loan Amount ($)</label>
+                      <input
+                        type="number"
+                        required
+                        min={1000}
+                        value={loanAmount}
+                        onChange={(e) => { setLoanAmount(Number(e.target.value)); recordRevision() }}
+                        className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium text-foreground">Tenure (Months)</label>
+                      <input
+                        type="number"
+                        required
+                        min={6}
+                        max={120}
+                        value={tenure}
+                        onChange={(e) => { setTenure(Number(e.target.value)); recordRevision() }}
+                        className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
+                      />
+                    </div>
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <label className="text-xs font-medium text-foreground">Interest Rate (%)</label>
+                        <span className="rounded bg-primary/10 px-1.5 py-0.5 text-[10px] font-medium text-primary">Top-3 SHAP Driver</span>
+                      </div>
+                      <input
+                        type="number"
+                        step="0.1"
+                        min={1}
+                        max={40}
+                        required
+                        value={interestRate}
+                        onChange={(e) => { setInterestRate(Number(e.target.value)); recordRevision() }}
+                        className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium text-foreground">Credit Score (FICO)</label>
+                      <input
+                        type="number"
+                        min={300}
+                        max={850}
+                        required
+                        value={creditScore}
+                        onChange={(e) => { setCreditScore(Number(e.target.value)); recordRevision() }}
+                        className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium text-foreground">Monthly Income ($)</label>
+                      <input
+                        type="number"
+                        required
+                        min={500}
+                        value={monthlyIncome}
+                        onChange={(e) => { setMonthlyIncome(Number(e.target.value)); recordRevision() }}
+                        className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium text-foreground">Existing Monthly Debt ($)</label>
+                      <input
+                        type="number"
+                        min={0}
+                        value={existingDebt}
+                        onChange={(e) => { setExistingDebt(Number(e.target.value)); recordRevision() }}
+                        className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
+                      />
+                    </div>
                   </div>
                 </div>
 
-                <div>
-                  <label className="text-xs font-medium text-foreground">Employment Status</label>
-                  <select
-                    value={employment}
-                    onChange={(e) => { setEmployment(e.target.value); recordRevision() }}
-                    className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
-                  >
-                    <option value="Full-time">Full-time Employed</option>
-                    <option value="Part-time">Part-time</option>
-                    <option value="Self-Employed">Self-Employed</option>
-                    <option value="Unemployed">Unemployed</option>
-                  </select>
+                {/* Section 2: Employment & Credit Profile (Core Model Drivers) */}
+                <div className="pt-2 border-t">
+                  <h4 className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+                    Employment & Credit Profile (31-Feature Model)
+                  </h4>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <div>
+                      <label className="text-xs font-medium text-foreground">Employment Status</label>
+                      <select
+                        value={employment}
+                        onChange={(e) => { setEmployment(e.target.value); recordRevision() }}
+                        className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
+                      >
+                        <option value="Full-time">Full-time Employed</option>
+                        <option value="Part-time">Part-time</option>
+                        <option value="Self-Employed">Self-Employed</option>
+                        <option value="Unemployed">Unemployed</option>
+                      </select>
+                    </div>
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <label className="text-xs font-medium text-foreground">Months Employed</label>
+                        <span className="rounded bg-primary/10 px-1.5 py-0.5 text-[10px] font-medium text-primary">Top-3 SHAP Driver</span>
+                      </div>
+                      <input
+                        type="number"
+                        min={0}
+                        max={600}
+                        required
+                        value={monthsEmployed}
+                        onChange={(e) => { setMonthsEmployed(Number(e.target.value)); recordRevision() }}
+                        className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium text-foreground">Number of Credit Lines</label>
+                      <input
+                        type="number"
+                        min={0}
+                        max={50}
+                        required
+                        value={numCreditLines}
+                        onChange={(e) => { setNumCreditLines(Number(e.target.value)); recordRevision() }}
+                        className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium text-foreground">Education Level</label>
+                      <select
+                        value={education}
+                        onChange={(e) => { setEducation(e.target.value as any); recordRevision() }}
+                        className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
+                      >
+                        <option value="Bachelor's">Bachelor's Degree</option>
+                        <option value="High School">High School Diploma</option>
+                        <option value="Master's">Master's Degree</option>
+                        <option value="PhD">PhD / Doctorate</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Section 3: Risk Mitigants & Household Structure */}
+                <div className="pt-2 border-t">
+                  <h4 className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+                    Obligations, Mitigants & Household
+                  </h4>
+                  <div className="grid gap-3 sm:grid-cols-3">
+                    <div>
+                      <label className="text-xs font-medium text-foreground">Has Mortgage?</label>
+                      <select
+                        value={hasMortgage ? 'yes' : 'no'}
+                        onChange={(e) => { setHasMortgage(e.target.value === 'yes'); recordRevision() }}
+                        className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
+                      >
+                        <option value="no">No</option>
+                        <option value="yes">Yes</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium text-foreground">Has Dependents?</label>
+                      <select
+                        value={hasDependents ? 'yes' : 'no'}
+                        onChange={(e) => { setHasDependents(e.target.value === 'yes'); recordRevision() }}
+                        className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
+                      >
+                        <option value="no">No</option>
+                        <option value="yes">Yes</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium text-foreground">Has Co-Signer?</label>
+                      <select
+                        value={hasCoSigner ? 'yes' : 'no'}
+                        onChange={(e) => { setHasCoSigner(e.target.value === 'yes'); recordRevision() }}
+                        className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
+                      >
+                        <option value="no">No</option>
+                        <option value="yes">Yes</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="mt-3 grid gap-3 sm:grid-cols-3">
+                    <div>
+                      <label className="text-xs font-medium text-foreground">Marital Status</label>
+                      <select
+                        value={maritalStatus}
+                        onChange={(e) => { setMaritalStatus(e.target.value as any); recordRevision() }}
+                        className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
+                      >
+                        <option value="single">Single</option>
+                        <option value="married">Married</option>
+                        <option value="divorced">Divorced</option>
+                        <option value="widowed">Widowed</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium text-foreground">Collateral Type</label>
+                      <select
+                        value={collateralType}
+                        onChange={(e) => { setCollateralType(e.target.value as any); recordRevision() }}
+                        className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
+                      >
+                        <option value="none">None (Unsecured)</option>
+                        <option value="real_estate">Real Estate</option>
+                        <option value="vehicle">Vehicle Title</option>
+                        <option value="securities">Securities Portfolio</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium text-foreground">Collateral Value ($)</label>
+                      <input
+                        type="number"
+                        min={0}
+                        value={collateralValue}
+                        onChange={(e) => { setCollateralValue(Number(e.target.value)); recordRevision() }}
+                        className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="rounded-md bg-muted/40 p-2.5 text-[11px] text-muted-foreground">
+                  ⚖️ <strong className="text-foreground">ECOA / CFPB Fair Lending Compliance:</strong> Protected demographics (Age, Gender, Race) are excluded from scoring. Model relies strictly on creditworthiness, debt-to-income, and verified repayment capacity.
                 </div>
 
                 <button
