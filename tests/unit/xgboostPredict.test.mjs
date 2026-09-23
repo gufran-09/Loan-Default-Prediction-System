@@ -11,11 +11,18 @@ test('ML Model Artifacts and Sanity Check', () => {
   assert.ok(fs.existsSync(featureColsPath), 'ml/feature_columns.json must exist')
 
   const cols = JSON.parse(fs.readFileSync(featureColsPath, 'utf8'))
-  assert.equal(cols.length, 31, 'Model schema must have exactly 31 features')
+  assert.equal(cols.length, 36, 'Model schema must have exactly 36 features')
   assert.ok(cols.includes('Age'))
   assert.ok(cols.includes('Income'))
   assert.ok(cols.includes('DTIRatio'))
   assert.ok(cols.includes('CreditScore'))
+  assert.ok(cols.includes('credit_utilization'), 'Must include credit_utilization')
+  assert.ok(cols.includes('delinquency_count_12m'), 'Must include delinquency_count_12m')
+  assert.ok(cols.includes('num_inquiries_6m'), 'Must include num_inquiries_6m')
+  assert.ok(cols.includes('prior_defaults'), 'Must include prior_defaults')
+  assert.ok(cols.includes('collateral_value'), 'Must include collateral_value')
+  assert.ok(!cols.includes('days_past_due'), 'Must NOT include days_past_due (target leakage)')
+  assert.ok(!cols.includes('outstanding_balance_ratio'), 'Must NOT include outstanding_balance_ratio (target leakage)')
 })
 
 test('Mathematical bounds of logistic probability', () => {
@@ -44,7 +51,7 @@ test('XGBoost 100-Tree Model Architecture and Traversal Verification', () => {
 
   // Sample traverse on dummy input
   let margin = 0.0
-  const x = new Array(31).fill(0)
+  const x = new Array(36).fill(0)
   x[0] = 45 // Age
   x[1] = 75000 // Income
   x[2] = 25000 // LoanAmount
