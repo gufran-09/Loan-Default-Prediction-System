@@ -48,6 +48,12 @@ export async function middleware(request: NextRequest) {
   const isAuthRoute = pathname.startsWith('/signin') || pathname.startsWith('/signup')
 
   if (!user && isProtectedRoute) {
+    if (pathname.startsWith('/api/')) {
+      return NextResponse.json(
+        { error: { code: 'UNAUTHORIZED', message: 'Authentication required' } },
+        { status: 401 }
+      )
+    }
     const url = request.nextUrl.clone()
     url.pathname = '/signin'
     return NextResponse.redirect(url)
