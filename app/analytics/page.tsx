@@ -26,13 +26,20 @@ import {
 function ChartTooltip({ active, payload, label }: any) {
   if (active && payload && payload.length) {
     const item = payload[0];
+    const scoreVal = Number(item.value || 0);
     return (
       <div className="rounded-lg border border-border bg-card px-3 py-2 text-xs shadow-lg">
         <p className="font-semibold text-foreground">{label}</p>
         <p className="mt-1 flex items-center gap-1.5 font-mono text-muted-foreground">
-          <span>Avg score:</span>
-          <span className="font-semibold text-primary">{item.value}</span>
+          <span>Avg Default Risk:</span>
+          <span className="font-semibold text-primary">{(scoreVal * 100).toFixed(1)}%</span>
         </p>
+        {item.payload?.total != null && (
+          <p className="mt-0.5 flex items-center gap-1.5 font-mono text-muted-foreground">
+            <span>Volume:</span>
+            <span className="font-medium text-foreground">{item.payload.total} loans</span>
+          </p>
+        )}
       </div>
     );
   }
@@ -44,18 +51,37 @@ export default function Analytics() {
   const [drift, setDrift] = useState<any>(null);
   const [isStressTest, setIsStressTest] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
+  const fetchAnalytics = () => {
+    setLoading(true);
+    setError(null);
     Promise.all([
-      fetch("/api/analytics/portfolio").then((r) => r.json()),
-      fetch("/api/analytics/drift").then((r) => r.json()),
+      fetch("/api/analytics/portfolio").then(async (r) => {
+        const json = await r.json();
+        if (!r.ok || json.error) throw new Error(json.error?.message || "Failed to load portfolio analytics");
+        return json;
+      }),
+      fetch("/api/analytics/drift").then(async (r) => {
+        const json = await r.json();
+        return json;
+      }),
     ])
       .then(([portfolioRes, driftRes]) => {
-        if (portfolioRes.data) setData(portfolioRes.data);
-        if (driftRes.data) setDrift(driftRes.data);
+        if (portfolioRes?.data) setData(portfolioRes.data);
+        if (driftRes?.data) setDrift(driftRes.data);
       })
-      .catch((err) => console.error("Error loading analytics:", err))
+      .catch((err) => {
+        console.error("Error loading analytics:", err);
+        setError(err.message || "Unable to load analytics data");
+      })
       .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    setMounted(true);
+    fetchAnalytics();
   }, []);
 
   const rawSummary = data?.summary || {
@@ -277,35 +303,50 @@ export default function Analytics() {
                     <span className="text-[10px] font-medium text-destructive">Stressed</span>
                   )}
                 </div>
-                <div className="mt-6 h-56">
-                  {data ? (
+                <div className="mt-6 h-56 w-full">
+                  {mounted && data ? (
                     <ResponsiveContainer width="100%" height="100%">
-                      <BarChart data={getAdjustedChartData(key)}>
+                      <BarChart data={getAdjustedChartData(key)} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                         <XAxis
                           dataKey="name"
-                          tick={{ fontSize: 11, fill: "var(--muted-foreground)" }}
+                          tick={{ fontSize: 10, fill: "var(--muted-foreground, #888)" }}
                           tickLine={false}
                           axisLine={false}
+                          interval={0}
                         />
                         <YAxis
-                          tick={{ fontSize: 11, fill: "var(--muted-foreground)" }}
+                          tick={{ fontSize: 10, fill: "var(--muted-foreground, #888)" }}
                           tickLine={false}
                           axisLine={false}
+                          domain={[0, 1]}
+                          tickFormatter={(v) => `${Math.round(v * 100)}%`}
                         />
                         <Tooltip
-                          cursor={{ fill: "var(--muted)", opacity: 0.25 }}
+                          cursor={{ fill: "rgba(255, 255, 255, 0.05)" }}
                           content={<ChartTooltip />}
                         />
                         <Bar
                           dataKey="score"
-                          fill={isStressTest ? "var(--destructive)" : "var(--primary)"}
+                          fill={isStressTest ? "#ef4444" : "#3b82f6"}
                           radius={[4, 4, 0, 0]}
                         />
                       </BarChart>
                     </ResponsiveContainer>
                   ) : (
-                    <div className="flex h-full items-center justify-center text-sm text-muted-foreground">
-                      Loading chart…
+                    <div className="flex h-full flex-col items-center justify-center gap-2 text-sm text-muted-foreground">
+                      {loading ? (
+                        <span>Loading chart…</span>
+                      ) : (
+                        <>
+                          <span className="text-xs text-destructive">{error || "Failed to load data"}</span>
+                          <button
+                            onClick={fetchAnalytics}
+                            className="rounded bg-primary/10 px-2 py-1 text-xs font-medium text-primary hover:bg-primary/20"
+                          >
+                            Retry
+                          </button>
+                        </>
+                      )}
                     </div>
                   )}
                 </div>
