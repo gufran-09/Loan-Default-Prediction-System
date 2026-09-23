@@ -1,401 +1,401 @@
-id,name,email,geography,employment_type,loan_purpose,loan_amount,monthly_income,outstanding_balance,tenure_months
-0bd13385-ea3c-4830-837e-f29fad38e4d5,Allison Hill,donaldgarcia@example.net,Asia,Self-Employed,Home,92393,9388.0,73914.40000000001,36
-f01ff56a-067f-484e-b115-d81a8e396a32,Angie Henderson,davisjesse@example.net,Europe,Part-time,Education,131575,7630.75,105260.0,12
-b8ec5394-7c00-4524-8ffc-9dc264ff9966,Cristian Santos,lrobinson@example.com,Asia,Part-time,Education,75417,6514.083333333333,60333.600000000006,12
-f5c156c1-850a-4010-9f49-b25deb72f0c0,Abigail Shaffer,jpeterson@example.org,Europe,Part-time,Business,10804,5252.75,8643.2,24
-29d1b5cf-c6d5-4006-8b54-eaa671631482,Gabrielle Davis,howardmaurice@example.com,Asia,Unemployed,Business,21182,2472.0833333333335,16945.600000000002,60
-fee056af-f3c8-4e33-a2c9-09cbfd740c8d,Monica Herrera,smiller@example.net,North America,Salaried,Other,187008,8209.25,149606.4,36
-1f21af30-9875-44fa-8f0f-b93f1149b219,Shannon Ray,williamsjeremy@example.com,Europe,Self-Employed,Business,159105,4117.583333333333,127284.0,60
-3cd2b6b2-0130-47be-a493-a3b33fb87d33,Dr. Sharon James,xreid@example.org,Africa,Part-time,Business,173967,9801.416666666666,139173.6,12
-76b377d9-0012-4aa5-9e51-1dc491709032,Daniel Adams,lynchgeorge@example.net,South America,Self-Employed,Home,41189,7872.75,32951.200000000004,36
-af216c22-e5ef-4e97-9670-92416a6f2441,Joel Nelson,gabriellecameron@example.org,Africa,Self-Employed,Home,151275,7944.333333333333,121020.0,36
-ce8145e3-5d42-47d7-a79b-d5fd746b47cf,Andrew Stewart,carl95@example.org,Africa,Self-Employed,Auto,178121,7549.25,142496.80000000002,12
-8cb1fd4b-7c0a-4835-8e5c-c4e008dc8c90,Jennifer Rocha,ithomas@example.org,Africa,Self-Employed,Other,109990,10950.833333333334,87992.0,12
-93dbb699-a362-46d2-858c-6afef556eea0,Kimberly Burgess,zhurst@example.com,Asia,Unemployed,Other,166291,4375.166666666667,133032.80000000002,60
-166f51fa-c3a9-499e-a222-8190ecc4e687,Zachary Hicks,camposmichelle@example.org,Europe,Part-time,Business,124620,7235.25,99696.0,12
-11d6e62f-6697-4824-97be-18190a495164,Rebecca Henderson,cruzcaitlin@example.com,South America,Unemployed,Education,222878,10648.5,178302.40000000002,24
-704ac014-9c7e-4d83-84da-85e974d9a20b,Tricia Valencia,frazierdanny@example.net,Asia,Salaried,Other,112337,6055.75,89869.6,24
-eac3ae88-3be2-4ea5-9e21-a212ea74b284,Patricia Peterson,ryan70@example.net,Europe,Salaried,Education,155502,11085.666666666666,124401.6,60
-472e8228-5211-4a33-9ca7-63c129dad334,Deborah Mason,williamrodriguez@example.net,North America,Self-Employed,Home,185872,11930.583333333334,148697.6,60
-205e7353-57a9-4f73-b197-853ef0fe7b3d,Mark Lynch,nathanielmartin@example.net,Europe,Part-time,Other,116838,2832.4166666666665,93470.40000000001,24
-ed4cca1b-4bd0-46b2-8515-df48aab710d3,Linda Burns,hickmannatasha@example.com,Europe,Unemployed,Other,134959,12192.916666666666,107967.20000000001,36
-aba334db-9761-4646-a483-f04764f7edc9,David Bradley,millertodd@example.org,North America,Self-Employed,Education,194017,8441.0,155213.6,48
-2f5cbaac-a280-48d5-b22b-bb02cafdfa9d,Kim Martinez,karroyo@example.com,Asia,Salaried,Other,169392,12237.916666666666,135513.6,48
-4453f76b-8ed5-44e3-bad0-3ae780545074,Lisa Brandt,jenniferross@example.net,North America,Self-Employed,Business,249316,7615.916666666667,199452.80000000002,24
-2d866c99-e816-43f1-9a4b-ab40838f5a5d,Jessica Holmes,wrightcaleb@example.org,North America,Salaried,Other,189310,7802.666666666667,151448.0,60
-bba2e3be-1cd2-47f2-9e1a-c11405708b0d,Crystal Robinson,zimmermanbrian@example.org,South America,Self-Employed,Other,132178,7731.083333333333,105742.40000000001,12
-6b46f2ce-c6bf-4669-bd94-5b6705ad20b2,Shannon Jones,joshuawashington@example.net,Europe,Self-Employed,Home,6855,3473.0833333333335,5484.0,48
-714a9a2d-57ef-43c6-89ef-052d6ff565e9,Timothy Duncan,esanchez@example.com,South America,Unemployed,Business,245069,8082.583333333333,196055.2,36
-3670d3e5-56be-4273-adc8-24b2795a1775,Brent Jordan,ujenkins@example.org,Europe,Unemployed,Other,105519,3641.8333333333335,84415.20000000001,60
-6e6dfbe6-ab69-40de-99a6-e2fdcd5e79ce,Victoria Garcia,zchandler@example.org,Asia,Salaried,Education,147622,11567.916666666666,118097.6,24
-c53d9030-70fd-44f7-9613-2873e852b950,Connor West,dwhite@example.org,South America,Unemployed,Home,241986,10833.833333333334,193588.80000000002,36
-60604d0c-f862-4992-9c0b-9cbc861fec93,Angela Morton,williamsyvette@example.org,North America,Salaried,Auto,146536,5383.583333333333,117228.8,36
-a3961ad6-74ab-4386-bc30-781b16c15611,Tammy Allison,richardolson@example.com,South America,Unemployed,Auto,12250,9825.083333333334,9800.0,24
-4cbdbf28-aeaf-4cc8-aaa0-7ac858805312,Carmen Smith,ybaker@example.com,North America,Self-Employed,Business,45630,8054.75,36504.0,36
-00841ed3-4aa4-4c5c-b349-9c4da495c71b,Michael Cross,smoore@example.org,Europe,Salaried,Business,247576,5109.166666666667,198060.80000000002,60
-4ee723b9-7943-4c21-ab6f-06838cbf20de,Lauren Daniels,brian97@example.net,South America,Part-time,Other,185263,11568.416666666666,148210.4,48
-c5b28073-dd9a-44f8-8774-cf4dee638295,Kim Brown,yorkcasey@example.org,South America,Self-Employed,Other,88784,3597.5833333333335,71027.2,60
-07abc996-4553-4dcd-8844-00a372478c69,Cynthia Wilson,bethwilliams@example.org,Europe,Part-time,Auto,175528,8207.083333333334,140422.4,36
-e586e841-dfc1-43c7-bc6c-39a13484fc49,Kevin Mills,james53@example.com,Africa,Self-Employed,Auto,167934,4450.583333333333,134347.2,60
-597d8c63-e7bd-46c0-84fd-112e8b71db38,Michael Evans,sarah10@example.com,South America,Salaried,Other,67810,2809.75,54248.0,60
-00e7cfdb-9880-43e9-a17b-5f7eff74ab7f,Kristine Garcia,williamanderson@example.com,Africa,Salaried,Business,203775,3821.5,163020.0,48
-2990adb3-8e42-4658-b64a-4bc03b2b3473,Sherry Wood,samueldaniels@example.com,North America,Part-time,Auto,51144,5612.75,40915.200000000004,60
-45a53d99-0cdd-4b6d-82ae-5e4d9c593187,Victoria Valdez,contrerasangela@example.net,North America,Part-time,Home,202913,9299.5,162330.40000000002,24
-a75bb443-5c69-4fb1-833b-c11b1da524da,Shawn Baker,newtoneric@example.com,Africa,Self-Employed,Home,89235,8493.75,71388.0,12
-c2e39614-4da1-44b0-92cd-cd43ea76e266,Michelle Harris,william40@example.org,Asia,Part-time,Education,160790,5362.416666666667,128632.0,36
-b3b95ff4-3fe5-49ff-a581-a42217935590,Sandra Williams,kellie42@example.net,Africa,Self-Employed,Other,14410,10408.25,11528.0,60
-a2acda3e-69cd-45c6-baeb-ded06e6fae6a,Michael Hoffman,jonesnicole@example.org,Africa,Self-Employed,Business,185019,3011.25,148015.2,24
-1b79a553-5ec0-4a0a-98ed-42249e6d227a,Sandra Aguilar,russellwilliams@example.com,Asia,Unemployed,Education,103958,11520.666666666666,83166.40000000001,36
-9524605e-89bf-4c53-990a-8f79991a34ab,Rebecca Valencia,jason31@example.com,Africa,Unemployed,Home,204640,1805.6666666666667,163712.0,36
-bbb19b0c-bd06-4149-8a46-cde80407c3cc,Stacey Russell,sarayoung@example.org,Africa,Self-Employed,Home,219987,4530.25,175989.6,60
-ef0d6cef-35f9-4cb6-b86e-f20c7932c8d6,Rita Keith,whitesandra@example.com,Europe,Self-Employed,Education,240889,12208.916666666666,192711.2,36
-9e41aa29-9ddf-4748-8183-2d515abf78a9,Sharon Cochran,erik16@example.org,Europe,Self-Employed,Auto,219945,11762.0,175956.0,12
-28cfdb87-488d-4709-a6a8-96e5e7118cb5,Courtney Velasquez,ybailey@example.org,South America,Self-Employed,Education,141926,10495.833333333334,113540.8,48
-5f1460b4-d83c-44a3-a8bc-7813fc0fa05a,Matthew Ross,michelle45@example.net,North America,Part-time,Auto,17202,12322.083333333334,13761.6,12
-19382e34-7f8c-4386-82f1-e80fdee4333d,Meghan Anthony,sheila14@example.org,Europe,Unemployed,Auto,158060,9241.916666666666,126448.0,60
-5ae92f92-2489-4581-8165-18bdc00ce554,Victoria Johnson,yreed@example.com,North America,Salaried,Home,11643,9227.5,9314.4,60
-2b89be3f-854e-4e5d-9589-b1a8020959b7,William Wilson,jonathanfletcher@example.org,South America,Salaried,Business,197889,2026.1666666666667,158311.2,60
-67a1480f-4735-4e86-bd8d-be5727e79c65,Renee Mcdaniel,michaeljones@example.net,North America,Unemployed,Home,199760,7820.833333333333,159808.0,12
-260d8681-8a64-4e80-b13e-85bf1a3536ee,Lisa Alvarado,cortezkevin@example.com,South America,Salaried,Education,182776,9069.416666666666,146220.80000000002,36
-1cc1133c-6e04-4122-945c-e46d29ce5df5,Erika Terry,jamesortega@example.com,North America,Unemployed,Auto,12756,9681.833333333334,10204.800000000001,36
-5e0dd0fa-2083-4ded-81be-a53cfdd1003f,Stephanie Gilbert,richard04@example.com,South America,Part-time,Education,37358,6994.166666666667,29886.4,12
-de59cbdb-9272-424d-95af-dc79500aa6c2,Richard Lawson,steven73@example.net,Asia,Self-Employed,Auto,43936,1894.25,35148.8,24
-a796abf7-18ea-4afa-bf0c-dd6f17749e61,Steven Flynn,donnacampbell@example.net,South America,Salaried,Business,185680,8455.5,148544.0,60
-3d0dc84b-947a-48c2-92e7-6e4171298a96,Frances Cardenas,emilywalker@example.org,Africa,Salaried,Other,197706,8837.833333333334,158164.80000000002,36
-edc3aa51-ba1e-4070-8976-0b2e34518a78,Angel Riggs,gibsonolivia@example.net,Europe,Unemployed,Auto,149741,11593.0,119792.8,36
-67dee245-0215-4871-a87a-5573c20a4880,Michael Snyder,dylanwatts@example.org,Europe,Salaried,Other,135101,7636.666666666667,108080.8,36
-bfcfdc3f-13d3-4669-8415-58e11407c35e,Colleen Brock,pwilliams@example.org,Europe,Part-time,Business,108832,1465.25,87065.6,24
-db5b598f-d8d5-4a58-a576-74dfb2576c86,Robert Contreras,stephanie79@example.net,Asia,Unemployed,Business,205279,9388.25,164223.2,24
-aee53d10-40ea-46c9-bacd-5a9faf2ab64c,Jessica Meadows,vmerritt@example.com,North America,Self-Employed,Education,11181,9849.25,8944.800000000001,48
-c8cd1aff-e43a-4d78-b953-032ecf307f05,Paul Larsen,katie87@example.net,South America,Unemployed,Auto,173032,11559.166666666666,138425.6,60
-d3654647-2425-46e4-918a-6b5eba4a72f8,Jeremiah Reeves,josephflores@example.net,Asia,Part-time,Other,26875,10692.25,21500.0,12
-5ffdd383-650e-4c48-bc4a-3c81c9b75267,Chris Reyes,jasminebrown@example.com,Africa,Self-Employed,Auto,114442,12126.25,91553.6,36
-21e3d91e-661b-4ad1-8ae0-cc198dfdb843,John Brown,xprice@example.net,North America,Salaried,Other,60481,7959.583333333333,48384.8,48
-2f724a78-d169-4458-953d-bcc872e974e0,Alicia Gilmore,wwoods@example.com,Africa,Salaried,Education,120301,2159.0833333333335,96240.8,24
-97ceeefe-587c-44d1-afd7-519b0362aafb,Sarah Ashley,vmedina@example.net,Africa,Unemployed,Home,90546,2462.8333333333335,72436.8,60
-0ab365fe-a87b-45a8-9372-c57683c8c125,Stephanie Freeman,ryan06@example.com,Africa,Part-time,Home,175570,9584.416666666666,140456.0,12
-f008391f-2d95-46c6-8e41-f0eb48c6f5f2,Rebecca Ramsey,ncalhoun@example.net,Asia,Unemployed,Other,12198,4633.083333333333,9758.4,36
-7c3f52fd-5d91-4b46-94a1-3878a148b77a,James Elliott,millerroy@example.com,South America,Part-time,Home,178553,9370.25,142842.4,24
-936202e7-3ad0-4318-b2fe-0fc2ce6180c3,David Murphy,wmurphy@example.com,Africa,Salaried,Home,234793,7312.5,187834.40000000002,24
-a643438c-4395-4b76-9c00-673066304d7a,Trevor Fisher,ruizkaitlyn@example.org,South America,Unemployed,Auto,66444,11619.333333333334,53155.200000000004,24
-fb86b58a-a661-438c-a032-10f807b3a737,Mrs. Marie Harrington DDS,herringjames@example.org,South America,Unemployed,Education,142979,8895.833333333334,114383.20000000001,24
-118e8c90-2ffe-4216-9573-d0282961a3e9,Cynthia Wells,elliottjeffery@example.net,North America,Self-Employed,Business,136885,8936.0,109508.0,48
-71f94ef2-c320-4a29-9704-90da8f50cc07,Jacob Obrien,stricklandfrank@example.com,Asia,Part-time,Education,7904,4395.916666666667,6323.200000000001,48
-53c440c5-37c3-4924-9bf4-85e156fa0bab,Alexander Collins,tsanders@example.org,South America,Unemployed,Business,221098,12393.833333333334,176878.40000000002,48
-d7f924db-c00e-4d78-8d9f-645685e44523,Michael Burton,terrykevin@example.net,Asia,Self-Employed,Home,6523,10348.833333333334,5218.400000000001,36
-e41ef698-da5b-4828-9d5f-f976372dbb10,Barbara Riggs,reedross@example.com,Africa,Self-Employed,Auto,135404,11818.5,108323.20000000001,12
-f2f20bed-e3b6-45e4-92bc-8e3147eaf86b,Matthew Smith,gshort@example.com,Africa,Salaried,Home,25022,7314.583333333333,20017.600000000002,24
-1f66cc8b-af8d-4117-8c8c-67f7879b9dcf,Madison Poole,ryangross@example.net,South America,Unemployed,Home,170652,3877.75,136521.6,36
-317bf516-6bd0-415f-893d-c4d9e8eb5cc0,Robert Medina,umarshall@example.net,Europe,Self-Employed,Auto,21565,9228.75,17252.0,60
-187b03e1-d56f-4869-b376-845daa4e253b,Samuel Rivas,ramirezshannon@example.com,Africa,Self-Employed,Education,67102,3138.25,53681.600000000006,36
-6a3b101d-a56e-4fb7-9835-c70465d80504,Mary Rogers,lrosales@example.com,Europe,Salaried,Auto,51182,8258.333333333334,40945.600000000006,48
-4d80fa2a-702f-4c8e-8633-96d36e77f044,Robert Peterson,angela83@example.org,Europe,Unemployed,Home,201145,8549.666666666666,160916.0,24
-dc61f28f-5e7d-45e6-b7a9-bf59cf2b5e9b,Jason Peters,hannahbrewer@example.com,Asia,Salaried,Auto,184751,2146.9166666666665,147800.80000000002,48
-58170b9c-e0bb-4315-b713-8e2e92087b30,Alan Phillips,tholt@example.net,Europe,Unemployed,Home,98286,4704.5,78628.8,12
-d4ef515f-8f2d-4423-8dce-f25efab08cb6,Kara Schmidt,jbarajas@example.com,North America,Unemployed,Home,45250,9637.916666666666,36200.0,36
-f1c2d861-c50a-46dc-8283-4f3f86f47c1a,Jesse Parker,davidlee@example.org,Asia,Part-time,Education,211913,2868.4166666666665,169530.40000000002,12
-45be677f-0988-406d-b082-0b7b3fd456ad,Tiffany Vaughn,javierwashington@example.net,South America,Salaried,Other,11700,1708.0,9360.0,36
-17557477-9e7c-4145-b582-85d7b94dca92,Paige Carlson,wallkenneth@example.com,Asia,Unemployed,Auto,151838,11979.25,121470.40000000001,36
-89e6a41d-1214-4f08-b878-3d0d98b236be,Adrian Ferguson,brandon08@example.com,Europe,Part-time,Home,104512,5323.5,83609.6,48
-bf742f0c-9234-4a27-84a5-66e35b90bb35,Beth Oneill,agarcia@example.net,Asia,Self-Employed,Education,114946,3823.25,91956.8,12
-b7ecd097-81a8-4a79-a5ca-4ccb8fb15800,John Peterson,kingmichelle@example.org,South America,Unemployed,Education,249243,5779.416666666667,199394.40000000002,36
-81e55db4-0a86-4654-81b6-450f1741e597,Jennifer Jones,hernandezlisa@example.com,Europe,Unemployed,Other,202614,11535.666666666666,162091.2,36
-397753a5-39d2-4997-be06-64d33eb440dc,David Grant,yobrien@example.net,Europe,Unemployed,Other,69689,12001.0,55751.200000000004,60
-ba0cf098-1dae-4312-9a56-90f030cbb972,Joseph Hayes,levans@example.com,Asia,Part-time,Home,131947,6572.333333333333,105557.6,60
-bd993f25-e235-4234-a86d-9ca1352f8725,Marc Lynch,mezajared@example.org,Africa,Part-time,Auto,164819,1719.5833333333333,131855.2,48
-aa5fa719-600c-4629-a16b-f77ab3baf5c3,Brad Allen,moorericky@example.net,Africa,Self-Employed,Education,127439,8620.0,101951.20000000001,60
-587b8d64-9187-4411-bc7a-27a092a5d3c3,Doris Hall,jacqueline71@example.net,Europe,Unemployed,Home,172925,1899.0833333333333,138340.0,60
-2662a053-b5ce-449a-b4d8-9c6e28266355,Dennis Moody,ronaldstephens@example.net,South America,Unemployed,Auto,15729,2224.6666666666665,12583.2,24
-53ec0981-d7f6-4cf8-ae93-87eda477fd5d,Derek Thomas,martinkyle@example.net,Africa,Salaried,Education,175155,6758.25,140124.0,60
-dc036f6f-7aa4-4435-9a2f-3c5ac9fca80a,Tammy Gonzales,sbarker@example.com,South America,Unemployed,Home,216486,6416.333333333333,173188.80000000002,24
-414d97f3-8902-473a-9718-a432860c4562,Kathryn Snyder,georgepamela@example.net,South America,Part-time,Business,63727,7569.333333333333,50981.600000000006,24
-256c31d8-cf77-4701-8419-33a64f7c11f3,David Davis,keyemily@example.com,North America,Unemployed,Education,206760,10755.416666666666,165408.0,36
-20eb3242-405e-4a59-abe6-4dfcad3ec806,Pamela Thompson,lmoon@example.net,North America,Salaried,Other,244795,1960.5833333333333,195836.0,60
-d6b4d897-063d-4851-801c-72d064f742ea,Robert Costa,vbailey@example.com,North America,Part-time,Home,246628,5682.666666666667,197302.40000000002,24
-e247aa06-9209-41a8-9c0e-2a8a4449b63d,Shannon Rivera,zroberts@example.net,Africa,Salaried,Education,147457,12183.25,117965.6,60
-ec6f8de0-3d79-4b1d-b2f7-6de54e3e392c,Brandon King,cordovarichard@example.net,Asia,Self-Employed,Auto,54731,12175.25,43784.8,36
-53c6eaff-32c7-4604-b6be-d1f815e4c338,April Booth,mgutierrez@example.net,South America,Part-time,Education,224660,6571.833333333333,179728.0,12
-96f7e1ae-fffc-4cf5-b3cf-787c5006ebb9,Peter Garrett,harrisandrea@example.com,North America,Part-time,Auto,96150,4212.0,76920.0,36
-73e44760-9e2c-46fc-bcf6-f4b5f1da092c,Michael Martinez,jennifercollins@example.org,Asia,Salaried,Auto,7659,4853.666666666667,6127.200000000001,48
-e5450b10-c3a5-4d6e-abc5-a92e3791cd6a,Anna Gay,murraydavid@example.org,Asia,Unemployed,Education,169844,9072.166666666666,135875.2,12
-d44efc9c-7ec7-432e-abb3-0c35b3066cab,Dr. Jordan Hill PhD,jsanchez@example.org,Asia,Self-Employed,Education,242953,5060.0,194362.40000000002,36
-4d4551f6-d6fa-4944-b9e8-a246ee23e068,Thomas Romero,michellehill@example.com,Europe,Salaried,Auto,182112,3747.8333333333335,145689.6,24
-f289944f-a71f-4ca2-8523-f193ed35c515,Richard Adams,campbellkenneth@example.net,North America,Self-Employed,Other,205555,7477.083333333333,164444.0,12
-c2bc3b3f-0438-4a52-9ee8-679c8bdf3849,Mary Grimes,wryan@example.com,North America,Self-Employed,Other,189959,4140.916666666667,151967.2,24
-62d765b8-81c7-44bc-b24e-6b4d91535feb,Kimberly Gibson,molly39@example.com,Europe,Salaried,Education,143234,11510.75,114587.20000000001,48
-7592be2c-a507-4d93-82f3-46bd5ce5ec56,Reginald Williams,zthornton@example.com,Africa,Unemployed,Other,221956,6337.166666666667,177564.80000000002,24
-80a9ecab-2195-4b81-9fdd-370a729b5532,Matthew Hoover,tylerjohnson@example.net,South America,Self-Employed,Business,40142,6397.083333333333,32113.600000000002,60
-8f226d2d-9ff2-44ea-96bc-e30aa65498c8,Evelyn Garcia,dgarcia@example.org,Europe,Unemployed,Auto,142337,11405.083333333334,113869.6,24
-1b819e88-ac3d-4799-b94d-c7121fbe158a,Jennifer Pena,charlesharrington@example.com,North America,Unemployed,Auto,227855,6202.25,182284.0,24
-d699c71e-2f70-4b3d-a322-84164778cf0c,Michael Santos,melissa86@example.com,South America,Unemployed,Education,50364,5936.666666666667,40291.200000000004,36
-a13c881d-42ab-41aa-b1ca-df3dcf0e531c,Stacy Freeman,williamsonjimmy@example.net,Africa,Salaried,Other,232249,8414.0,185799.2,12
-4a500f71-20b3-4561-bf64-b2afa839570c,Yolanda Francis,wgood@example.net,Asia,Unemployed,Education,116770,5943.916666666667,93416.0,12
-07a0d60e-2319-4734-bd36-fd6882c4b2e2,Ashlee Jackson,rebecca05@example.org,Asia,Self-Employed,Business,26552,4421.666666666667,21241.600000000002,24
-31de9a7d-9f39-4add-9426-25648a8c9b2b,James Thomas,yknight@example.org,Africa,Self-Employed,Business,122914,1892.1666666666667,98331.20000000001,24
-a501ff5d-d2bb-4c0a-ab22-e7ddab97e371,Bob Pitts,tyleraguilar@example.org,Asia,Self-Employed,Other,131699,1735.9166666666667,105359.20000000001,60
-824f8b86-b21f-4c6a-be5f-6f3034a35615,David Scott,nolansteven@example.com,North America,Self-Employed,Education,14595,12132.416666666666,11676.0,60
-357cd633-d653-45bf-b9e9-8c2d020dd273,Brooke Alexander,vanessa46@example.net,Europe,Part-time,Education,176323,11114.5,141058.4,36
-b9d58e5b-fded-485c-83f8-6caf7e1e6a3e,Ryan Gonzalez,gcastaneda@example.org,Africa,Part-time,Business,177622,3697.4166666666665,142097.6,12
-a14b8ca8-44cc-4c82-87ef-406096ac44e2,Ian Phillips,andrew64@example.org,North America,Unemployed,Education,205542,3736.8333333333335,164433.6,12
-ba638203-5c15-4646-bb8d-2afa078a6be9,Melissa Garner,lozanojulie@example.com,South America,Unemployed,Other,223994,5742.416666666667,179195.2,24
-445c8379-d887-4132-a5ed-baf4ccf21dfc,Crystal Pham,danaoliver@example.net,Europe,Salaried,Auto,234610,4666.083333333333,187688.0,60
-1c6a246b-93e3-4371-aa6e-3036f5d9ef0d,Patricia Becker,courtneyberger@example.net,Europe,Unemployed,Business,140231,10394.416666666666,112184.8,60
-75ae0c6b-3a7b-4329-8925-a842c901ff5b,Richard Johnson,jessica14@example.com,Europe,Self-Employed,Home,131091,7669.416666666667,104872.8,48
-8d2c6b6d-2028-40dc-b9ce-263db8408665,Casey Anderson,alyssa42@example.com,South America,Salaried,Other,246459,9269.083333333334,197167.2,60
-eb46b285-c337-43fa-bc48-1297ac99a4e6,Terry Coffey,julie51@example.com,Asia,Salaried,Education,214144,5130.0,171315.2,48
-c5304af4-dd83-4cc8-ab02-b411e64d314e,Brenda Levy,zcoffey@example.net,Africa,Unemployed,Education,133708,3221.4166666666665,106966.40000000001,36
-35333be0-3c57-40a1-97e7-1c8fdd566197,Richard Smith,gibsonemily@example.net,Asia,Self-Employed,Education,209169,8783.916666666666,167335.2,24
-50c66752-8f97-4c73-a4ce-d4748b49d9c9,James Little,daniel37@example.org,Africa,Salaried,Business,15311,2595.1666666666665,12248.800000000001,48
-3ed1b90e-057c-47c2-9c49-d01094f9d793,Terri Murphy,deborahreid@example.com,Asia,Salaried,Business,106916,2676.3333333333335,85532.8,24
-94380498-ab0e-4bd4-adca-1d4babe7d0b7,Elizabeth Ortiz,brandonjohnson@example.com,Europe,Unemployed,Auto,222430,8527.666666666666,177944.0,60
-a724fc23-f180-4370-83cc-185f0f110d41,David Medina,qchavez@example.net,Africa,Unemployed,Business,117650,1359.75,94120.0,24
-64335a85-b8b7-4fb7-a301-db021bb06bc6,Kimberly Matthews,nicolepena@example.com,Asia,Unemployed,Business,187904,3328.5833333333335,150323.2,48
-dccea67c-03ae-4b81-a7c9-bbcf63337539,Teresa Ramirez,jeff73@example.com,Africa,Self-Employed,Auto,113637,5762.583333333333,90909.6,24
-33320d9a-2cd7-42a5-b411-a44bdb8bdc78,Michael Stephens,bruce43@example.org,Europe,Unemployed,Auto,8170,2607.5,6536.0,48
-e648b0ba-dfb3-472f-852e-35115b1665e7,Samantha Davis,darleneharper@example.org,Africa,Part-time,Other,88052,3839.6666666666665,70441.6,24
-3f58fb04-b497-4a61-ad25-a9d528f47d06,Gavin Zhang,caseyhubbard@example.org,North America,Salaried,Education,131057,9991.333333333334,104845.6,48
-57f9b068-d8b5-45c2-97b3-7d59be554aa3,Robin Hall,kristinacarlson@example.com,North America,Part-time,Home,23963,1897.4166666666667,19170.4,36
-784ff468-7da8-415e-858e-2386cf7c4ddb,Brianna Anderson,lauren10@example.org,Africa,Part-time,Other,199883,7045.166666666667,159906.40000000002,24
-4b05e5c5-0672-4be6-8aac-50d8f0f86ba6,Richard Young,alfred40@example.org,Europe,Self-Employed,Education,23999,8009.166666666667,19199.2,24
-b173f368-322d-44a4-899f-4c93c37a4827,Kelly Reese,xwest@example.net,South America,Part-time,Home,206991,5057.916666666667,165592.80000000002,48
-4236374d-51e8-403c-8f41-10782e8fa45f,Jodi Walker,acostaregina@example.net,Europe,Salaried,Business,141207,3890.0833333333335,112965.6,12
-424107f8-afd2-45cb-9de6-4c69bead7610,Judith Maynard,lutzmelanie@example.com,Europe,Salaried,Education,217621,7639.166666666667,174096.80000000002,60
-5642c74b-5599-4eb0-8a6e-b0b6b9e9564b,Katherine Browning,lammarc@example.org,Africa,Part-time,Home,53174,4365.333333333333,42539.200000000004,48
-391456f9-b584-44e6-9a52-88daad51fc30,Donald Schultz,oscar98@example.com,Asia,Unemployed,Education,192092,8729.333333333334,153673.6,48
-76218a57-4c7e-4bb5-abee-da5b2d2760a4,Larry Garcia,farrelldebra@example.net,North America,Unemployed,Business,12069,7980.0,9655.2,48
-20d72546-108a-4740-b260-1bbb87b1b4c8,Cindy Hayes,robertwilcox@example.com,North America,Self-Employed,Business,160243,2604.3333333333335,128194.40000000001,60
-06f98e0b-e9c8-4465-9f28-9b87e5d292c7,Brandon Simmons,nicholas27@example.org,North America,Self-Employed,Auto,66582,11214.0,53265.600000000006,12
-7c3364dd-4dfb-4b06-b907-76b3b5a5f315,Bradley Reynolds,lisa80@example.net,Asia,Unemployed,Home,123104,3312.9166666666665,98483.20000000001,48
-37b1f542-c485-48b4-86c2-8f37b9308378,Kristina Santiago,qgomez@example.com,Europe,Salaried,Education,135432,5950.416666666667,108345.6,60
-c5ceabd4-73d8-4a50-af45-cab24aa51a3b,Michelle Schmitt,michael98@example.org,South America,Unemployed,Home,91662,2498.75,73329.6,24
-8510651a-3692-48ec-bc9f-d6fdb17109d1,John Boone,megan51@example.com,Europe,Self-Employed,Home,60859,11131.5,48687.200000000004,36
-bef54e91-6c26-4601-ade6-91582206753b,Renee Bruce,lynchdiane@example.net,Asia,Part-time,Home,19308,2542.5833333333335,15446.400000000001,36
-478fb74c-2942-416e-bae7-614e5ed04e05,Christopher Park,sandra50@example.org,Africa,Self-Employed,Auto,71441,2361.5,57152.8,48
-e85175e4-a6d8-4faa-a675-a17900387856,Kylie Morales,joycebonilla@example.org,Africa,Salaried,Home,209366,1333.0833333333333,167492.80000000002,60
-45d81114-8cef-4e32-b760-183db819658c,Cindy Barnes,eric45@example.net,Europe,Part-time,Other,152002,7626.416666666667,121601.6,12
-2c2325d2-00c8-4c97-a045-7674244bd161,Sophia Moore,craigjoseph@example.net,Asia,Salaried,Auto,18555,10021.0,14844.0,24
-1f89155e-7d03-4c77-91fd-51e9e12c2846,Lawrence Perry,kariwilson@example.com,Europe,Part-time,Education,68213,6420.583333333333,54570.4,12
-6208a9d1-d3d9-46f6-a05d-18f07075d541,Michael Watkins,brandon69@example.org,South America,Salaried,Home,238154,7034.166666666667,190523.2,12
-29e34ad1-44f4-451c-83c1-27202f00df84,Eric Clark,kathrynroberts@example.org,South America,Self-Employed,Auto,216864,7571.333333333333,173491.2,24
-21acc0be-da4f-4e8c-8b5d-ffe2a186e928,Paul Thompson,opatel@example.net,South America,Self-Employed,Home,181806,4602.833333333333,145444.80000000002,36
-f68d5526-22b8-4370-a522-388614c65b37,Mary Gomez,chensley@example.com,South America,Part-time,Education,218040,10090.416666666666,174432.0,12
-32cb9d78-ef97-4c37-aee2-363a2c1bd1c6,Thomas Atkins,tberry@example.net,Europe,Part-time,Home,190919,4850.083333333333,152735.2,12
-f3abacdb-03ad-4f91-ba12-c25d81ee2ad8,Brian Smith,george97@example.net,Africa,Unemployed,Home,100264,4839.25,80211.20000000001,48
-09823c28-bba8-49ae-86ab-86fb96b34fd1,Anita Richard,ryanmorales@example.org,Europe,Part-time,Business,200531,6877.416666666667,160424.80000000002,24
-35b0fb17-48cc-4808-966d-f1e97c2a1006,Eric Morgan,kimberly18@example.net,Africa,Part-time,Auto,62454,9220.0,49963.200000000004,60
-305108d2-3c6b-410d-8cb5-dc8904bb5e78,Jordan Bullock,michael23@example.org,South America,Salaried,Other,121038,9523.416666666666,96830.40000000001,60
-17c4f4d7-f0c3-49a1-b457-ea18d10b7592,Craig Morrison,thompsonkendra@example.com,Africa,Self-Employed,Other,158257,7931.5,126605.6,36
-5305ab03-139b-4077-af07-5af910436cbd,Justin Riley,michelle52@example.com,North America,Self-Employed,Home,199916,5075.583333333333,159932.80000000002,12
-9119b096-5b31-46e9-9f59-4204f7f014b9,Jeremy Turner,brittany58@example.org,North America,Unemployed,Education,217583,6167.0,174066.40000000002,36
-73bbec9b-e4aa-4c04-8b4c-2cbd3e6aa9ba,Jesse Brown,chase19@example.net,South America,Part-time,Home,189219,9156.333333333334,151375.2,36
-93a5a840-eb0e-4837-b916-b8157930362a,Julie Spencer,colelisa@example.net,Europe,Self-Employed,Other,197712,9593.25,158169.6,48
-51d7acbf-c40b-4bf8-987f-d7f9c2973fb4,Larry Mason,hayeslisa@example.com,Europe,Part-time,Home,240783,3747.75,192626.40000000002,24
-e051fb40-2872-4a70-b9c7-b952f87244d3,Mrs. Maria Williams,hritter@example.net,North America,Part-time,Home,151221,6319.583333333333,120976.8,12
-267bdcf3-9e43-4f6b-9948-2aaa8f847dfe,Helen Hardin,vortiz@example.net,North America,Part-time,Auto,238963,11523.666666666666,191170.40000000002,24
-ddc4c878-37fb-4b1d-9732-fcf5fac44b49,Rachel Holland,riveraangela@example.com,Africa,Unemployed,Home,191998,7315.833333333333,153598.4,24
-2a649036-c9f9-484f-a247-7d67eaf1e54d,Nathaniel Douglas,mathewaguilar@example.org,Asia,Unemployed,Auto,207681,2558.5,166144.80000000002,36
-45719448-88b6-4d23-a63f-7480cd414a00,Emily Douglas,tanderson@example.org,Asia,Unemployed,Auto,102339,3825.1666666666665,81871.20000000001,24
-89e19a13-0105-4942-a5e3-c5524dd8590c,James Conner,elizabethcalderon@example.net,North America,Part-time,Home,18202,11968.666666666666,14561.6,24
-fb7ccbdf-6b6b-41eb-93ac-7882594687bb,Susan Davis DDS,andrew42@example.org,Africa,Salaried,Business,68761,4897.75,55008.8,12
-601f0477-b168-4b25-b7a7-941513b91efb,Ralph Lee,ericphillips@example.org,Asia,Unemployed,Auto,236326,12487.083333333334,189060.80000000002,12
-f31e699d-1400-4b80-a283-288c0c82c0e2,Kimberly Rodgers,stanleynancy@example.net,North America,Part-time,Home,18907,6836.166666666667,15125.6,60
-d441d668-7916-4e8e-9b2d-4d3f32c6b9a2,James Martin,jenniferwilliams@example.com,Africa,Self-Employed,Home,26343,7493.083333333333,21074.4,60
-131ca74d-5a31-4ab6-a4b7-395128e49460,Cynthia Wallace,karen73@example.net,Asia,Self-Employed,Business,96670,5009.333333333333,77336.0,24
-baa03609-9428-4fd7-8fe0-659692916c5a,Vincent Mueller,michealvalentine@example.com,South America,Part-time,Auto,213901,3170.0833333333335,171120.80000000002,24
-625cca5a-b63a-4009-9b1a-3fc01138d886,Douglas Reyes,mburch@example.net,Asia,Salaried,Auto,194776,2432.4166666666665,155820.80000000002,12
-b5e1da22-3929-41bd-a704-ace54af03719,David Davidson,angela18@example.org,Asia,Self-Employed,Other,89520,7531.75,71616.0,12
-c9607237-bc64-4eba-ba47-e01e203dbd3d,Phillip Nelson,mariahdavis@example.org,Africa,Self-Employed,Education,164910,10877.416666666666,131928.0,24
-78fbd744-6163-4664-b836-de8f313c3cd3,Stacey Arias,gbrown@example.com,Asia,Part-time,Education,76450,9389.0,61160.0,36
-63e4e122-aa22-4d08-9fd0-557c1630a2d9,Zachary Brooks,florescory@example.net,Asia,Part-time,Home,93335,11713.083333333334,74668.0,60
-a722d1e0-e3fd-43ae-a9f5-6c9cd97b2f6c,Raven Taylor,samantha72@example.net,Europe,Salaried,Education,159499,3960.4166666666665,127599.20000000001,24
-752516ea-5ac7-4032-88a6-889ec19850a2,Luis Bullock,scottmary@example.net,Africa,Unemployed,Auto,204226,3407.9166666666665,163380.80000000002,60
-6ea7f580-95ed-44fc-9fc8-347ce3577c87,Lisa Henderson,john10@example.org,South America,Unemployed,Business,190426,10604.833333333334,152340.80000000002,60
-5a10b49a-f6e7-4389-aff7-06b566eed8ba,Riley Bryant,copelandvincent@example.net,South America,Salaried,Auto,33140,9724.166666666666,26512.0,48
-a40b2824-c01c-470f-af95-e90e5802f06d,Jose Allen,kellysmith@example.com,South America,Self-Employed,Auto,128118,5738.916666666667,102494.40000000001,24
-b3f6508d-a7d2-4159-b9aa-d2a3683bd3ac,Jason Beck,millsmichael@example.net,North America,Self-Employed,Education,188830,4529.5,151064.0,24
-ac31219e-11c5-4d32-9c07-e1c7456001d6,Rachel Romero,myerstheodore@example.net,Africa,Self-Employed,Auto,178000,3268.0,142400.0,12
-75f8cac3-cf57-42b6-93f4-55451b2879eb,James Burgess,kristina53@example.net,Africa,Salaried,Other,44457,1960.8333333333333,35565.6,60
-f645ddf7-50e3-4499-9d02-3c54b4b5d5f8,Ashley Perkins,dennis58@example.com,North America,Unemployed,Home,51090,7561.333333333333,40872.0,12
-fa90976f-cd3d-4a54-8650-ef09ba7925a8,Carrie Maxwell,epollard@example.net,Europe,Unemployed,Other,133005,8706.416666666666,106404.0,60
-0d9579ed-36d8-4548-ae71-86b9ad288f45,Chad Baldwin,mjohnson@example.org,North America,Salaried,Business,7916,4471.5,6332.8,12
-41cfde0b-62e3-4d19-b59d-d0fe5dc44699,Stacey Stewart,zachary87@example.com,North America,Salaried,Home,74977,5518.0,59981.600000000006,48
-121f04ad-c65b-464d-9e5f-59943199a25d,Matthew Mitchell,glennmartin@example.org,Asia,Self-Employed,Other,103006,9828.416666666666,82404.8,60
-449f40d8-392d-4907-b994-e312b203a5e1,Jessica Ross,ykline@example.com,North America,Part-time,Business,212402,3030.0,169921.6,60
-17b62747-5be8-4212-8e07-fe74aa9db46a,Kathleen Jimenez,laurie61@example.com,South America,Self-Employed,Business,163528,10453.416666666666,130822.40000000001,12
-ddd1105c-bef0-4ea2-9573-0541e94803dc,Samantha Gardner,curtis54@example.com,Europe,Unemployed,Home,128510,4384.916666666667,102808.0,24
-f6946a21-fb36-4d8d-a3c7-f5ef34804071,Mitchell Jackson,cbell@example.net,Asia,Unemployed,Business,133353,2099.1666666666665,106682.40000000001,24
-e79c927b-b9a6-41e8-ba50-b7f38430af30,Heather Bolton,danielle01@example.net,South America,Unemployed,Home,62171,1954.0833333333333,49736.8,12
-29289283-13c6-415b-8915-53a93a0f7503,Heidi Owen,stephaniethomas@example.net,South America,Self-Employed,Home,89315,11532.75,71452.0,24
-17a65c34-5fe0-4693-8835-a08afdf62536,Jessica Martinez,kimberlydiaz@example.com,Asia,Salaried,Business,87273,11950.083333333334,69818.40000000001,24
-5a5964e6-b541-4961-9911-37b6cfd2f6ed,Amanda Hernandez,xrush@example.com,South America,Part-time,Business,163826,4077.9166666666665,131060.8,12
-0478732d-3357-45cd-a5a1-bf342aa5a19d,Laura Moreno,redwards@example.org,Africa,Part-time,Other,232185,3172.0,185748.0,24
-fba04398-4268-4e34-a72a-4b9b44aa8d59,Allison Lopez,hmcintyre@example.com,Africa,Unemployed,Education,131348,4623.833333333333,105078.40000000001,60
-10ddb304-18a3-4b26-8bf2-359124f92f52,Michele Lewis,heather73@example.org,Africa,Self-Employed,Auto,224997,5241.333333333333,179997.6,48
-952026de-f665-45e3-933d-2d17b8db2239,Benjamin Thompson,zosborn@example.net,Europe,Part-time,Auto,220660,7509.333333333333,176528.0,12
-8822144e-8c56-49fb-9b1e-6b1dfe33b94f,Victoria Contreras,piercekelly@example.com,Asia,Part-time,Education,218992,10745.333333333334,175193.6,12
-61a95dbd-5528-4fa9-b9ce-e33bad6252f5,Michelle Ho,laurahicks@example.org,South America,Self-Employed,Education,29024,10295.5,23219.2,48
-4ce22e13-9c83-439c-ae80-459aa01e7823,Dr. Cynthia Snyder,angela57@example.net,North America,Part-time,Other,116926,1535.4166666666667,93540.8,36
-7e9f64a3-f0f4-476c-9d42-081e1dbbb202,Stephen Jones,ukey@example.com,Africa,Self-Employed,Education,213492,4170.916666666667,170793.6,36
-2e7a9acc-ff63-40c4-b598-a1ce6cd44989,Patricia Morrow,martinezlogan@example.org,Europe,Salaried,Other,56359,2190.0,45087.200000000004,24
-118e4ad9-11fd-4009-8917-6a4b6c1d3ced,Michael Cooper,katrinaanderson@example.net,South America,Salaried,Home,154105,6992.916666666667,123284.0,36
-3a314616-3e53-4000-8714-eaf29257e5b7,Amy Martinez,kevinmartin@example.net,Europe,Part-time,Auto,81214,9349.083333333334,64971.200000000004,36
-63a88e9b-6836-4ca5-9b33-2f045bab21dc,Travis Stone,meghan43@example.net,Africa,Salaried,Education,65158,7955.833333333333,52126.4,60
-4534e8a5-a690-4d95-9c7e-b1ec359a136d,Denise Weber,shawgary@example.net,Europe,Self-Employed,Auto,190150,4874.583333333333,152120.0,36
-37bbe1de-f0d7-4a53-a2d5-c063c14d2568,Matthew Le,megan90@example.org,South America,Part-time,Other,192577,10266.75,154061.6,36
-33dfb646-1f52-4a4f-a9be-9e990033921e,Travis Wise,debra96@example.net,North America,Self-Employed,Education,142102,5573.0,113681.6,48
-dc2d450d-ae05-46bb-a60d-a357459c0532,Kathleen Burton,dawn47@example.org,North America,Salaried,Business,189780,11317.5,151824.0,48
-14fe11a9-1e5d-4475-b02a-9c5ce5bc499e,Melinda Evans,barkereric@example.com,South America,Salaried,Business,83794,5894.333333333333,67035.2,48
-e2f5b898-c52b-4809-a269-0d6cca3c77d8,Mr. Lawrence Edwards,jessica56@example.org,South America,Unemployed,Business,64541,10376.833333333334,51632.8,12
-7b549f9f-999b-4815-9213-e69a01ee27da,Kayla Rodriguez,stevenadams@example.org,North America,Unemployed,Education,104145,3723.25,83316.0,24
-973bfa15-1a10-457b-abff-a0b9584a5d5d,Anthony Dougherty,kwright@example.com,North America,Part-time,Home,125914,9454.333333333334,100731.20000000001,60
-58cfe277-227e-4100-aae9-af81056bbf11,Michelle Lee,tyronerobertson@example.com,North America,Salaried,Auto,126167,6636.583333333333,100933.6,12
-6b0d490a-f1eb-406e-86df-041192d8659b,Kathleen Davis,pwagner@example.org,Europe,Part-time,Business,176255,4241.916666666667,141004.0,48
-cf3a9efa-4074-482d-b722-187dd628d8b9,Amber Campbell,amitchell@example.org,Europe,Salaried,Auto,82670,4053.75,66136.0,60
-f59113b6-6e03-4daa-992a-40e5193ee6e8,Stephen Luna,zdiaz@example.org,North America,Unemployed,Other,32545,3365.3333333333335,26036.0,36
-9aa85b90-e8af-42e8-9bf4-82b9c8fa5ade,Chloe Tran,hughesshannon@example.net,Asia,Self-Employed,Other,59336,5269.666666666667,47468.8,60
-7b46de89-967e-45e3-8257-04b58ec51bf6,William Becker,andersoncolin@example.com,Europe,Unemployed,Education,23704,7334.25,18963.2,48
-27e60a75-363f-4417-8179-ae74dd9b9831,Gina Mcmillan,jameshicks@example.net,Africa,Unemployed,Business,25254,1894.25,20203.2,12
-bce13fb6-2e0d-40b8-96a6-1f0f414d1843,Andrew Reeves,jstone@example.net,South America,Self-Employed,Education,78978,11412.416666666666,63182.4,36
-00944957-079e-463f-b6df-319535133bd1,Brenda Velazquez,francisco94@example.net,Asia,Part-time,Business,147793,11096.5,118234.40000000001,48
-0cdb1a11-2c13-4208-91b6-ecc9204b5ddc,Ronald Patel,thomas05@example.com,Africa,Unemployed,Business,19408,3709.9166666666665,15526.400000000001,48
-c6e417a7-3bc3-4a3b-b45d-b19be546b00e,Veronica Silva,carlsonjoseph@example.net,Asia,Self-Employed,Business,182420,2509.9166666666665,145936.0,48
-1837bb9f-9dfa-4849-b3ca-efe3473b81c3,Paula Lane,silvageorge@example.net,Africa,Unemployed,Home,63177,3442.8333333333335,50541.600000000006,36
-283e3101-8a4f-46d7-a3ed-30ed64274307,Patricia James,anthonyvaughan@example.org,Asia,Self-Employed,Business,199620,9606.083333333334,159696.0,60
-5dbd92e7-c24b-4e1f-a3ca-8ca6b060dbda,Jeremy Barnes,avaughn@example.net,North America,Unemployed,Home,158888,8447.166666666666,127110.40000000001,24
-1f2382ec-4913-444a-8c18-b7a8df24a122,Tami Salas,thorntonapril@example.net,Asia,Unemployed,Education,33183,5788.416666666667,26546.4,12
-8e347c51-fc23-4b69-926e-50bde1d68aa4,Matthew Fox,sue78@example.com,Africa,Salaried,Auto,107955,9151.333333333334,86364.0,48
-ad343a27-b3db-43de-a6fe-8d6428749570,Megan Dillon,chelsea33@example.com,South America,Self-Employed,Business,52107,2770.0,41685.600000000006,60
-8cb3e08e-eb70-4900-b011-ba23bda793d0,Courtney Dudley,kellie37@example.com,South America,Unemployed,Education,170014,1724.5,136011.2,60
-faf1e05e-0a72-4b9d-9906-6c2ee9009472,Justin Michael,keith98@example.com,Africa,Unemployed,Business,217384,6304.916666666667,173907.2,60
-6043923b-58f4-4cf8-ab61-7c2be6fa5905,Jennifer Reed,kellyroberts@example.net,Asia,Self-Employed,Business,151293,10437.333333333334,121034.40000000001,24
-cd0cf846-6a08-46bf-8959-455b53736c7d,Thomas Douglas,ilewis@example.com,Asia,Unemployed,Other,139635,7755.333333333333,111708.0,12
-7fe007bc-2ba2-47b6-9f02-1b3000392e5e,Melissa Taylor,johnsantiago@example.net,Europe,Self-Employed,Other,224374,9437.75,179499.2,36
-61d7d6a8-978e-44a0-9ff1-edb3e70544ed,David Garcia,jennifer12@example.org,Asia,Part-time,Other,165322,5980.0,132257.6,12
-bbbb89f5-5bfa-4176-a12d-1d9b4b245317,Vanessa Moore,mwoods@example.com,Asia,Salaried,Home,231541,4901.583333333333,185232.80000000002,48
-c9b2bd34-ba4d-4a14-830f-0d6acab5d3f7,Matthew Velez,pearsonjesse@example.net,South America,Unemployed,Business,209849,9936.166666666666,167879.2,24
-492ccb98-5fc5-4e89-8e46-ecb0494c135a,Taylor Gentry,robertmonroe@example.org,South America,Self-Employed,Home,23426,1816.3333333333333,18740.8,36
-8c57bb76-9f58-4aea-9902-61558225bcf9,Jennifer Simpson DVM,nancy04@example.net,Africa,Unemployed,Home,38178,12382.0,30542.4,48
-2ed907d7-dd08-4793-b06d-1f3920b7fbf7,Tanya Rogers,ihays@example.net,Europe,Part-time,Home,76459,8390.0,61167.200000000004,48
-08d8c5d6-7c64-493c-929a-4deb3a5d4a85,Todd Rosales MD,lisarivera@example.net,Africa,Unemployed,Home,36285,2044.8333333333333,29028.0,48
-99892431-02b3-44f2-8dd8-f8b785affd61,David Lopez,krystal93@example.org,South America,Unemployed,Education,92558,2727.5,74046.40000000001,12
-635b335c-aa36-4b0c-b097-8e4a3964caab,Margaret Sullivan,frobertson@example.com,North America,Part-time,Other,249177,8567.25,199341.6,48
-98402520-de38-48b1-a0bd-4887dea33c8a,Cathy Taylor,shari04@example.com,North America,Self-Employed,Auto,69960,11772.5,55968.0,60
-af3bea95-1ad9-4d38-9745-17c07ca7f763,Paul Finley,brandi90@example.com,Africa,Unemployed,Auto,86149,1630.6666666666667,68919.2,12
-fdbc0e0e-5a88-45ee-a5c4-028d7d78e820,Melissa Brown,marshallerik@example.net,North America,Salaried,Business,34760,2794.9166666666665,27808.0,60
-e1c189f6-bd8e-456b-a5e5-40b923c97531,Stephanie Padilla,hannah45@example.net,North America,Part-time,Business,83560,6489.583333333333,66848.0,24
-4f3d34f5-1b69-461c-bd95-90df52477bde,Tyler Mendoza,madkins@example.com,South America,Salaried,Other,245222,5919.916666666667,196177.6,36
-2537cbda-2894-4059-9cde-0718a131903a,Joshua Ruiz,kathleenbecker@example.net,South America,Part-time,Business,246266,4060.5,197012.80000000002,24
-a5e1f6f2-3ab8-4cfc-a2e0-c1a9b5803d23,Angela Griffin,christian91@example.org,South America,Part-time,Other,150458,11023.333333333334,120366.40000000001,48
-4c97b70f-dae8-47a1-9cca-43a5d31e7481,Stephanie Harris,franklinbond@example.com,Africa,Self-Employed,Education,245507,8159.833333333333,196405.6,36
-4c06745c-f409-4b8b-82b4-f82e9a7b29dd,Daniel Aguilar,nolansean@example.org,Asia,Self-Employed,Business,40778,9056.583333333334,32622.4,36
-bd080d57-dfd2-4ae0-a419-83ba3294ea03,Jose Bryant,hansenemily@example.com,North America,Part-time,Education,9049,3674.8333333333335,7239.200000000001,24
-dfabd9b2-8d91-45c4-94e1-9609e26de6d8,Jennifer Velasquez,bethwilliams@example.com,Africa,Unemployed,Other,33870,6760.5,27096.0,36
-2fb421a7-40a9-44fd-aaac-1db633f9c68b,Kimberly Brown,andersenthomas@example.com,Asia,Self-Employed,Auto,70304,1628.25,56243.200000000004,60
-da5f0a9f-f7c0-4f83-8400-71a2e173c2e0,Randy Cannon,ybrooks@example.com,North America,Unemployed,Education,55157,2459.9166666666665,44125.600000000006,24
-d909ef67-870c-4f76-adbf-72ef35e93158,Susan Bennett,desireebailey@example.org,Europe,Self-Employed,Auto,119215,1815.25,95372.0,36
-834d165a-f5f6-4ed0-847e-a6084929385c,Jenna Anderson DVM,avilatiffany@example.com,Europe,Unemployed,Business,43640,3356.0,34912.0,36
-e7a2b16f-f62d-4bb9-ba55-71ca7991804d,Kimberly Patel,johnreed@example.com,Europe,Unemployed,Other,55448,3366.0,44358.4,12
-d490ab20-a4fe-4fbd-9a68-f3542dffb486,Shaun Cannon,pachecorobert@example.org,Europe,Salaried,Home,221215,4983.083333333333,176972.0,48
-86f4b3e7-8fc3-4822-b265-5ef54290fd38,Austin Wheeler,tharper@example.org,South America,Part-time,Business,119458,6938.666666666667,95566.40000000001,60
-ea21e275-aaba-49cc-92d8-62e973be9841,Andrew Gonzales,karenparsons@example.org,Europe,Unemployed,Other,23310,1327.0833333333333,18648.0,12
-90e628ea-d0fd-4c3d-9f1d-0c4eef6b810a,Donna Cabrera,barbara53@example.com,Africa,Self-Employed,Other,19000,8150.75,15200.0,12
-45bc8d57-b122-40a4-a6e7-b698c0c357cf,Victoria Boyd,dturner@example.net,Europe,Self-Employed,Education,108781,7995.75,87024.8,48
-4050d316-15bc-4f9b-ac74-70a35a12b6f6,Sheryl Buck,dpeters@example.com,Europe,Part-time,Auto,44529,6939.083333333333,35623.200000000004,48
-5ea3aa44-a1f8-43ea-8768-4bf39cc803ad,Megan Floyd,heather62@example.com,North America,Part-time,Auto,105098,8153.916666666667,84078.40000000001,60
-0a7c58fa-a76a-4f20-8931-cd9dff5be69a,Paul Wells,kevinzimmerman@example.com,Asia,Part-time,Other,20674,11471.916666666666,16539.2,36
-1da55d35-1eb5-42a6-a2bf-df935c031f21,Kristina Faulkner,paulscott@example.com,Asia,Part-time,Auto,142506,3672.5833333333335,114004.8,36
-81afefaf-4975-466d-9ee2-deb05a9a3352,Tammy Boone,nicholsmaria@example.org,Asia,Salaried,Other,106475,11386.583333333334,85180.0,36
-8a37bf19-094d-4f1b-9855-892d6342c718,Michael Morrison,lopezkathleen@example.net,South America,Salaried,Business,208948,6234.25,167158.40000000002,48
-bd3ee3e3-c4e6-4c1b-9ee5-4ad3921561fc,Claire Clark,kevin03@example.org,Europe,Unemployed,Auto,35378,9849.833333333334,28302.4,48
-62f003c6-c5bf-47c7-a4f6-43670b56a2ab,Autumn Key,srocha@example.net,North America,Salaried,Other,34108,3230.1666666666665,27286.4,36
-7a891a5f-b724-44d4-807d-97ba22393943,Jennifer Allen,kimberly67@example.net,Europe,Salaried,Education,121465,12284.916666666666,97172.0,36
-3275f884-7703-42fb-b9e8-b9f2ec789a36,Elizabeth Ward,zowens@example.net,Africa,Unemployed,Education,158948,11876.75,127158.40000000001,24
-845fb846-15b4-4ec7-85d8-b9b8e115b95c,Ryan Rocha,lawrence09@example.org,Europe,Part-time,Business,168575,7638.833333333333,134860.0,48
-f9242144-0225-426d-a040-4f31315e9eb7,Alexis Tran,mphillips@example.com,Europe,Salaried,Business,230714,7222.25,184571.2,60
-5544dc01-57de-44bf-985e-6b5b1e5685b9,Kelly Sanchez,jonathan77@example.com,Europe,Salaried,Education,248646,6972.75,198916.80000000002,36
-703bf879-5cb6-493a-9d8b-b261bbe646a4,Robert Jackson,iwhite@example.net,Europe,Unemployed,Education,208130,3293.0,166504.0,60
-36516f99-7a37-40bc-a727-eead4c3b20a9,Kelly Combs,landryelizabeth@example.org,North America,Self-Employed,Auto,192788,9021.833333333334,154230.4,24
-79943e2c-62b3-4080-be71-43afe1eb9474,Ryan Hall,albertwagner@example.com,South America,Part-time,Business,10194,9480.833333333334,8155.200000000001,60
-3ea6ce6e-4d91-42fa-a1e6-74a213f56bf1,Mark Peck,bhopkins@example.org,North America,Part-time,Other,210538,5383.25,168430.40000000002,36
-a5988aa0-9bc0-4160-8f5e-480046ee6d83,Jennifer Smith,amanda40@example.net,North America,Salaried,Business,113319,3941.3333333333335,90655.20000000001,36
-f5028d19-d01c-45e6-bc28-239aaa99a441,Megan Drake,danieldavis@example.org,South America,Unemployed,Auto,206251,12395.416666666666,165000.80000000002,60
-66135087-f867-4886-98bc-1b96462d6e48,Manuel King,joseph61@example.com,Africa,Part-time,Other,67746,1384.75,54196.8,24
-3f805904-0533-4941-bf9d-9f431ca710b7,Judy Sanchez,kevinclayton@example.org,Asia,Part-time,Education,219560,6329.333333333333,175648.0,12
-e7dbf126-bfc8-4585-83d4-e9a159f915be,Shannon Malone,sullivannicholas@example.com,Africa,Salaried,Auto,172936,8064.5,138348.80000000002,12
-6793cf6b-90ac-4b13-a378-35e14b54e011,Adam Jackson,pbruce@example.com,Africa,Salaried,Business,208868,3756.5,167094.40000000002,24
-6b5120f9-034e-4fbf-9704-6d8db1fe76e6,Shannon Davis,hallrachel@example.net,Africa,Salaried,Auto,181897,1642.9166666666667,145517.6,36
-b5bfd0e9-7683-4b5a-96ba-ec8689bdeaca,Karen Williams,cohenjuan@example.net,Asia,Self-Employed,Other,60102,7827.916666666667,48081.600000000006,24
-850a7067-2676-4283-a48b-bcea29c1c4b7,Amanda Mcfarland,alexis39@example.org,Africa,Part-time,Business,248043,10276.166666666666,198434.40000000002,12
-1a569a5d-70b2-4d53-82ba-76130d0e6afd,Michelle Sanders,evansanne@example.net,North America,Salaried,Business,249871,6497.75,199896.80000000002,12
-49687eff-8ef0-4f3b-bc61-cc2b4d86bd5d,Jasmine Mosley,patrick21@example.net,Europe,Unemployed,Education,119707,7829.666666666667,95765.6,48
-231db6c1-0e30-4425-8cc9-49b4e436478d,Haley Davis,marypeterson@example.net,South America,Part-time,Home,176638,1698.0,141310.4,36
-28140006-8ecf-46c1-a1d2-de41526861c2,Jennifer Ayala,walterskristen@example.com,Europe,Salaried,Auto,36941,2526.8333333333335,29552.800000000003,36
-56ca8912-3e28-4df4-b4c0-904faa2f5ce9,Henry Pugh MD,nmiller@example.com,North America,Unemployed,Business,65132,3811.6666666666665,52105.600000000006,12
-65b63a38-8abc-46e3-bc22-f8e72d7ccafc,Michelle Miller,normanbowers@example.org,Asia,Part-time,Business,101131,5143.083333333333,80904.8,24
-f9f5c327-5e9f-4be8-80e7-a83d614cfe1d,Emily Rodriguez,hahnsean@example.com,North America,Self-Employed,Home,54722,8187.5,43777.600000000006,36
-0f0aae82-dc4c-4448-a609-46f6c88b46b0,Brandon Jordan,fgarcia@example.com,Europe,Self-Employed,Education,213103,8983.833333333334,170482.40000000002,12
-c5326e50-2145-4693-a71f-503a9fbd8e94,Linda Mueller,asmith@example.com,Asia,Self-Employed,Auto,215651,3378.0,172520.80000000002,48
-eaa4fbe8-a0b6-416d-a454-0f4efcab904d,Misty Hansen,ashleyjackson@example.com,North America,Part-time,Other,240058,6383.083333333333,192046.40000000002,60
-9acec15e-4bc3-40a4-a1f2-799b47b4a785,Derrick Adams,bryanhamilton@example.com,Europe,Self-Employed,Business,52384,1514.3333333333333,41907.200000000004,12
-72549c4b-8ae3-49f8-a259-99e8be49224a,Richard Ward,jennifersimpson@example.net,Asia,Unemployed,Education,246924,2196.0833333333335,197539.2,36
-e8731bf5-1eae-4d88-b52c-5c30986246a3,Brian Torres,ncook@example.com,South America,Unemployed,Auto,67381,8507.416666666666,53904.8,60
-2b04fc1b-3e9b-4106-8879-53e105718852,Erin Cook,kevinmorrison@example.net,Africa,Salaried,Auto,222782,10853.416666666666,178225.6,36
-63697dc8-ee63-468a-b9fa-767d83991e3d,Ernest Oconnell,kelly79@example.org,Asia,Self-Employed,Home,194185,12201.25,155348.0,36
-36a769ca-062a-4798-af70-9060aa2fa162,Douglas Hartman,daniel93@example.net,Asia,Part-time,Home,165087,4522.833333333333,132069.6,24
-6e8a3606-5b58-4ecb-b640-59d6292d104d,Catherine Saunders MD,nhahn@example.com,Asia,Unemployed,Home,8855,3489.6666666666665,7084.0,12
-7f56b15a-4f3c-4578-b2cb-12d2da32b97d,Sandra Jones,ichambers@example.net,Asia,Part-time,Business,10371,5375.75,8296.800000000001,36
-909c36b8-fb34-4f8b-ad02-8020e6dc0cad,David Moore,emccormick@example.com,North America,Unemployed,Auto,127011,2106.25,101608.8,36
-061c6fbf-4c94-44f8-b537-4cbd0c8039fb,Karen Morales DDS,ystephens@example.com,North America,Self-Employed,Business,81678,10622.25,65342.4,60
-b33e7c40-5b6b-4b83-9680-2ba7ab8a2ee9,Robin Wheeler,rodriguezjohn@example.net,North America,Unemployed,Home,245353,6407.666666666667,196282.40000000002,36
-781f4476-7c08-492b-b514-3a39790aff68,Matthew Williams,vrasmussen@example.com,North America,Part-time,Education,32655,9458.583333333334,26124.0,48
-1f715bf7-811c-40bd-8b10-96da65d4c1f7,Brett Walker,seanmyers@example.net,Africa,Part-time,Auto,83101,8647.25,66480.8,48
-0872121c-d053-431e-a190-5970e96b6852,Kathryn Cooper,webbkenneth@example.org,Africa,Unemployed,Other,45838,6213.416666666667,36670.4,48
-3db65a68-1d1b-4f05-a900-df8625269d29,Todd Thomas,matthew38@example.com,Africa,Salaried,Other,100051,6549.833333333333,80040.8,12
-7e2d362e-8abd-454a-a91c-a20c45ad69e2,Brent Bowen,tflores@example.org,Africa,Unemployed,Auto,212969,6195.833333333333,170375.2,12
-97e4709e-40e6-417a-b86b-2280338a5754,Ashley Sweeney,byrdfrank@example.net,Europe,Self-Employed,Auto,189992,6185.416666666667,151993.6,12
-e87fda66-15e7-4200-91c6-14dc5c3a34d9,Christopher Moore,omullen@example.com,Africa,Self-Employed,Auto,162766,9185.416666666666,130212.8,36
-ae990e89-257c-4640-9568-745446c31e40,Charlotte Sandoval,njohnson@example.org,Europe,Part-time,Other,217450,6351.916666666667,173960.0,36
-49af25b1-449e-4c58-aecc-dacaed4ca49a,Jeffrey Smith,jamiegoodwin@example.org,Europe,Part-time,Business,208596,1380.6666666666667,166876.80000000002,36
-533f82cf-5d4c-4d3c-9178-b276eb889cf3,Rebecca Herrera,mark71@example.com,North America,Salaried,Business,203279,3097.0833333333335,162623.2,60
-93088f1c-4939-4d0c-8f1c-7a78ab186e6b,Katherine Church,candice96@example.net,North America,Part-time,Education,91891,1508.1666666666667,73512.8,12
-4eaa5cce-065a-4acf-a76f-dd7b3dc32ea5,Harold Ellis,lisamccarthy@example.com,North America,Unemployed,Other,12014,3469.3333333333335,9611.2,24
-1e422a82-e288-4602-a4c1-f1b454b1a31f,Leslie Powers,david41@example.org,Asia,Part-time,Education,157287,6636.166666666667,125829.6,48
-4c63e4c7-917e-44d5-8e33-7d5f507ea6dd,Charles Price,baileyhenderson@example.com,North America,Salaried,Home,140640,9163.166666666666,112512.0,12
-9a609706-d72c-48d4-9da5-46afc435a5c7,Melissa Brewer,angelaburns@example.org,North America,Unemployed,Home,135017,6958.0,108013.6,60
-f5cd0c1c-bccb-4524-b901-adb2c27136db,Ryan Harvey,stephanie72@example.org,Asia,Part-time,Education,110989,12332.583333333334,88791.20000000001,48
-7ac0eba2-384f-472a-8cba-950f2c6f8885,Tracey Wagner,fortiz@example.com,North America,Part-time,Auto,91037,2265.75,72829.6,48
-7aeef775-5bad-4165-9476-c2f2cd46634d,Jill Jackson,flynnjeffrey@example.org,North America,Self-Employed,Auto,79806,4941.833333333333,63844.8,12
-709197cf-6374-45da-aac3-b3696a51afe1,Joshua Jackson,xcunningham@example.com,Africa,Unemployed,Home,181008,7105.833333333333,144806.4,12
-9eef22c9-a4cb-4136-b02e-07dbe007e596,Ashley Wilson,amber07@example.net,South America,Self-Employed,Education,192884,5876.416666666667,154307.2,60
-58d70acc-2ea1-48fb-8615-42d8f503acad,Jeffery Fitzgerald,kennethkidd@example.com,Africa,Self-Employed,Business,5660,2058.75,4528.0,24
-1a16cfdd-50b9-4bee-bedf-1438a53a826a,Scott Miller,rowejoel@example.net,North America,Unemployed,Home,135630,1786.8333333333333,108504.0,24
-ed4d9286-4c08-4a1d-aaa6-7c7101c20a99,Heather Page,imartin@example.org,North America,Self-Employed,Education,181186,9967.333333333334,144948.80000000002,12
-d1d735eb-ba19-4f4d-bb50-5d206528acc6,Renee Hudson,candice25@example.net,Europe,Unemployed,Other,142449,11856.5,113959.20000000001,60
-fd89f353-4e24-418a-9a61-50590a86fc90,Kenneth Farley,taylorkaren@example.com,Asia,Salaried,Home,54331,7616.25,43464.8,36
-ebe4bf1a-2f8f-4432-afcb-7a5532e1635e,Wendy Camacho,jacquelineanderson@example.org,South America,Salaried,Education,185277,7368.416666666667,148221.6,60
-1bd6cf62-6abb-4026-9ad0-17eae6d14dc8,Sandra Juarez,kburns@example.net,South America,Part-time,Home,102657,6705.0,82125.6,48
-f6d3a42f-d949-4c16-9087-dfdfe720c79c,Jason Hayes,powellkara@example.net,Europe,Salaried,Auto,84184,7712.666666666667,67347.2,12
-35428051-bf9e-43b9-afb0-c90600591846,Jackie Clements,brandi17@example.net,North America,Part-time,Education,29270,11319.083333333334,23416.0,48
-4d09bbd0-5930-4741-97a0-f7555a21e91b,Heather Brown,brobinson@example.org,North America,Part-time,Home,67336,9249.0,53868.8,48
-8d2a8849-56a2-4471-a271-eec917ec0ba4,Frank Campbell MD,ashleewashington@example.com,South America,Part-time,Auto,38894,4857.25,31115.2,36
-4c0b647d-b986-492e-89ff-c4d2066c11a5,Pamela Williams,ksmith@example.com,Africa,Self-Employed,Education,170645,5371.416666666667,136516.0,36
-39dada6c-4a91-4733-a4b2-d2326b3cb625,William Patterson,nicoleturner@example.com,Europe,Unemployed,Business,168426,4001.1666666666665,134740.80000000002,12
-6f55d45d-2eeb-49e1-8611-6828cf6f6c89,Isaac Miller,brettgarrett@example.net,Europe,Self-Employed,Business,184724,6930.666666666667,147779.2,60
-f7950279-0233-43aa-b143-4484f05c6cb0,Cynthia Rios,smiththomas@example.org,Africa,Self-Employed,Other,147179,2736.5833333333335,117743.20000000001,12
-5e0ccd5c-bf97-40b3-b9c2-bb5aa7e19c14,Kelly Wallace,dominguezlisa@example.com,Asia,Part-time,Other,34904,6996.166666666667,27923.2,36
-d051169e-0bff-4c08-b18e-9090a4c006b9,Karen Perez,crosscurtis@example.com,Africa,Part-time,Business,100714,4875.666666666667,80571.20000000001,12
-bc0fbf0c-b387-467b-95cf-9fa64184c243,Edwin Reyes,darlenebyrd@example.org,Europe,Unemployed,Other,181039,8717.5,144831.2,60
-d76aab04-57cf-4f6f-96bc-5bcd9fee0993,Alejandra Santos,nbell@example.net,North America,Unemployed,Education,70235,8686.833333333334,56188.0,48
-abd9c6a9-b339-4072-a764-05a4481e2937,Tamara Jensen,fheath@example.org,Europe,Part-time,Other,165662,8098.666666666667,132529.6,12
-608ba577-231f-4977-ab0c-f0e0f51bf4eb,Bryce Blair,sylvia52@example.org,South America,Part-time,Auto,192828,3782.5,154262.4,12
-b3ac163e-7d53-4401-85ab-c5dd637626c8,Bradley Tran,kimberly04@example.org,Asia,Part-time,Auto,179173,8332.25,143338.4,12
-8d1b0893-e9bc-4c38-a137-d301468ff41d,Katrina Adkins,debbie37@example.com,Asia,Unemployed,Other,26261,7210.75,21008.800000000003,36
-c76ee1f6-d5d3-4b90-baaf-ac59afe38f3a,Jonathan Wheeler,hatfieldsarah@example.org,South America,Unemployed,Business,210383,2355.5833333333335,168306.40000000002,12
-10aeca3f-2898-4ff6-9ade-b672a30da304,Ryan Fisher,kathrynbest@example.org,Asia,Unemployed,Business,236128,3204.4166666666665,188902.40000000002,48
-de79af78-0f36-475a-a94b-b770a71fac2a,Austin Baker,livingstonstacy@example.com,Europe,Self-Employed,Other,180880,3354.5,144704.0,36
-8a2ce976-7fd0-4594-9b5a-146429f72d0e,Lori Mason,zhenderson@example.org,South America,Unemployed,Home,172806,6340.416666666667,138244.80000000002,60
-a9fb206f-b2f1-4ec7-88f6-519a3da71233,Kimberly Hernandez,collinswilliam@example.org,South America,Unemployed,Education,133564,8338.833333333334,106851.20000000001,36
-4e1a0186-6360-4c88-b1d1-43d4e8d35da0,Brittney Murphy,collinssamuel@example.org,Africa,Unemployed,Education,160461,7807.25,128368.8,24
-16cd5a6e-2e75-42ae-97a9-f00281f05495,Brandon Hamilton,dsalazar@example.com,Africa,Part-time,Business,31357,11102.416666666666,25085.600000000002,60
-57aaa9a6-5afc-4112-a15a-303a90465974,Mary Thompson,zimmermanjacqueline@example.org,North America,Part-time,Business,245673,2899.75,196538.40000000002,48
-f880ef3a-76f8-4527-95b7-d5029a31bae5,Gregory Holmes PhD,gary24@example.net,Asia,Unemployed,Other,150582,2442.6666666666665,120465.6,12
+id,full_name,email,age,income,loan_amount,credit_score,months_employed,num_credit_lines,interest_rate,loan_term,dti_ratio,education,employment_type,marital_status,has_mortgage,has_dependents,loan_purpose,has_cosigner
+b450806a-29a7-45e4-b146-5c8fcb8027bc,Borrower_b450806a,user_b450806a@example.com,55,34114.56,19470.39,581,113,2,23.54,36,0.2694,High School,Full-time,Single,True,True,Education,False
+bfba11ae-34b2-4911-86b6-f52e01633974,Borrower_bfba11ae,user_bfba11ae@example.com,56,145461.39,129744.95,641,54,1,15.19,12,0.4327,Bachelor's,Full-time,Divorced,True,True,Auto,True
+e64bfc54-103f-48f6-ba2b-d7e9633e35d4,Borrower_e64bfc54,user_e64bfc54@example.com,26,107927.04,110439.45,569,105,3,18.02,12,0.2866,Bachelor's,Full-time,Married,True,True,Auto,True
+ac3712ef-3a13-4272-8ddd-51957a08cf41,Borrower_ac3712ef,user_ac3712ef@example.com,26,72779.43,161507.93,326,118,1,14.71,24,0.3817,Bachelor's,Full-time,Single,False,False,Home,True
+8dd030b2-8b74-4ec1-832a-79f005425276,Borrower_8dd030b2,user_8dd030b2@example.com,24,94870.62,133531.62,662,102,3,15.02,60,0.2283,Bachelor's,Full-time,Single,False,True,Business,True
+cd682187-9e14-4be7-b001-1c3f5bb0d995,Borrower_cd682187,user_cd682187@example.com,41,149999.0,114519.09,680,20,4,14.88,36,0.3524,PhD,Full-time,Divorced,True,False,Education,False
+f38b7f51-81b3-4a26-8432-0426b8d6d438,Borrower_f38b7f51,user_f38b7f51@example.com,66,60000.0,34312.35,371,86,4,13.35,60,0.6148,Bachelor's,Full-time,Married,False,False,Business,True
+7a9c5b69-54ae-4514-89c5-ae02d40d515c,Borrower_7a9c5b69,user_7a9c5b69@example.com,34,100123.19,80664.26,518,86,4,2.21,12,0.3128,Bachelor's,Part-time,Single,False,True,Education,True
+4d2b0d82-db9f-4c5a-9695-bbf0a93fabaa,Borrower_4d2b0d82,user_4d2b0d82@example.com,67,44281.74,86923.89,542,24,2,10.17,36,0.3966,Master's,Self-employed,Single,False,True,Home,False
+ee5f1f39-244a-4b66-9287-afa7b64abcb3,Borrower_ee5f1f39,user_ee5f1f39@example.com,41,74138.43,144981.28,363,39,3,12.88,36,0.3732,High School,Part-time,Single,True,True,Home,True
+1ccfb23d-e420-471c-8264-4305ce823970,Borrower_1ccfb23d,user_1ccfb23d@example.com,37,52899.39,39036.6,755,57,3,21.02,12,0.4593,Bachelor's,Full-time,Married,True,False,Auto,True
+d6b0bf1b-2ed6-430f-80bc-6e90ff7d1c46,Borrower_d6b0bf1b,user_d6b0bf1b@example.com,48,60000.0,45794.39,467,24,4,24.69,12,0.3245,High School,Self-employed,Single,False,False,Other,False
+0bed0ff2-9649-4226-82d2-2ea9d6a442ea,Borrower_0bed0ff2,user_0bed0ff2@example.com,23,65071.19,86550.58,305,24,3,13.06,60,0.2077,Bachelor's,Self-employed,Single,False,True,Home,True
+8ef53d4e-c989-400b-9dd6-13a48e2b8b78,Borrower_8ef53d4e,user_8ef53d4e@example.com,21,68340.68,147497.87,477,89,3,5.13,12,0.2548,High School,Full-time,Single,True,True,Home,False
+529a9074-a0e8-4aac-97e0-7c3b164c6ad3,Borrower_529a9074,user_529a9074@example.com,19,58449.89,77008.63,813,50,1,6.87,24,0.2359,Bachelor's,Full-time,Single,False,False,Auto,True
+902887d4-a443-4012-85a9-167a00d78ea5,Borrower_902887d4,user_902887d4@example.com,53,43458.19,37912.4,634,84,2,11.85,24,0.5101,High School,Full-time,Married,False,True,Other,False
+3fe01c1b-7988-4232-af1f-f7262e36d8b1,Borrower_3fe01c1b,user_3fe01c1b@example.com,56,77239.13,78620.52,467,89,1,12.27,60,0.1959,Bachelor's,Unemployed,Single,False,True,Education,False
+417f4317-747b-42a8-ac62-eefd0b23039e,Borrower_417f4317,user_417f4317@example.com,27,66990.98,126048.91,582,6,4,18.21,60,0.3486,Master's,Full-time,Married,False,True,Home,True
+b8799d79-380f-4599-96e7-f74b847668ed,Borrower_b8799d79,user_b8799d79@example.com,61,149999.0,213762.42,820,117,3,4.38,24,0.317,Bachelor's,Part-time,Single,True,True,Home,True
+c87b1d5a-2c42-4c3c-8476-8fc735918955,Borrower_c87b1d5a,user_c87b1d5a@example.com,49,117596.95,145766.1,763,77,1,21.6,36,0.3541,Bachelor's,Self-employed,Married,False,False,Auto,False
+e85e5c3b-4a65-4e8f-86cb-5ea0af7e27c6,Borrower_e85e5c3b,user_e85e5c3b@example.com,42,99714.02,198767.26,574,24,3,15.25,48,0.2068,Bachelor's,Full-time,Divorced,False,False,Home,False
+ae25b35f-913f-41aa-8467-b1c88b2e802a,Borrower_ae25b35f,user_ae25b35f@example.com,42,41386.59,90116.24,348,5,2,19.07,48,0.3619,High School,Full-time,Single,False,False,Business,True
+c8e8fce0-f5ac-4452-ada8-14419c63e7d5,Borrower_c8e8fce0,user_c8e8fce0@example.com,22,141000.5,143831.28,680,88,4,20.1,24,0.4345,Bachelor's,Self-employed,Divorced,False,False,Auto,False
+26c96456-acec-4ab7-9953-53a849428888,Borrower_26c96456,user_26c96456@example.com,46,51640.02,50923.08,680,57,1,9.59,60,0.3139,Bachelor's,Full-time,Single,False,False,Business,True
+f67306be-a8ab-4858-a72a-407679949ca2,Borrower_f67306be,user_f67306be@example.com,52,60283.45,76694.68,356,63,4,21.33,12,0.381,Bachelor's,Full-time,Single,True,False,Auto,True
+c47d9c36-6610-4338-a9dd-b6a5b1f1cde5,Borrower_c47d9c36,user_c47d9c36@example.com,23,44537.82,41421.87,845,58,4,18.95,48,0.2059,High School,Full-time,Married,False,False,Auto,False
+bcd66528-7f20-4055-bc36-d42b195c7bae,Borrower_bcd66528,user_bcd66528@example.com,64,76369.02,88703.49,301,24,3,2.4,36,0.4435,Bachelor's,Self-employed,Single,False,False,Auto,False
+b13ce90e-8b92-417f-8e43-972fa0b74245,Borrower_b13ce90e,user_b13ce90e@example.com,36,128575.82,218325.74,383,24,2,15.45,60,0.4136,Bachelor's,Full-time,Married,True,False,Home,True
+40d599c8-bc12-4777-b4d9-4e1a8d879f84,Borrower_40d599c8,user_40d599c8@example.com,19,59969.13,59765.83,680,8,2,7.2,24,0.2971,High School,Self-employed,Married,False,True,Auto,False
+45626fe9-07f5-49d3-9335-d3262d3b74be,Borrower_45626fe9,user_45626fe9@example.com,59,124990.58,120326.74,505,107,1,21.83,36,0.2962,High School,Part-time,Divorced,False,True,Auto,True
+e7f961da-f144-453c-8d3a-8f425a9456ee,Borrower_e7f961da,user_e7f961da@example.com,38,52582.91,59861.45,568,61,4,15.74,36,0.3707,PhD,Self-employed,Single,True,False,Other,True
+628b75b2-8801-4fc8-8341-914005f43ae7,Borrower_628b75b2,user_628b75b2@example.com,43,15000.0,17892.43,574,49,4,2.63,24,0.2998,Bachelor's,Unemployed,Divorced,True,True,Auto,True
+b42b3f4c-fdb6-423f-b463-e9036599ad46,Borrower_b42b3f4c,user_b42b3f4c@example.com,43,29854.93,22164.73,466,14,1,21.13,36,0.3015,Bachelor's,Full-time,Married,True,True,Auto,True
+17df3e66-44df-484a-af7f-cdc9a98471d9,Borrower_17df3e66,user_17df3e66@example.com,62,66570.46,57607.68,350,110,4,9.85,60,0.2636,PhD,Full-time,Divorced,False,True,Business,False
+071e27a3-1ccb-4907-af67-9539fd62e7fa,Borrower_071e27a3,user_071e27a3@example.com,40,32460.64,14614.36,762,61,4,11.57,48,0.3692,High School,Part-time,Single,True,False,Other,False
+3311ff20-2cf1-4d2f-8c01-904e652efa28,Borrower_3311ff20,user_3311ff20@example.com,41,36049.19,51018.68,370,101,2,8.46,60,0.3326,High School,Full-time,Married,False,False,Auto,False
+fd5bd290-8707-45f6-8014-0688d06769aa,Borrower_fd5bd290,user_fd5bd290@example.com,30,149999.0,91155.06,592,114,1,6.59,36,0.2393,Bachelor's,Part-time,Married,False,False,Other,False
+42638939-0fcd-4449-b652-c2edd4d0211e,Borrower_42638939,user_42638939@example.com,33,149999.0,201936.68,492,11,2,2.58,60,0.4877,Master's,Part-time,Married,True,False,Business,False
+b39130c5-379b-42e6-9827-508b29fc15dd,Borrower_b39130c5,user_b39130c5@example.com,50,59383.62,64868.03,522,24,3,13.96,60,0.4111,Bachelor's,Self-employed,Divorced,True,True,Business,False
+1c92bd7b-09b7-4d13-95c4-48084d4056da,Borrower_1c92bd7b,user_1c92bd7b@example.com,67,149999.0,249999.0,606,95,2,15.03,48,0.1613,Bachelor's,Full-time,Single,False,True,Home,False
+b8baa1d3-82fb-4a47-8161-6b01a0abaa72,Borrower_b8baa1d3,user_b8baa1d3@example.com,37,149999.0,191974.37,502,36,3,19.36,60,0.2068,Bachelor's,Full-time,Single,False,True,Home,True
+13caf036-5e3f-4fe3-8215-5224f75cf731,Borrower_13caf036,user_13caf036@example.com,65,149999.0,249999.0,817,46,1,21.81,24,0.188,High School,Part-time,Divorced,True,False,Home,False
+9c5bff81-23f1-4344-98eb-7a44197560a2,Borrower_9c5bff81,user_9c5bff81@example.com,54,47916.37,99514.23,363,85,1,9.2,12,0.1892,Bachelor's,Full-time,Single,True,False,Home,False
+a1c1b702-1a5c-4111-8055-1dbcee7de88a,Borrower_a1c1b702,user_a1c1b702@example.com,30,78978.4,101895.15,531,82,2,2.92,36,0.164,PhD,Full-time,Married,True,True,Auto,True
+f3940f06-b031-4a30-b548-1294962849cc,Borrower_f3940f06,user_f3940f06@example.com,33,91974.41,65336.21,811,104,4,8.24,60,0.6656,Bachelor's,Full-time,Married,False,True,Business,True
+07cf2eed-552f-4b95-a1cc-b2498bb89015,Borrower_07cf2eed,user_07cf2eed@example.com,50,78562.9,115511.63,629,110,1,20.85,24,0.3211,Bachelor's,Full-time,Divorced,True,True,Home,False
+cd6395ac-3b00-4d02-acc8-c0cf30bff1cf,Borrower_cd6395ac,user_cd6395ac@example.com,34,26974.97,26691.77,525,2,4,6.71,36,0.3312,Bachelor's,Full-time,Divorced,False,False,Auto,True
+e281de90-e0eb-4765-8d4e-2cd8332ad161,Borrower_e281de90,user_e281de90@example.com,42,72610.93,69004.45,718,5,4,18.76,36,0.405,High School,Full-time,Divorced,False,False,Auto,True
+9707718e-1569-45b0-a7c1-ff1e387dd2f0,Borrower_9707718e,user_9707718e@example.com,66,53000.51,61890.29,680,9,1,17.39,60,0.2184,Bachelor's,Full-time,Divorced,False,True,Auto,False
+1a44d861-40de-424f-a875-4a71a2550747,Borrower_1a44d861,user_1a44d861@example.com,69,149999.0,162993.93,759,65,1,7.75,36,0.4122,Bachelor's,Part-time,Divorced,True,True,Auto,False
+39037e6d-8a2e-4536-8d9a-111c88fa3789,Borrower_39037e6d,user_39037e6d@example.com,27,67530.0,105382.91,342,28,4,3.79,12,0.4457,PhD,Full-time,Divorced,False,True,Home,False
+c80fd4e8-24c2-4ab5-b278-e96ba29c02e9,Borrower_c80fd4e8,user_c80fd4e8@example.com,35,62853.04,35506.86,564,24,3,2.91,48,0.3169,High School,Full-time,Divorced,True,True,Education,True
+d2560f9a-c4ac-4ff0-96a2-dcb368e7d536,Borrower_d2560f9a,user_d2560f9a@example.com,50,149999.0,170344.72,514,85,3,2.79,12,0.3303,Master's,Full-time,Married,True,False,Education,False
+997db87d-bfe4-4a7e-bae0-2212e8e6a1d9,Borrower_997db87d,user_997db87d@example.com,66,21329.0,30437.55,694,94,4,22.12,60,0.341,Bachelor's,Part-time,Married,False,False,Auto,True
+dc5323a0-d6c9-4ccc-8efd-773f6577dc27,Borrower_dc5323a0,user_dc5323a0@example.com,66,92326.14,111736.22,844,66,4,6.17,60,0.4201,Bachelor's,Full-time,Single,True,True,Business,False
+1271f932-94ea-48a9-b9b1-51346b2f8c6c,Borrower_1271f932,user_1271f932@example.com,38,51075.96,88372.42,310,24,1,6.68,60,0.3167,Bachelor's,Self-employed,Divorced,False,False,Home,False
+4b77e2a4-b8cb-4ac4-bbe6-761d9e07aa8f,Borrower_4b77e2a4,user_4b77e2a4@example.com,51,28361.86,29803.91,729,58,2,17.68,12,0.4346,Bachelor's,Full-time,Single,False,True,Other,False
+fd0fd810-daae-4950-9fcc-e44add444b17,Borrower_fd0fd810,user_fd0fd810@example.com,43,149999.0,170387.04,567,6,1,14.55,36,0.234,Master's,Full-time,Married,False,True,Business,True
+7d84aee7-9759-40b3-9733-e8a88b1401ea,Borrower_7d84aee7,user_7d84aee7@example.com,18,132888.0,134080.58,304,83,3,21.99,36,0.2168,Master's,Full-time,Single,False,True,Other,True
+7950ee8e-734d-40fd-a721-eca5de1b0a07,Borrower_7950ee8e,user_7950ee8e@example.com,47,64351.46,50725.26,680,24,1,5.31,12,0.4029,Bachelor's,Full-time,Married,True,True,Other,False
+aa93f62c-1ed9-4d21-a1e9-027153e29357,Borrower_aa93f62c,user_aa93f62c@example.com,27,31634.24,39748.85,680,3,3,17.98,24,0.3219,Bachelor's,Full-time,Single,True,False,Business,False
+e1aeeca6-1f60-46b1-9c55-9c30578f9db9,Borrower_e1aeeca6,user_e1aeeca6@example.com,67,70309.48,84074.93,680,29,3,4.05,60,0.3228,Master's,Full-time,Single,False,False,Auto,False
+99a5f26d-112d-46a6-a8b2-9b31b2806b08,Borrower_99a5f26d,user_99a5f26d@example.com,61,33045.93,24115.46,847,79,1,12.93,36,0.228,High School,Part-time,Single,True,False,Auto,False
+66394b80-9962-4c6a-a8b4-a9c09697e4e1,Borrower_66394b80,user_66394b80@example.com,45,82227.51,132916.45,839,73,4,14.61,36,0.4179,Bachelor's,Self-employed,Married,True,False,Home,True
+2dce659b-6569-40b2-919d-48dea7a9af16,Borrower_2dce659b,user_2dce659b@example.com,18,60000.0,77189.36,686,77,1,2.49,36,0.3503,Bachelor's,Part-time,Single,False,False,Auto,False
+f92b52a8-b708-49c9-a140-c3bcad9b6b89,Borrower_f92b52a8,user_f92b52a8@example.com,37,67991.87,99736.02,333,39,2,21.88,24,0.1936,Bachelor's,Full-time,Married,False,True,Home,False
+5d6fb01d-fdc0-45be-a8a2-ac794f4e2bcf,Borrower_5d6fb01d,user_5d6fb01d@example.com,56,34927.83,65226.18,358,43,1,12.25,24,0.4816,Bachelor's,Full-time,Divorced,False,True,Home,True
+9ace6d9b-c4b4-436a-99f1-2074df693353,Borrower_9ace6d9b,user_9ace6d9b@example.com,57,15000.0,12136.48,653,99,4,22.94,48,0.3272,Bachelor's,Part-time,Married,True,True,Auto,True
+4e7da506-57e1-4a31-950c-e16714a96d1d,Borrower_4e7da506,user_4e7da506@example.com,31,149999.0,135085.53,680,38,2,24.66,60,0.2853,High School,Full-time,Single,False,True,Education,True
+147add41-1922-42e6-840a-284d1608c0ae,Borrower_147add41,user_147add41@example.com,45,39097.34,51254.58,680,101,2,13.07,12,0.2415,Bachelor's,Self-employed,Single,True,True,Home,True
+af77cc4c-a6b9-48d2-83e5-e6e0b1dc2330,Borrower_af77cc4c,user_af77cc4c@example.com,25,136404.59,159797.63,831,82,1,10.65,36,0.3043,Bachelor's,Self-employed,Married,False,True,Auto,True
+2d3c0061-dbf3-4288-b1a7-012ba84cc197,Borrower_2d3c0061,user_2d3c0061@example.com,65,61187.64,75701.12,575,93,2,8.57,48,0.4332,Bachelor's,Part-time,Single,False,False,Other,True
+f228642f-44c6-4de4-ba71-40400137e550,Borrower_f228642f,user_f228642f@example.com,54,78427.57,65241.14,436,50,1,18.79,24,0.4201,High School,Full-time,Single,True,True,Other,True
+6d11d3e3-1ee8-41c4-8758-187bbd967175,Borrower_6d11d3e3,user_6d11d3e3@example.com,33,60000.0,87544.36,345,98,1,22.42,60,0.1687,Bachelor's,Full-time,Married,True,False,Business,True
+0a3f4750-02be-47b1-8689-35caf4f441ba,Borrower_0a3f4750,user_0a3f4750@example.com,21,60000.0,115454.89,455,44,2,13.12,12,0.4157,PhD,Full-time,Single,False,False,Home,False
+1f92aefe-a989-416d-8ec1-347a767cdcb1,Borrower_1f92aefe,user_1f92aefe@example.com,55,31352.1,31333.02,369,72,2,3.16,36,0.2988,Bachelor's,Full-time,Divorced,False,False,Auto,True
+e420f694-416b-4a5e-a9a7-87eddf84cce8,Borrower_e420f694,user_e420f694@example.com,26,64417.97,103882.7,709,55,3,21.66,24,0.505,High School,Self-employed,Divorced,False,False,Business,False
+d80172ed-f3eb-4445-8eb8-c55c617d3a3e,Borrower_d80172ed,user_d80172ed@example.com,19,116833.8,249999.0,460,98,3,6.48,24,0.1695,Bachelor's,Full-time,Single,True,True,Home,True
+197d4eb0-9ab1-4783-9e65-f9d665e13aeb,Borrower_197d4eb0,user_197d4eb0@example.com,23,71604.21,109685.18,403,70,3,22.92,24,0.3644,High School,Part-time,Single,False,True,Home,False
+1b61dda2-311f-409d-ad5b-5dfaa9258384,Borrower_1b61dda2,user_1b61dda2@example.com,43,19731.95,17272.21,494,82,1,15.21,24,0.1843,High School,Full-time,Divorced,True,True,Education,False
+58c87731-9f6a-49f2-a779-a93eb93ede5e,Borrower_58c87731,user_58c87731@example.com,21,38390.89,39419.56,348,87,3,4.22,48,0.3972,Bachelor's,Full-time,Married,True,False,Auto,True
+ba9a29ad-d117-4a4e-892d-fa12627e36c0,Borrower_ba9a29ad,user_ba9a29ad@example.com,54,45924.03,38369.24,653,24,1,14.09,48,0.1605,Bachelor's,Self-employed,Single,True,True,Education,False
+20044563-8ecd-4042-8d83-fc718e809c5e,Borrower_20044563,user_20044563@example.com,68,116593.06,96366.12,808,105,3,9.28,48,0.2922,Bachelor's,Full-time,Single,False,False,Auto,False
+c660863c-bc0b-4360-b98c-4d23dadb6bf7,Borrower_c660863c,user_c660863c@example.com,37,24923.38,18982.69,346,77,3,17.56,36,0.3209,Bachelor's,Full-time,Married,False,False,Other,False
+4d7249a0-1749-461c-a566-13362b30251d,Borrower_4d7249a0,user_4d7249a0@example.com,54,37443.98,33349.96,771,3,1,17.91,12,0.376,Bachelor's,Full-time,Married,False,False,Education,True
+b2f05e6a-a074-4dc8-a243-5a9af9a778ea,Borrower_b2f05e6a,user_b2f05e6a@example.com,63,149999.0,123385.59,739,24,4,15.91,24,0.1556,Bachelor's,Self-employed,Married,True,True,Auto,False
+55c04c7f-590c-40d5-bbe6-8e1a5543706c,Borrower_55c04c7f,user_55c04c7f@example.com,26,89622.17,106708.19,677,52,2,5.32,36,0.3847,Bachelor's,Full-time,Divorced,False,False,Auto,True
+5190001c-2001-44eb-825b-117781e63ee2,Borrower_5190001c,user_5190001c@example.com,32,61224.41,54073.88,602,20,3,3.72,60,0.2322,Bachelor's,Full-time,Married,True,True,Auto,False
+fdf369bf-d275-47eb-91cf-c623bad64a0d,Borrower_fdf369bf,user_fdf369bf@example.com,37,72513.32,38312.88,550,49,2,2.93,36,0.2147,Bachelor's,Self-employed,Divorced,True,True,Other,True
+6481f71b-f2d3-4e88-b3ee-6427092fefb2,Borrower_6481f71b,user_6481f71b@example.com,33,61568.04,50167.96,673,28,3,14.32,48,0.2808,Bachelor's,Full-time,Married,False,True,Education,True
+9c0fef9b-f533-4964-bdd0-9b89ee144ac6,Borrower_9c0fef9b,user_9c0fef9b@example.com,67,30904.7,21987.28,675,83,4,17.27,24,0.3161,Master's,Full-time,Single,True,True,Education,False
+453cca20-600e-4675-b802-def5e1401095,Borrower_453cca20,user_453cca20@example.com,51,30684.66,67833.8,655,24,4,10.31,48,0.3121,High School,Self-employed,Single,True,False,Home,False
+cabe0e00-041a-44db-9c51-c2bf808f0303,Borrower_cabe0e00,user_cabe0e00@example.com,33,42359.82,44595.59,339,9,1,3.3,12,0.2806,Master's,Unemployed,Married,False,True,Business,True
+0070a745-f7b7-436a-b664-d302622c18d3,Borrower_0070a745,user_0070a745@example.com,59,87189.89,77808.46,626,115,3,10.98,36,0.3582,Bachelor's,Full-time,Divorced,False,True,Education,True
+896472ce-3210-48a5-b814-ca2bc815a73b,Borrower_896472ce,user_896472ce@example.com,45,149999.0,222249.23,735,94,1,6.76,12,0.4298,Bachelor's,Full-time,Divorced,True,True,Business,True
+89875bbe-d539-40b3-909c-e025dd9a66b8,Borrower_89875bbe,user_89875bbe@example.com,24,32365.0,35890.37,726,71,3,22.64,36,0.3134,Bachelor's,Full-time,Divorced,False,True,Auto,True
+21eeb697-045b-4d98-815b-8b4aa34acdd5,Borrower_21eeb697,user_21eeb697@example.com,35,81218.4,55672.72,680,63,1,14.68,36,0.3808,Bachelor's,Full-time,Married,True,False,Education,True
+2ac4be09-6e00-4358-866a-246df16c76ae,Borrower_2ac4be09,user_2ac4be09@example.com,24,149999.0,198784.64,370,53,1,24.44,48,0.3617,Bachelor's,Self-employed,Married,False,False,Business,True
+d45fa96b-a5be-4e2b-9732-494c63f1fb1f,Borrower_d45fa96b,user_d45fa96b@example.com,37,60000.0,54534.58,320,94,3,11.4,12,0.331,Bachelor's,Full-time,Divorced,False,True,Auto,True
+1be6117f-6452-49ef-b3e6-76525558b95e,Borrower_1be6117f,user_1be6117f@example.com,59,60000.0,159040.12,741,86,1,3.62,36,0.349,Bachelor's,Full-time,Single,True,True,Auto,True
+f7a11d82-9734-4536-a1f6-63fdd51ea36f,Borrower_f7a11d82,user_f7a11d82@example.com,26,89190.48,51616.0,605,61,2,4.55,36,0.3996,High School,Full-time,Divorced,False,True,Auto,False
+620ad6ae-8766-4ae8-9544-619926b93b42,Borrower_620ad6ae,user_620ad6ae@example.com,63,40143.49,50339.38,622,24,1,10.82,60,0.2436,Bachelor's,Full-time,Married,False,False,Business,False
+c850ade6-d756-4445-9d77-a0f3000f211a,Borrower_c850ade6,user_c850ade6@example.com,24,48266.64,47884.05,358,95,2,12.82,60,0.2564,Bachelor's,Part-time,Single,False,True,Auto,False
+2b1db34c-5158-44a9-beae-d9a64fe2d894,Borrower_2b1db34c,user_2b1db34c@example.com,35,109431.01,151000.29,352,24,3,24.15,48,0.2489,High School,Self-employed,Divorced,False,True,Business,True
+3cb1ad98-7ae6-4320-99dd-9f2416b3e2a7,Borrower_3cb1ad98,user_3cb1ad98@example.com,53,50022.74,84669.48,556,119,3,5.16,60,0.4219,Bachelor's,Full-time,Divorced,True,False,Home,False
+7e6be586-c8c5-4baf-9e9b-6d00faea279b,Borrower_7e6be586,user_7e6be586@example.com,27,60000.0,129994.7,667,7,4,11.02,60,0.3907,Master's,Full-time,Single,False,True,Home,False
+59825177-025f-41f4-a354-948aca12f66b,Borrower_59825177,user_59825177@example.com,43,52892.34,104329.1,670,112,2,5.53,24,0.4812,PhD,Full-time,Divorced,False,False,Home,True
+35ac1533-c21b-4e85-a143-a67839d70910,Borrower_35ac1533,user_35ac1533@example.com,44,44010.32,61981.79,321,28,3,9.52,60,0.3474,Bachelor's,Full-time,Single,True,False,Home,True
+c788c566-69b7-4e59-85f2-fbfc5046c78a,Borrower_c788c566,user_c788c566@example.com,26,49537.82,96022.08,439,15,2,11.47,24,0.1674,Bachelor's,Self-employed,Divorced,True,False,Home,True
+f32089ee-a0c8-48ad-a77d-74a1c4643221,Borrower_f32089ee,user_f32089ee@example.com,55,92394.35,155288.31,767,24,4,4.75,24,0.3181,High School,Full-time,Divorced,True,True,Home,True
+65a1b2a6-7d7d-4aa2-be68-0d316cfdea91,Borrower_65a1b2a6,user_65a1b2a6@example.com,54,28809.37,29212.51,680,22,4,14.0,36,0.3494,High School,Full-time,Single,False,True,Other,False
+41d75042-7c86-4eee-846d-fe51ab72df82,Borrower_41d75042,user_41d75042@example.com,51,34598.77,22816.62,670,17,3,13.14,60,0.2407,High School,Full-time,Married,True,True,Auto,True
+2b60cdcc-4129-4319-adfc-33052ca6422c,Borrower_2b60cdcc,user_2b60cdcc@example.com,46,113794.06,59449.21,681,27,1,22.15,24,0.2136,High School,Part-time,Divorced,False,True,Other,True
+b25439ca-1809-4f09-90f2-9f93e40dc957,Borrower_b25439ca,user_b25439ca@example.com,25,112599.18,183100.67,306,78,1,12.2,60,0.3637,Bachelor's,Full-time,Divorced,True,False,Business,True
+2d6122d4-b181-490a-a00d-933c46c428ae,Borrower_2d6122d4,user_2d6122d4@example.com,34,15008.59,28562.92,721,77,4,19.41,36,0.4464,PhD,Self-employed,Single,True,False,Business,True
+76ca7ef2-6987-4feb-8d8f-82013430961b,Borrower_76ca7ef2,user_76ca7ef2@example.com,26,40282.32,34656.62,446,15,4,18.48,12,0.3087,Bachelor's,Full-time,Married,True,False,Auto,False
+b3120fb9-a6ba-4656-91b0-2f90e33bb90b,Borrower_b3120fb9,user_b3120fb9@example.com,43,43006.5,52421.67,644,78,3,20.49,36,0.2496,Master's,Full-time,Married,False,False,Education,True
+0120a055-1a74-42b9-8aa7-1a9aff143278,Borrower_0120a055,user_0120a055@example.com,24,60000.99,60294.54,694,87,1,21.06,48,0.3379,Master's,Full-time,Married,False,False,Education,False
+e274d053-3a63-45c2-aab0-6d46af60b870,Borrower_e274d053,user_e274d053@example.com,65,60000.0,55770.22,680,43,4,19.85,12,0.4918,Bachelor's,Full-time,Married,False,False,Auto,False
+c992462c-cc04-493b-a2ee-9a0b37e06722,Borrower_c992462c,user_c992462c@example.com,62,108895.12,119654.53,356,96,2,18.12,36,0.2407,Bachelor's,Full-time,Divorced,True,True,Auto,True
+33ec6e0e-38c6-4d71-92da-6a9a4912a0c3,Borrower_33ec6e0e,user_33ec6e0e@example.com,43,149999.0,112026.63,807,96,1,15.36,24,0.33,Bachelor's,Self-employed,Single,False,True,Education,False
+fe2bf5af-28c8-42d3-afa3-601b2e50efbf,Borrower_fe2bf5af,user_fe2bf5af@example.com,22,66683.41,69257.45,451,101,1,6.74,12,0.3349,High School,Part-time,Single,False,True,Auto,False
+3935b6d2-0b93-4259-8d5e-7a766a3b5e39,Borrower_3935b6d2,user_3935b6d2@example.com,34,70233.37,66735.72,383,26,3,8.01,24,0.2486,Bachelor's,Full-time,Single,False,True,Auto,True
+1ccb320b-3a85-4dfe-85bf-fa4a5a795a49,Borrower_1ccb320b,user_1ccb320b@example.com,18,30699.1,30004.01,736,113,1,10.76,48,0.333,Bachelor's,Full-time,Single,True,False,Auto,False
+919f1be5-de09-4cf6-91a3-012b6b8a48e4,Borrower_919f1be5,user_919f1be5@example.com,22,96617.99,165102.88,392,18,1,22.66,24,0.2505,Bachelor's,Self-employed,Single,True,False,Home,False
+9b60c3a8-55b8-4ff7-a079-08320b33b0ca,Borrower_9b60c3a8,user_9b60c3a8@example.com,63,25524.65,19661.48,645,104,1,16.5,60,0.4292,Bachelor's,Full-time,Single,False,True,Auto,False
+aa1d065f-bcc4-47a4-8380-8d7a7788eaaa,Borrower_aa1d065f,user_aa1d065f@example.com,36,17801.69,27487.03,415,50,4,7.42,24,0.2299,Bachelor's,Full-time,Single,True,True,Business,False
+36252aba-0927-412f-ae0d-9685d7e039b8,Borrower_36252aba,user_36252aba@example.com,69,131664.73,129825.89,668,80,1,4.96,24,0.198,Bachelor's,Full-time,Single,True,True,Auto,False
+103bb948-b1a7-4724-9e27-3ed7aa783373,Borrower_103bb948,user_103bb948@example.com,64,55024.97,87465.92,349,92,1,11.69,36,0.332,Bachelor's,Full-time,Divorced,True,False,Home,False
+15de27c0-3317-432f-9f7c-6a61363c7a17,Borrower_15de27c0,user_15de27c0@example.com,53,62274.51,74495.45,301,38,2,9.4,12,0.2774,Bachelor's,Full-time,Divorced,False,True,Auto,True
+57fd1361-3c84-44f2-baf3-06e82f915c4a,Borrower_57fd1361,user_57fd1361@example.com,66,59795.81,54453.24,328,65,3,7.55,12,0.1907,Bachelor's,Part-time,Divorced,True,True,Education,True
+60e7709b-5ffc-4eac-836a-9d3241bd5790,Borrower_60e7709b,user_60e7709b@example.com,29,65065.33,43636.63,334,11,2,2.49,24,0.1998,High School,Full-time,Married,False,True,Other,True
+f7dba11b-1243-4eca-968c-251b5270077f,Borrower_f7dba11b,user_f7dba11b@example.com,19,121395.58,117454.25,538,67,2,5.09,24,0.3198,Bachelor's,Full-time,Single,True,False,Education,True
+0b5b127e-c4bf-4107-af44-cecd2ea2a95b,Borrower_0b5b127e,user_0b5b127e@example.com,55,77674.91,85997.9,441,53,1,9.95,60,0.3262,High School,Self-employed,Single,True,False,Other,True
+a2c03e18-35f6-4b3f-b4d4-302598aaadfe,Borrower_a2c03e18,user_a2c03e18@example.com,65,64102.69,56181.54,775,89,1,8.87,60,0.3093,Bachelor's,Full-time,Divorced,True,True,Auto,False
+e20590a7-59f1-4234-a841-b9ece2fc295a,Borrower_e20590a7,user_e20590a7@example.com,19,27724.64,23562.98,329,21,3,5.42,36,0.2729,Bachelor's,Full-time,Married,True,False,Auto,True
+a4a959b3-26be-4ef0-870b-bbb970521025,Borrower_a4a959b3,user_a4a959b3@example.com,38,149999.0,249999.0,471,84,3,21.05,12,0.1814,High School,Full-time,Married,False,True,Home,True
+202dfeb9-5647-44e9-a579-250405dd2bce,Borrower_202dfeb9,user_202dfeb9@example.com,65,35162.91,58047.88,778,39,1,18.98,12,0.4268,Bachelor's,Self-employed,Married,True,False,Business,True
+c9d0d5dc-1526-4fce-b9d9-4dc487229839,Borrower_c9d0d5dc,user_c9d0d5dc@example.com,42,49631.13,51069.5,714,10,3,7.74,24,0.267,High School,Full-time,Married,False,False,Other,True
+cbfbb439-4757-4718-ad40-a71364855103,Borrower_cbfbb439,user_cbfbb439@example.com,38,42274.8,53502.54,623,59,4,24.27,60,0.3658,Bachelor's,Self-employed,Single,True,True,Business,False
+ac7fe4d3-f9b5-4592-8423-d5530e8a066b,Borrower_ac7fe4d3,user_ac7fe4d3@example.com,29,60756.51,73205.51,547,57,3,10.76,60,0.1807,Bachelor's,Part-time,Divorced,True,True,Auto,False
+ee40c34f-b14d-4c58-b3c6-235147af40c5,Borrower_ee40c34f,user_ee40c34f@example.com,53,48543.94,33031.16,792,33,4,7.9,48,0.288,Master's,Self-employed,Divorced,False,False,Auto,False
+0528372c-a26d-42cf-89fa-1e40ba05fff5,Borrower_0528372c,user_0528372c@example.com,60,86264.66,48252.45,838,1,4,2.09,60,0.3494,Master's,Part-time,Divorced,False,False,Auto,True
+a1919f1d-7337-4d3a-a40d-eeb3c6c21a26,Borrower_a1919f1d,user_a1919f1d@example.com,35,50023.68,93025.04,789,22,3,12.32,48,0.1629,Master's,Full-time,Single,True,False,Home,True
+68163b25-b770-44f1-b119-0c6a1902dc4a,Borrower_68163b25,user_68163b25@example.com,44,57383.01,55505.14,830,18,1,17.46,36,0.1707,Bachelor's,Self-employed,Single,False,False,Auto,True
+9a41cbdf-040c-453b-bae5-9b316a72d26f,Borrower_9a41cbdf,user_9a41cbdf@example.com,67,79735.19,59461.5,456,90,3,11.61,24,0.2189,Bachelor's,Full-time,Single,False,False,Education,True
+45df5d95-3049-4727-825f-7107d30ecbad,Borrower_45df5d95,user_45df5d95@example.com,61,58321.57,98614.2,691,0,3,20.41,48,0.5301,High School,Part-time,Divorced,False,False,Home,False
+9be13675-6b20-4388-81c7-246669402489,Borrower_9be13675,user_9be13675@example.com,55,17224.52,26761.61,635,50,3,6.84,24,0.5636,Bachelor's,Full-time,Single,False,True,Business,True
+df57cbf2-2248-4439-a08c-0c6a4f897b22,Borrower_df57cbf2,user_df57cbf2@example.com,27,71934.66,65443.81,680,30,3,7.01,60,0.2694,Master's,Full-time,Married,True,False,Auto,False
+eaa54b1a-129a-4234-8528-a46f31bd3c28,Borrower_eaa54b1a,user_eaa54b1a@example.com,47,126765.63,129536.63,364,62,4,2.61,24,0.2906,Bachelor's,Full-time,Divorced,False,True,Auto,False
+e376ea76-4140-4c39-8bcc-260824ece6d2,Borrower_e376ea76,user_e376ea76@example.com,41,84865.57,62980.48,410,35,1,11.41,48,0.2189,Bachelor's,Self-employed,Single,False,False,Other,False
+71950653-f7c2-42e7-b082-841fd666d0da,Borrower_71950653,user_71950653@example.com,56,81821.43,69340.25,432,18,3,13.62,24,0.3371,Master's,Full-time,Divorced,False,True,Education,False
+a0857a62-33c8-41f1-82a4-0a81897a4ecd,Borrower_a0857a62,user_a0857a62@example.com,43,101298.27,127178.51,818,16,3,24.94,48,0.1881,High School,Full-time,Divorced,True,True,Auto,False
+5184a5d5-3756-4ecf-8ec6-9d8714741501,Borrower_5184a5d5,user_5184a5d5@example.com,65,67819.95,74881.28,680,35,4,11.27,24,0.4706,Bachelor's,Part-time,Single,False,True,Auto,True
+8f871631-da5a-4599-b252-6498a4aeda2c,Borrower_8f871631,user_8f871631@example.com,39,72061.49,61152.62,462,78,3,6.44,48,0.4503,Bachelor's,Full-time,Divorced,True,True,Auto,True
+eea3772b-4ef7-4446-a2d5-ebe2fddec201,Borrower_eea3772b,user_eea3772b@example.com,35,15000.0,17548.84,593,103,3,6.35,36,0.1754,Bachelor's,Full-time,Single,False,False,Auto,True
+5f9849b6-9664-4d54-941a-2ee08fcc2489,Borrower_5f9849b6,user_5f9849b6@example.com,55,19653.65,42703.31,494,74,2,12.44,24,0.1853,High School,Full-time,Married,False,True,Business,False
+d622385d-bdc9-4e22-8351-ffd2d04ecdeb,Borrower_d622385d,user_d622385d@example.com,60,61379.33,74617.54,320,75,4,23.87,24,0.1609,High School,Full-time,Married,True,False,Business,False
+e98d9b0e-7072-46d3-a743-0b35ffbed2b3,Borrower_e98d9b0e,user_e98d9b0e@example.com,62,112697.29,89321.84,518,106,3,14.93,48,0.3737,Bachelor's,Part-time,Single,False,False,Other,False
+ffd015f5-a8ee-4354-82f0-b5298acf9a91,Borrower_ffd015f5,user_ffd015f5@example.com,25,51780.8,32664.64,568,86,4,13.3,12,0.3866,Bachelor's,Part-time,Married,False,False,Auto,True
+6712b922-0c19-4dbb-a452-303f721b2ccf,Borrower_6712b922,user_6712b922@example.com,32,119991.28,167601.0,755,2,3,4.5,60,0.3814,High School,Self-employed,Married,False,False,Business,False
+285a737b-063c-4f53-9e35-a38743fe1a53,Borrower_285a737b,user_285a737b@example.com,62,122376.07,91109.38,456,24,2,6.6,48,0.3346,Bachelor's,Self-employed,Married,True,False,Education,True
+cfc7945b-8fac-4e14-a85e-08382031da6f,Borrower_cfc7945b,user_cfc7945b@example.com,36,94034.85,81651.47,836,84,1,22.35,48,0.3137,Bachelor's,Full-time,Single,True,True,Education,False
+024f5c3d-764a-4a79-8149-52434adaf7e3,Borrower_024f5c3d,user_024f5c3d@example.com,22,21723.79,29553.6,348,83,1,4.72,48,0.3328,Bachelor's,Full-time,Single,False,False,Auto,False
+4b14df32-5a3d-43d1-974a-cbba058bbc85,Borrower_4b14df32,user_4b14df32@example.com,44,149999.0,106559.75,483,40,3,16.1,60,0.3931,Bachelor's,Full-time,Single,True,True,Other,False
+27ae9be3-77b4-4ef7-8a76-6a4330a29d8d,Borrower_27ae9be3,user_27ae9be3@example.com,18,35081.2,52597.91,655,38,4,18.11,12,0.3381,High School,Part-time,Single,True,False,Home,True
+934d1b4a-4a1c-4b3b-99a7-1ec959add32b,Borrower_934d1b4a,user_934d1b4a@example.com,61,60000.0,29130.2,804,40,1,11.17,48,0.3338,Bachelor's,Part-time,Divorced,False,True,Auto,False
+0de5ed63-e7b2-42eb-8521-23dfdba4b906,Borrower_0de5ed63,user_0de5ed63@example.com,47,44669.71,46999.82,347,111,2,18.62,60,0.3113,Bachelor's,Full-time,Divorced,False,True,Auto,False
+4fb98860-6db5-4403-b695-8e71497f354b,Borrower_4fb98860,user_4fb98860@example.com,69,21531.39,23086.92,653,74,3,15.91,24,0.2542,Bachelor's,Full-time,Single,True,False,Auto,False
+4cc9ef8d-2af9-4afd-aaae-88e664f65280,Borrower_4cc9ef8d,user_4cc9ef8d@example.com,49,31798.51,29655.31,715,98,4,15.26,36,0.3746,Bachelor's,Full-time,Divorced,True,False,Other,True
+d3fbc4ec-71fe-4522-aaa7-bef00680e82f,Borrower_d3fbc4ec,user_d3fbc4ec@example.com,68,56398.56,67566.11,364,38,3,24.49,36,0.2185,Bachelor's,Unemployed,Single,True,True,Auto,True
+1a6aa4fc-78b3-490f-b776-157fb5fdf7d0,Borrower_1a6aa4fc,user_1a6aa4fc@example.com,27,45509.59,43845.38,449,41,3,10.35,48,0.5301,Master's,Full-time,Divorced,False,True,Auto,True
+ceb618d6-ec13-452f-a0bc-d7ae752aa132,Borrower_ceb618d6,user_ceb618d6@example.com,40,40185.99,80717.8,702,102,4,24.3,60,0.2572,PhD,Part-time,Divorced,True,True,Home,False
+76f06dec-1783-408b-b19b-d5410b15f200,Borrower_76f06dec,user_76f06dec@example.com,21,149999.0,152211.65,680,24,2,7.2,12,0.2185,PhD,Unemployed,Divorced,True,False,Business,True
+58176824-3074-49c9-aea1-660150ba9cc8,Borrower_58176824,user_58176824@example.com,25,65351.14,79960.35,543,79,2,21.33,24,0.3616,Master's,Full-time,Divorced,True,False,Auto,False
+43897a47-94dd-49b6-9604-f48c537c9746,Borrower_43897a47,user_43897a47@example.com,28,51199.66,24387.97,728,37,1,13.61,12,0.2766,Master's,Full-time,Married,True,True,Education,False
+769bd5d9-143d-4508-ae79-3036174d8c52,Borrower_769bd5d9,user_769bd5d9@example.com,53,104734.31,78840.22,822,90,4,2.56,12,0.2702,PhD,Unemployed,Married,False,False,Auto,False
+a0afa504-e19d-4ad1-b2e8-d563722ef31d,Borrower_a0afa504,user_a0afa504@example.com,47,149999.0,249999.0,472,24,4,20.96,24,0.2347,Master's,Self-employed,Divorced,True,True,Home,True
+a0101b38-499b-4143-9c20-1c6e013bc0c1,Borrower_a0101b38,user_a0101b38@example.com,39,50499.19,48251.5,566,30,3,23.23,36,0.2813,High School,Full-time,Single,False,False,Auto,False
+673a2797-eb27-49ae-b4e4-187ee1476ef8,Borrower_673a2797,user_673a2797@example.com,53,60000.0,178197.84,485,24,2,9.83,12,0.305,Bachelor's,Full-time,Married,True,True,Home,False
+50e78e41-c934-4bd6-99f5-960a8532d931,Borrower_50e78e41,user_50e78e41@example.com,32,32346.51,30186.29,680,56,3,5.6,12,0.2307,Bachelor's,Part-time,Married,False,True,Business,True
+05b1ced6-38ab-4cba-9e51-87e67d9745c2,Borrower_05b1ced6,user_05b1ced6@example.com,43,114163.04,144019.85,399,79,1,2.17,48,0.2147,Bachelor's,Full-time,Married,False,False,Other,False
+3dcc7dd5-8471-4525-8ce3-b368655d8906,Borrower_3dcc7dd5,user_3dcc7dd5@example.com,23,85431.15,83822.64,689,94,1,3.1,24,0.3909,Bachelor's,Part-time,Divorced,False,True,Auto,True
+eafd76aa-9855-461b-ba6a-0d2bc1e47918,Borrower_eafd76aa,user_eafd76aa@example.com,31,42717.7,76152.89,337,56,4,5.83,60,0.2037,Master's,Full-time,Single,False,False,Business,True
+f992a2a3-c14e-4e88-a198-a5ffcff9bb98,Borrower_f992a2a3,user_f992a2a3@example.com,41,28859.62,21348.12,840,47,3,17.65,60,0.5336,Bachelor's,Full-time,Divorced,True,True,Auto,True
+72f46bcc-04c8-45fc-bbd6-81a80d0a0933,Borrower_72f46bcc,user_72f46bcc@example.com,38,63356.11,82662.79,497,114,2,4.15,36,0.2078,Bachelor's,Self-employed,Single,False,True,Business,False
+8b9078d8-e8c5-431e-8e94-cca74ebedc70,Borrower_8b9078d8,user_8b9078d8@example.com,43,49420.89,99998.52,680,20,4,10.82,12,0.3519,High School,Full-time,Married,True,True,Home,False
+e4c56063-e57e-499f-9558-04a99cbab70a,Borrower_e4c56063,user_e4c56063@example.com,43,149999.0,249999.0,513,0,4,23.9,36,0.5087,Bachelor's,Full-time,Divorced,False,False,Home,True
+88949ff5-bae5-4fdd-87f7-0edba0d4820f,Borrower_88949ff5,user_88949ff5@example.com,62,60000.0,16563.27,756,110,4,16.26,36,0.2994,High School,Full-time,Single,True,False,Auto,False
+0ee53bbd-26a0-4d0d-8346-18e1be5bdf20,Borrower_0ee53bbd,user_0ee53bbd@example.com,26,96446.88,62133.37,357,90,3,21.85,48,0.2429,Bachelor's,Full-time,Single,True,False,Education,False
+425d997f-d25f-42f4-a110-47d0e456702b,Borrower_425d997f,user_425d997f@example.com,57,66328.32,60597.82,558,33,4,10.89,24,0.1836,Bachelor's,Full-time,Single,True,False,Other,True
+7045bc5f-08f7-46a5-9288-d50d5969d56e,Borrower_7045bc5f,user_7045bc5f@example.com,50,145836.61,249999.0,303,11,3,8.9,12,0.2269,Master's,Full-time,Married,False,True,Home,True
+418ae324-9bd0-4223-9cc3-edfce8e13703,Borrower_418ae324,user_418ae324@example.com,38,107558.15,103697.82,420,4,1,14.26,24,0.3781,Master's,Unemployed,Divorced,False,False,Auto,True
+94f1560d-3d1f-4068-91c3-7e46eead389f,Borrower_94f1560d,user_94f1560d@example.com,49,22290.0,20453.37,422,35,3,16.95,24,0.4038,Master's,Full-time,Married,False,False,Business,True
+15f18535-f3ec-4c21-a5e2-870936f063b1,Borrower_15f18535,user_15f18535@example.com,50,149999.0,235806.29,467,27,3,23.5,36,0.4408,Master's,Full-time,Married,False,False,Business,True
+b0140955-e48b-4dd0-ab18-8c9833347427,Borrower_b0140955,user_b0140955@example.com,65,60000.0,86364.18,639,112,3,15.29,24,0.3748,Bachelor's,Full-time,Single,False,False,Auto,True
+4b276dbe-5972-4404-bbc4-63baeedc3615,Borrower_4b276dbe,user_4b276dbe@example.com,32,66785.58,104345.66,680,112,3,10.84,24,0.5651,Master's,Full-time,Married,True,True,Home,True
+9bfbcdac-6f95-41d8-8e08-8f4be3848cf4,Borrower_9bfbcdac,user_9bfbcdac@example.com,64,52099.29,108588.1,590,118,4,4.84,12,0.349,Bachelor's,Full-time,Married,True,False,Home,True
+057f11dd-207e-427e-86f9-f8fa18c19f90,Borrower_057f11dd,user_057f11dd@example.com,19,149999.0,187420.77,409,24,1,15.19,12,0.3655,Bachelor's,Self-employed,Divorced,False,False,Auto,True
+9cf29262-7933-4e40-b48c-da6a3faab06c,Borrower_9cf29262,user_9cf29262@example.com,61,30721.05,24872.87,592,76,2,10.45,60,0.3892,Bachelor's,Full-time,Single,True,False,Other,False
+dc5fe6cf-1357-44ea-9133-40a4bb59e16b,Borrower_dc5fe6cf,user_dc5fe6cf@example.com,41,76475.61,73838.63,501,24,3,16.46,60,0.364,Bachelor's,Full-time,Divorced,False,True,Auto,False
+7cb4064e-1e87-4b03-aabe-6b924149e785,Borrower_7cb4064e,user_7cb4064e@example.com,59,90667.4,129436.29,642,33,3,13.74,24,0.1926,Master's,Full-time,Married,True,False,Business,False
+9634a59c-6f19-4250-b56e-9176322af9fe,Borrower_9634a59c,user_9634a59c@example.com,30,36900.48,75972.98,641,77,1,10.88,24,0.4155,High School,Full-time,Divorced,False,False,Home,True
+d529360c-f82d-4a14-afb7-56178f9a100b,Borrower_d529360c,user_d529360c@example.com,48,91130.53,93699.34,504,71,3,16.38,12,0.3549,Bachelor's,Full-time,Divorced,False,False,Other,True
+d0b1c3cd-aa4b-49f7-941e-f93280101f4d,Borrower_d0b1c3cd,user_d0b1c3cd@example.com,50,125047.4,237746.5,702,30,1,6.7,12,0.361,High School,Full-time,Single,True,True,Home,False
+d39510a6-18a2-4986-a066-acccb8dd72eb,Borrower_d39510a6,user_d39510a6@example.com,62,67400.6,116540.06,362,32,2,7.71,24,0.3908,Bachelor's,Self-employed,Single,False,False,Home,False
+0913b53d-31fa-420e-857a-d514aa9d96d8,Borrower_0913b53d,user_0913b53d@example.com,43,149999.0,249999.0,345,34,2,7.72,36,0.2485,PhD,Full-time,Single,False,True,Home,True
+e21253af-b048-44ca-a583-386323a66551,Borrower_e21253af,user_e21253af@example.com,64,23509.78,27236.33,745,93,2,13.94,60,0.2197,Bachelor's,Part-time,Married,False,False,Business,False
+35d95337-db88-4b4a-8b04-d21a07645633,Borrower_35d95337,user_35d95337@example.com,46,48840.17,116064.31,326,34,3,5.08,24,0.2589,Bachelor's,Full-time,Divorced,True,False,Home,True
+109d1904-40c4-42e0-afe2-fa59e9e0605b,Borrower_109d1904,user_109d1904@example.com,47,27849.86,53818.28,750,99,4,2.08,60,0.3983,Bachelor's,Part-time,Single,False,True,Home,False
+098d9e86-69b2-4c94-a724-eeab44462420,Borrower_098d9e86,user_098d9e86@example.com,27,32249.33,25801.62,419,0,1,21.43,60,0.2969,Bachelor's,Unemployed,Single,False,False,Education,True
+33e3dda7-2cc4-48ef-8763-05caf83766b4,Borrower_33e3dda7,user_33e3dda7@example.com,28,89284.15,91596.82,813,64,2,12.42,48,0.3428,Bachelor's,Full-time,Divorced,False,True,Auto,False
+2616489a-34b2-47d4-9abe-4eb3540083c9,Borrower_2616489a,user_2616489a@example.com,37,58025.37,56092.87,535,87,1,6.0,24,0.3561,Bachelor's,Part-time,Married,False,True,Auto,False
+4e5d5f5b-6c18-4ae2-b7f4-710436213b6a,Borrower_4e5d5f5b,user_4e5d5f5b@example.com,55,44230.0,35406.44,464,26,1,22.38,24,0.1815,Bachelor's,Part-time,Divorced,True,False,Education,False
+31ce94e4-875b-449f-ba59-71f3f3b86da4,Borrower_31ce94e4,user_31ce94e4@example.com,63,48148.19,38245.56,707,74,1,12.48,12,0.36,Bachelor's,Part-time,Divorced,False,False,Auto,False
+40b7cf37-62cf-4469-8cde-73b7b2393508,Borrower_40b7cf37,user_40b7cf37@example.com,32,27615.23,22071.27,578,53,2,7.69,60,0.536,Bachelor's,Full-time,Married,False,True,Other,True
+fdf4d463-8d56-49e6-9e98-3f997bbfebaa,Borrower_fdf4d463,user_fdf4d463@example.com,26,81116.27,66767.91,372,27,3,11.18,12,0.347,Bachelor's,Full-time,Married,False,True,Education,True
+e9f5df51-3795-4926-92c4-0085848c3b9b,Borrower_e9f5df51,user_e9f5df51@example.com,37,86814.38,141012.95,440,14,3,9.6,60,0.2908,PhD,Unemployed,Divorced,False,True,Home,False
+94b68de8-d5a1-426e-b05c-c8f59d9c3f00,Borrower_94b68de8,user_94b68de8@example.com,57,50194.79,48053.55,421,41,4,11.43,12,0.2239,High School,Full-time,Married,False,False,Education,False
+7c12ebdf-de5b-4b49-8fc3-fedb6b193084,Borrower_7c12ebdf,user_7c12ebdf@example.com,57,149999.0,151266.76,385,24,4,12.72,48,0.3692,Master's,Self-employed,Single,True,True,Auto,True
+bc695d68-a2a8-4c12-bd4a-4d033329c4a6,Borrower_bc695d68,user_bc695d68@example.com,34,149999.0,152292.51,796,118,1,11.97,60,0.2924,High School,Part-time,Divorced,True,True,Auto,True
+67b0f2cb-4bc1-4dfa-900f-dd18041b3f22,Borrower_67b0f2cb,user_67b0f2cb@example.com,50,33565.34,41107.09,424,114,2,17.16,60,0.3609,Bachelor's,Part-time,Divorced,False,True,Auto,False
+b217f377-2a02-452d-913d-bb6e8b13cf45,Borrower_b217f377,user_b217f377@example.com,44,44515.19,60673.87,585,33,3,10.14,12,0.2442,Bachelor's,Part-time,Single,True,False,Business,True
+3a281f54-ebf8-4ee4-90f5-ce7c98f19888,Borrower_3a281f54,user_3a281f54@example.com,39,90444.19,94322.1,374,100,2,6.55,24,0.524,Bachelor's,Full-time,Married,False,False,Auto,False
+0fb284a9-4566-45a8-b43c-21e5544054ec,Borrower_0fb284a9,user_0fb284a9@example.com,42,126642.97,108530.95,661,9,4,23.73,24,0.3103,Master's,Self-employed,Divorced,True,True,Auto,False
+2c5c9c2e-892b-48c3-ae11-25ca5f6628c9,Borrower_2c5c9c2e,user_2c5c9c2e@example.com,48,68311.05,79021.28,687,0,4,2.3,12,0.2499,PhD,Part-time,Divorced,False,False,Home,True
+50f1b9ad-7a22-4a50-b9fd-59b8fbe12f3b,Borrower_50f1b9ad,user_50f1b9ad@example.com,21,84065.57,184242.62,736,32,4,21.01,24,0.3756,Master's,Full-time,Married,False,False,Home,True
+4c25363f-65a1-4327-b488-c7ad491cbc95,Borrower_4c25363f,user_4c25363f@example.com,43,45423.79,59020.08,676,48,2,8.26,24,0.3718,High School,Full-time,Divorced,False,True,Home,True
+769082e8-da12-475d-9fa5-a28bb72230a8,Borrower_769082e8,user_769082e8@example.com,25,29208.41,13905.94,524,45,1,14.33,12,0.2528,Bachelor's,Full-time,Married,False,True,Business,False
+4ca61063-6253-4abd-95af-e3aa4b4212bb,Borrower_4ca61063,user_4ca61063@example.com,44,141273.45,163874.79,778,105,1,10.29,24,0.3735,High School,Part-time,Single,False,False,Business,True
+93fb99c5-a504-41ac-8d8a-5d7ff2aab15b,Borrower_93fb99c5,user_93fb99c5@example.com,31,16841.42,17019.52,351,24,4,3.31,60,0.3612,Master's,Full-time,Divorced,True,False,Auto,False
+7a324c0f-6024-4b45-8118-3613867d53d3,Borrower_7a324c0f,user_7a324c0f@example.com,61,37954.78,30280.33,814,91,4,2.42,48,0.4101,Bachelor's,Full-time,Married,True,False,Education,True
+2c2da646-4908-40c3-8f10-82deb89b190b,Borrower_2c2da646,user_2c2da646@example.com,26,46941.05,89867.13,364,84,3,10.21,12,0.2619,Bachelor's,Full-time,Single,True,True,Home,True
+c6c0e3ce-5b3b-4139-9957-1d5a310623bb,Borrower_c6c0e3ce,user_c6c0e3ce@example.com,63,44671.73,65826.75,400,102,3,17.39,12,0.327,Master's,Self-employed,Single,False,False,Business,False
+6440d3bf-b063-408e-be22-f73c6aa4f000,Borrower_6440d3bf,user_6440d3bf@example.com,43,55427.38,44076.32,849,23,4,9.56,48,0.4535,Master's,Full-time,Divorced,False,True,Auto,False
+756f7180-b8ac-49a9-9093-046ec4c7d2b3,Borrower_756f7180,user_756f7180@example.com,21,65184.7,123857.42,627,79,1,6.68,36,0.3348,Bachelor's,Full-time,Single,False,True,Home,True
+d3a3d512-b658-4899-8ffe-93ba46ebce9c,Borrower_d3a3d512,user_d3a3d512@example.com,24,34227.0,30094.04,351,75,3,10.56,36,0.3109,Bachelor's,Self-employed,Divorced,False,True,Auto,True
+1a73c09e-9083-40d6-b75f-94b9858fae93,Borrower_1a73c09e,user_1a73c09e@example.com,52,43666.87,35181.61,464,46,4,10.74,24,0.3889,Bachelor's,Full-time,Divorced,True,True,Auto,False
+6603277f-879b-4a13-9e63-c99c7f7e1014,Borrower_6603277f,user_6603277f@example.com,43,38677.15,26689.65,680,16,1,16.37,36,0.2967,Bachelor's,Full-time,Single,True,False,Auto,True
+7948a0cb-0c15-417f-a6a6-20444f57c61a,Borrower_7948a0cb,user_7948a0cb@example.com,27,45085.26,38494.88,330,115,1,12.27,36,0.1519,High School,Full-time,Single,False,True,Other,True
+2410110b-b5b7-4a5c-9c9a-9a9bc495fa64,Borrower_2410110b,user_2410110b@example.com,45,76365.34,105292.52,350,95,4,4.51,60,0.1806,Bachelor's,Full-time,Divorced,True,True,Business,False
+4b05adec-fe72-45ef-b409-e43b79b743e7,Borrower_4b05adec,user_4b05adec@example.com,35,79241.12,93473.24,415,92,3,20.48,36,0.2305,High School,Full-time,Married,True,False,Home,True
+32270045-ac86-4b0d-933c-f91a72c4f70c,Borrower_32270045,user_32270045@example.com,55,105782.44,159248.49,621,106,4,20.52,36,0.5769,Bachelor's,Unemployed,Married,False,False,Business,True
+964518a8-06d3-47a2-b6ca-2a342d3ad65c,Borrower_964518a8,user_964518a8@example.com,53,57664.97,59077.86,364,6,2,24.09,48,0.4004,Bachelor's,Self-employed,Divorced,True,False,Business,False
+352c1768-4b99-4bd0-9db2-8d4dcccf8833,Borrower_352c1768,user_352c1768@example.com,68,16416.55,8443.55,396,68,4,21.25,48,0.345,Master's,Unemployed,Divorced,False,False,Auto,True
+22d921dd-1c11-491c-b9c1-ababd4e1eea2,Borrower_22d921dd,user_22d921dd@example.com,35,65507.11,91666.94,631,82,1,6.6,48,0.2978,Bachelor's,Full-time,Married,True,True,Auto,False
+8b6596a2-be09-48f2-8c6b-41766f23ca6c,Borrower_8b6596a2,user_8b6596a2@example.com,31,30174.36,28610.47,492,62,2,6.23,12,0.6022,High School,Full-time,Single,False,False,Auto,True
+e0cfe7c4-5f0a-4461-a6fd-7471261a5cca,Borrower_e0cfe7c4,user_e0cfe7c4@example.com,27,55584.11,48916.97,353,93,2,18.73,24,0.5486,Bachelor's,Full-time,Divorced,False,False,Other,False
+e6dea63b-e3fd-4c61-95c1-49a2b91c788c,Borrower_e6dea63b,user_e6dea63b@example.com,51,132322.26,124362.83,802,25,4,17.04,60,0.2748,Bachelor's,Full-time,Single,True,False,Auto,True
+dba669cc-fb88-4f0b-9d6e-03c67ff3950b,Borrower_dba669cc,user_dba669cc@example.com,39,60000.0,28244.07,379,43,1,17.74,12,0.2063,High School,Part-time,Single,True,True,Education,True
+d8bc446d-dcae-4a96-af2e-cb76acfd48c3,Borrower_d8bc446d,user_d8bc446d@example.com,19,39962.64,72212.43,784,99,1,9.12,48,0.3343,Bachelor's,Unemployed,Divorced,False,True,Home,False
+83d5ec1a-52d6-4824-a14a-5fc4ac8278b0,Borrower_83d5ec1a,user_83d5ec1a@example.com,46,70238.32,188703.8,328,106,2,15.04,60,0.2029,Master's,Full-time,Single,True,True,Home,False
+2ebff1f8-34c1-43c2-aac5-275fb8a51f3a,Borrower_2ebff1f8,user_2ebff1f8@example.com,54,113760.38,112874.33,718,13,4,15.16,36,0.2165,High School,Part-time,Married,True,False,Business,True
+f6804f49-483b-42a4-85e7-6a659109be88,Borrower_f6804f49,user_f6804f49@example.com,43,103501.53,103561.74,841,24,3,22.89,60,0.4576,High School,Part-time,Divorced,False,False,Education,True
+1d1d5ac8-1847-4052-a09b-95842e312a48,Borrower_1d1d5ac8,user_1d1d5ac8@example.com,26,90214.59,100480.21,676,97,4,24.6,48,0.3176,High School,Self-employed,Married,True,True,Auto,False
+0e595dca-7ab5-44c0-aead-364ac6e4af57,Borrower_0e595dca,user_0e595dca@example.com,41,92397.89,79877.34,650,16,3,13.91,12,0.3863,Bachelor's,Part-time,Divorced,False,True,Education,False
+e180e7db-3968-49a8-aa69-abbb4f608791,Borrower_e180e7db,user_e180e7db@example.com,66,19876.67,31625.72,649,13,4,9.17,36,0.355,Bachelor's,Full-time,Divorced,False,True,Home,False
+d6a8a8f2-d56b-47fd-af99-edb3db4aa0a9,Borrower_d6a8a8f2,user_d6a8a8f2@example.com,43,32762.79,57531.99,769,24,4,5.35,48,0.2395,Bachelor's,Self-employed,Married,False,True,Business,True
+7a3bc2b1-2098-4d8f-b923-0b1c990d6a21,Borrower_7a3bc2b1,user_7a3bc2b1@example.com,59,100137.19,161491.07,659,93,2,10.31,48,0.2892,Bachelor's,Unemployed,Single,True,True,Business,True
+43998973-b82a-4b67-a658-a2f89fceae64,Borrower_43998973,user_43998973@example.com,23,37389.24,79525.81,308,50,1,5.22,48,0.2438,Bachelor's,Self-employed,Single,True,False,Home,True
+55899efe-2c91-4d80-a6e2-9e488afb6b31,Borrower_55899efe,user_55899efe@example.com,28,60411.63,97848.19,300,24,2,20.64,36,0.4674,Bachelor's,Part-time,Divorced,True,False,Business,False
+e7b1212a-c9f1-4614-a4cd-0da53b695add,Borrower_e7b1212a,user_e7b1212a@example.com,21,78437.21,77439.8,630,51,3,17.43,60,0.259,High School,Full-time,Single,True,True,Auto,False
+3349393e-dcce-41a3-8fd2-b7c80cb023ca,Borrower_3349393e,user_3349393e@example.com,62,15000.0,11189.36,801,103,1,17.61,24,0.2784,High School,Self-employed,Single,True,True,Auto,False
+3f44a469-c43e-4ef3-b98b-ffd5639beae9,Borrower_3f44a469,user_3f44a469@example.com,22,51208.06,29474.18,378,75,2,19.79,12,0.213,High School,Part-time,Married,False,True,Education,True
+1190b6b7-ef4d-44d8-80eb-ff0805e9f836,Borrower_1190b6b7,user_1190b6b7@example.com,21,105325.53,109140.7,754,100,2,22.65,48,0.3664,Bachelor's,Self-employed,Married,False,False,Auto,False
+3372fecc-7e55-44c8-a448-656fe0b32393,Borrower_3372fecc,user_3372fecc@example.com,24,55037.31,42592.48,680,5,4,9.01,60,0.5979,Bachelor's,Self-employed,Married,False,True,Auto,False
+42ec9ef4-7798-462b-a304-3c28ccda37ce,Borrower_42ec9ef4,user_42ec9ef4@example.com,38,67208.64,60832.28,770,13,3,22.97,60,0.2633,Bachelor's,Part-time,Divorced,False,True,Auto,True
+a4c04da1-ad22-433f-914d-84a0c4aec4ff,Borrower_a4c04da1,user_a4c04da1@example.com,46,112646.8,108181.69,765,24,1,14.63,60,0.2933,High School,Full-time,Married,True,False,Other,False
+949f5450-be99-47cb-a1f7-6c58f086a153,Borrower_949f5450,user_949f5450@example.com,28,50657.88,78543.51,647,12,3,9.82,24,0.2807,Bachelor's,Full-time,Divorced,True,False,Home,True
+6217dbfa-2bbe-4e1d-bb26-f8a6e9d196d0,Borrower_6217dbfa,user_6217dbfa@example.com,42,66622.26,133329.87,550,96,4,9.27,12,0.1875,Bachelor's,Self-employed,Divorced,True,True,Home,False
+cf086deb-e208-41bd-a00e-97d1f0db5c71,Borrower_cf086deb,user_cf086deb@example.com,19,124543.26,134185.48,527,88,4,13.35,36,0.3258,Bachelor's,Self-employed,Single,True,False,Other,True
+550c6f13-9dad-4f48-82c8-81031d8d88ef,Borrower_550c6f13,user_550c6f13@example.com,36,101071.52,153412.79,828,67,3,11.64,12,0.2875,Master's,Self-employed,Single,True,True,Business,True
+2e0e96c2-1293-4d4a-90eb-144f77e5b6f0,Borrower_2e0e96c2,user_2e0e96c2@example.com,20,75742.16,64044.27,656,38,2,13.64,48,0.2978,Bachelor's,Full-time,Single,True,False,Auto,False
+a959f9e2-b197-4f73-8ecd-52448736134d,Borrower_a959f9e2,user_a959f9e2@example.com,26,75010.97,115847.37,509,81,4,15.24,24,0.2345,Bachelor's,Part-time,Married,True,True,Business,True
+23538531-90c3-4945-9de9-ebd741787f15,Borrower_23538531,user_23538531@example.com,36,65931.94,66593.29,510,103,1,5.24,36,0.1928,High School,Self-employed,Married,False,False,Auto,False
+1b8467b4-fb43-4170-9376-63ee76dec3b7,Borrower_1b8467b4,user_1b8467b4@example.com,61,52840.02,84243.27,650,70,4,13.39,48,0.2666,Bachelor's,Full-time,Single,True,True,Home,False
+df14d820-4224-4d4a-8e2c-73fb151f4d50,Borrower_df14d820,user_df14d820@example.com,52,104533.04,110012.6,680,79,4,18.72,48,0.3561,Bachelor's,Self-employed,Divorced,False,False,Auto,False
+f2500442-6bac-4dc1-abc6-409af66d542e,Borrower_f2500442,user_f2500442@example.com,27,59904.29,37612.07,683,49,1,23.04,48,0.4165,Bachelor's,Part-time,Married,True,False,Education,True
+8e82d66b-c3a7-439b-817a-82d697f96246,Borrower_8e82d66b,user_8e82d66b@example.com,37,36837.27,26240.32,560,69,4,17.66,12,0.2746,High School,Full-time,Married,True,False,Auto,True
+b0cf016f-bbf4-401f-9d30-fa0453a0bd4c,Borrower_b0cf016f,user_b0cf016f@example.com,59,82793.52,77411.33,687,83,4,9.92,48,0.215,Bachelor's,Full-time,Married,True,False,Auto,True
+d8cdc813-ba21-444e-bf98-c6ba08a8a234,Borrower_d8cdc813,user_d8cdc813@example.com,34,123382.86,143070.33,501,94,1,18.87,60,0.5923,Master's,Full-time,Single,True,False,Auto,True
+1a08de31-c00d-46b9-9f7e-2cdbad37ed87,Borrower_1a08de31,user_1a08de31@example.com,62,40843.59,66730.43,542,101,4,23.5,12,0.3621,Bachelor's,Full-time,Single,False,True,Business,False
+4cdffdeb-bfc5-439e-a390-58393bc171f4,Borrower_4cdffdeb,user_4cdffdeb@example.com,24,24949.42,13989.71,680,50,1,7.48,60,0.3279,High School,Part-time,Married,False,True,Auto,False
+b2885fcc-e47e-4759-83ef-9ee1dc54b782,Borrower_b2885fcc,user_b2885fcc@example.com,36,79949.1,83482.56,700,113,3,18.61,24,0.1519,Bachelor's,Part-time,Divorced,False,True,Auto,True
+d516d640-cc64-49f5-8e8a-5b049e4a3884,Borrower_d516d640,user_d516d640@example.com,54,17482.96,47159.9,549,111,1,8.1,36,0.2876,Bachelor's,Full-time,Single,False,True,Home,True
+56466153-f1dd-426a-aea2-145d7cb34850,Borrower_56466153,user_56466153@example.com,31,68694.65,71806.51,821,12,4,11.18,24,0.5428,High School,Full-time,Divorced,False,True,Auto,False
+580edcf5-acb0-4e68-a229-0faf5123dc45,Borrower_580edcf5,user_580edcf5@example.com,34,149999.0,249999.0,725,24,2,22.03,48,0.2135,Master's,Self-employed,Divorced,True,True,Business,True
+e3e5b3c8-aad7-4790-a6df-3932c2feac4d,Borrower_e3e5b3c8,user_e3e5b3c8@example.com,46,28720.78,29520.41,425,12,1,15.56,36,0.3141,Master's,Full-time,Divorced,False,False,Other,False
+28825f23-ed43-4c9a-b94c-63972e0a9c19,Borrower_28825f23,user_28825f23@example.com,33,62372.29,34335.73,798,8,2,10.61,36,0.2806,Master's,Part-time,Single,False,True,Education,True
+68dca090-f2a9-4a5e-a232-ba33e5a39132,Borrower_68dca090,user_68dca090@example.com,58,36578.93,38340.68,379,71,2,20.93,24,0.2752,Bachelor's,Full-time,Married,True,False,Auto,False
+c6979951-1d0e-480e-9f88-c399b943343a,Borrower_c6979951,user_c6979951@example.com,62,38415.8,93464.25,373,24,1,5.16,36,0.2052,Bachelor's,Part-time,Single,True,True,Home,True
+15c248a4-335d-42af-9f7c-608d0d61f1e1,Borrower_15c248a4,user_15c248a4@example.com,54,76989.64,119351.06,688,26,3,19.33,60,0.2185,Bachelor's,Full-time,Divorced,True,True,Business,False
+dfebedc5-eb84-491c-be55-5aa00d1c2ef2,Borrower_dfebedc5,user_dfebedc5@example.com,53,120161.04,112008.35,680,85,4,17.12,24,0.4681,Bachelor's,Full-time,Single,False,True,Auto,False
+5f578b59-c208-4ae9-a4b1-730735c6bc10,Borrower_5f578b59,user_5f578b59@example.com,35,52319.42,38352.23,684,68,1,3.21,36,0.4669,Bachelor's,Full-time,Single,False,True,Other,False
+67ff74ce-be1e-48ea-b005-21827c9a2d02,Borrower_67ff74ce,user_67ff74ce@example.com,43,54515.07,55918.15,680,40,1,14.44,36,0.2388,PhD,Full-time,Single,True,True,Business,True
+6e1e5ca1-9113-4c35-99a0-351bc1218015,Borrower_6e1e5ca1,user_6e1e5ca1@example.com,24,48945.66,49506.2,510,45,4,22.46,12,0.3837,Master's,Full-time,Married,False,True,Auto,False
+addf9c20-5f8e-4cf9-86d8-c242bc2ce0ae,Borrower_addf9c20,user_addf9c20@example.com,39,44452.86,65007.95,547,85,1,23.24,48,0.2246,Bachelor's,Full-time,Married,False,True,Business,False
+6d6c83ae-5f78-4a7f-bdf5-9d038b0f5341,Borrower_6d6c83ae,user_6d6c83ae@example.com,41,90454.06,55391.27,828,24,4,18.75,60,0.4224,Bachelor's,Self-employed,Divorced,False,False,Auto,False
+17fa480c-6c80-46e1-8032-565cf6722cbd,Borrower_17fa480c,user_17fa480c@example.com,57,38443.64,81101.0,408,22,2,21.1,12,0.312,Master's,Full-time,Single,True,False,Home,True
+6eaf417a-08aa-4ee8-8746-40b7a7d16182,Borrower_6eaf417a,user_6eaf417a@example.com,59,94389.08,165628.29,610,24,4,20.06,12,0.3179,Bachelor's,Part-time,Single,False,True,Home,True
+0a23a0ec-3936-4c9c-b524-ee033eaa9344,Borrower_0a23a0ec,user_0a23a0ec@example.com,64,31874.48,56479.33,834,44,4,9.05,48,0.2547,Bachelor's,Unemployed,Married,True,True,Business,False
+4c904829-971c-4f26-bdd8-b495ffa46df5,Borrower_4c904829,user_4c904829@example.com,33,66017.24,43188.0,607,15,1,22.6,48,0.1396,Bachelor's,Part-time,Married,True,False,Auto,True
+f93635b4-e9c8-464c-9224-207cc9a93a2f,Borrower_f93635b4,user_f93635b4@example.com,30,108049.84,103067.1,321,92,4,10.61,60,0.2324,Bachelor's,Full-time,Single,True,False,Other,True
+81aa7f4a-2ef6-4db6-afb0-101f057aca2c,Borrower_81aa7f4a,user_81aa7f4a@example.com,58,46732.01,47925.76,800,24,2,17.02,36,0.2557,High School,Full-time,Single,False,True,Auto,False
+0062afab-1c02-4a9b-a686-3051c8f89723,Borrower_0062afab,user_0062afab@example.com,20,53676.25,69814.79,708,24,4,6.21,36,0.3889,Bachelor's,Full-time,Married,True,True,Auto,True
+6a4ce228-0b27-4355-9699-441661bda30e,Borrower_6a4ce228,user_6a4ce228@example.com,65,47789.61,29104.31,823,101,3,7.1,36,0.1812,Bachelor's,Self-employed,Divorced,True,True,Other,False
+db02209d-e4ac-48fd-874d-08ee6b8b62fa,Borrower_db02209d,user_db02209d@example.com,20,89620.62,176048.51,647,42,1,16.8,48,0.2382,Bachelor's,Self-employed,Single,False,False,Home,True
+72a93834-0611-4d84-b95e-d4dcfe4afe5d,Borrower_72a93834,user_72a93834@example.com,22,104537.39,126412.49,345,98,2,23.4,48,0.2353,Bachelor's,Full-time,Married,True,True,Auto,False
+53cdf9c4-7350-4a52-aba3-3d677cdf6479,Borrower_53cdf9c4,user_53cdf9c4@example.com,49,89406.29,69605.66,694,61,3,16.24,36,0.1752,Bachelor's,Self-employed,Single,True,True,Education,False
+f0992e90-2b84-4bca-b78a-8061a9a5d8c2,Borrower_f0992e90,user_f0992e90@example.com,61,61268.62,69789.34,304,79,4,23.45,36,0.138,PhD,Part-time,Divorced,True,False,Auto,True
+f3a486ef-b3d4-4fb5-989b-a19e72292353,Borrower_f3a486ef,user_f3a486ef@example.com,68,136191.51,128481.23,333,75,1,3.92,24,0.3702,Bachelor's,Part-time,Divorced,False,False,Other,True
+78ae2694-b115-479c-ad3d-488efb2e7330,Borrower_78ae2694,user_78ae2694@example.com,49,95166.28,108161.88,700,91,4,21.19,48,0.3817,Bachelor's,Full-time,Married,True,True,Education,True
+55b62eea-72d4-402d-b977-57d493cf87e4,Borrower_55b62eea,user_55b62eea@example.com,35,149999.0,131125.8,355,24,4,6.49,60,0.4074,Bachelor's,Full-time,Married,True,False,Other,True
+7aed0a04-4708-40fb-8873-b4003d46d61e,Borrower_7aed0a04,user_7aed0a04@example.com,62,47354.87,81672.28,814,118,3,17.05,36,0.2573,High School,Full-time,Married,True,False,Home,False
+deb036f6-ba03-455c-8abb-67979630ef56,Borrower_deb036f6,user_deb036f6@example.com,33,20017.48,17125.05,724,78,1,10.96,60,0.3368,Bachelor's,Full-time,Divorced,True,False,Auto,True
+bbe82826-7ffd-4cb3-8e8d-dd154abaacbd,Borrower_bbe82826,user_bbe82826@example.com,38,32729.8,29543.35,555,24,1,15.79,24,0.6037,High School,Full-time,Single,True,False,Auto,False
+822070e7-8241-4f38-89d9-28f9e88a14d0,Borrower_822070e7,user_822070e7@example.com,26,63812.1,49132.09,654,19,4,14.9,60,0.287,Bachelor's,Full-time,Single,True,False,Education,True
+b45ec54b-c3d8-42ce-9948-bc10cc6e7132,Borrower_b45ec54b,user_b45ec54b@example.com,43,37364.36,62500.99,685,24,1,21.97,36,0.4249,Bachelor's,Self-employed,Divorced,True,True,Home,True
+780b3503-1c93-4f2d-82c8-090a438ff292,Borrower_780b3503,user_780b3503@example.com,45,69985.46,80753.56,546,23,1,18.25,36,0.2202,Master's,Full-time,Married,True,True,Education,False
+832c3d33-5aae-4baa-bece-40b5091c2da9,Borrower_832c3d33,user_832c3d33@example.com,66,89050.24,77073.24,454,112,1,2.58,60,0.5237,High School,Part-time,Married,True,False,Auto,False
+51a483f4-0303-4484-bd14-bec6d47a5e2f,Borrower_51a483f4,user_51a483f4@example.com,38,137769.99,230478.87,768,38,2,3.32,24,0.417,Bachelor's,Full-time,Divorced,False,True,Business,False
+d715a15b-0521-47f0-a3bc-87bbab2909ef,Borrower_d715a15b,user_d715a15b@example.com,60,128484.93,249999.0,825,24,3,22.4,12,0.3026,Bachelor's,Part-time,Single,False,False,Home,True
+236a37b9-e07b-4d52-9ccb-d9094c709fda,Borrower_236a37b9,user_236a37b9@example.com,32,15451.55,10708.46,345,96,2,6.22,12,0.4302,Master's,Full-time,Married,True,False,Auto,True
+684c841b-143b-404c-b43d-a4545fae02f5,Borrower_684c841b,user_684c841b@example.com,19,31515.94,25986.29,669,93,1,11.79,24,0.2426,Bachelor's,Part-time,Married,False,True,Other,True
+bd938309-fafa-42b0-b227-51361b36a39f,Borrower_bd938309,user_bd938309@example.com,41,149999.0,249999.0,528,6,1,16.84,36,0.6182,High School,Full-time,Married,False,True,Home,True
+1411b6b3-f627-45cc-9679-054bdf129f20,Borrower_1411b6b3,user_1411b6b3@example.com,58,26692.37,16025.8,842,22,1,2.53,24,0.3728,High School,Self-employed,Married,True,False,Education,False
+390d7cd3-f71f-4344-a62e-d94d88036922,Borrower_390d7cd3,user_390d7cd3@example.com,68,32509.86,36124.72,320,94,3,20.92,12,0.4134,High School,Full-time,Divorced,True,True,Business,True
+7589f044-246c-4703-b751-a2daadb2209e,Borrower_7589f044,user_7589f044@example.com,62,71930.01,108076.8,750,66,1,7.61,12,0.4207,Bachelor's,Part-time,Single,True,True,Home,False
+bacfe537-b420-47e4-aff2-6fc5ae783b71,Borrower_bacfe537,user_bacfe537@example.com,44,28028.38,21227.66,816,34,1,9.47,48,0.2236,Bachelor's,Part-time,Married,True,True,Auto,True
+7c8f8733-04a3-418c-9848-8082be470ed7,Borrower_7c8f8733,user_7c8f8733@example.com,43,97635.83,187274.76,318,64,2,16.53,36,0.3754,Bachelor's,Part-time,Single,True,False,Home,True
+5e53fa72-dcdb-48d2-9bbb-494d941b5322,Borrower_5e53fa72,user_5e53fa72@example.com,37,117259.46,115585.69,512,45,2,21.43,36,0.3775,Bachelor's,Full-time,Divorced,False,False,Business,False
+f3748c0f-b090-4bd7-80fc-fe8c475e86df,Borrower_f3748c0f,user_f3748c0f@example.com,45,67418.92,68810.11,469,67,1,14.8,12,0.4516,Bachelor's,Full-time,Married,False,True,Auto,True
+e34f2571-efeb-4c5c-8ecb-5726f59e55e9,Borrower_e34f2571,user_e34f2571@example.com,50,41026.97,36968.57,333,44,2,16.0,24,0.2467,High School,Full-time,Married,False,False,Education,True
+4fe9d791-044b-446e-9ff5-4f6a2b39774f,Borrower_4fe9d791,user_4fe9d791@example.com,35,29522.34,11546.21,485,41,2,14.94,36,0.2408,High School,Full-time,Divorced,True,True,Other,True
+7b47a42c-5aea-43b8-b5b7-0d95dcb80013,Borrower_7b47a42c,user_7b47a42c@example.com,50,26758.79,47995.17,701,24,2,5.94,12,0.312,Bachelor's,Self-employed,Divorced,False,False,Home,True
+126f003c-3f26-4792-b101-2685c2e7d4be,Borrower_126f003c,user_126f003c@example.com,46,56254.8,79645.62,505,107,4,7.41,48,0.3236,High School,Full-time,Divorced,True,True,Home,True
+966a58f9-0d8f-4c96-8ec7-595addd2cb3b,Borrower_966a58f9,user_966a58f9@example.com,37,37989.66,28115.21,419,39,4,16.41,60,0.3777,Bachelor's,Self-employed,Single,False,True,Education,True
+7c03aa56-70a5-4535-894e-af144ee8d6ce,Borrower_7c03aa56,user_7c03aa56@example.com,51,51089.55,105450.41,756,0,3,14.62,12,0.4455,Bachelor's,Full-time,Single,True,False,Business,True
+ce317132-d17c-43ab-a07b-704bd56dc31a,Borrower_ce317132,user_ce317132@example.com,35,94446.9,78380.08,660,60,4,8.6,36,0.2191,Bachelor's,Part-time,Single,True,True,Auto,False
+83376503-c467-436d-86f5-fa8c742221fe,Borrower_83376503,user_83376503@example.com,65,70365.31,63652.32,731,109,4,22.25,60,0.2721,Bachelor's,Part-time,Married,False,True,Other,False
+55759e76-8292-4fed-b00a-d073c71d30ad,Borrower_55759e76,user_55759e76@example.com,27,149999.0,249999.0,687,77,4,16.32,36,0.4114,Bachelor's,Full-time,Divorced,True,True,Home,True
+37f10daa-6beb-4403-9560-3273c3940399,Borrower_37f10daa,user_37f10daa@example.com,57,32970.46,25166.37,680,36,1,9.07,36,0.2258,Bachelor's,Full-time,Married,False,False,Education,False
+9b81f863-8c98-42e0-8e78-d266e4e0fbd7,Borrower_9b81f863,user_9b81f863@example.com,41,60000.0,139653.99,680,79,4,3.6,24,0.3197,Master's,Full-time,Divorced,False,True,Auto,True
+18d538d5-ae42-4752-a247-0be4f5825572,Borrower_18d538d5,user_18d538d5@example.com,67,21436.28,20053.72,680,34,1,5.68,12,0.4572,High School,Full-time,Divorced,True,True,Auto,False
+05836354-b60a-4656-a5c3-3adeb28927e1,Borrower_05836354,user_05836354@example.com,40,105974.8,151778.94,731,24,3,14.42,36,0.5024,Bachelor's,Part-time,Divorced,True,True,Business,False
+f774ed41-9a84-40cd-9460-50949b39ad86,Borrower_f774ed41,user_f774ed41@example.com,55,86048.92,187936.68,777,16,4,23.97,36,0.4341,Bachelor's,Unemployed,Married,False,False,Home,False
+70a36153-c48e-475d-b020-6204794564ea,Borrower_70a36153,user_70a36153@example.com,37,36436.27,36754.22,585,2,2,22.14,60,0.3445,Master's,Part-time,Divorced,True,True,Auto,True
+59ca92e2-b804-43c5-91d3-70874dfb4e07,Borrower_59ca92e2,user_59ca92e2@example.com,69,27902.14,26572.02,773,32,3,19.84,36,0.3502,Bachelor's,Part-time,Married,False,False,Auto,False
+ba84c5b5-015a-44e3-a3ae-4a8ea59bf717,Borrower_ba84c5b5,user_ba84c5b5@example.com,54,33499.62,26757.66,461,24,1,15.14,48,0.341,Bachelor's,Full-time,Single,False,True,Education,True
+f0012f84-a7a6-452c-8b70-534c0b5aa168,Borrower_f0012f84,user_f0012f84@example.com,65,62574.5,102563.69,403,52,4,6.9,48,0.2148,Bachelor's,Full-time,Single,False,True,Home,False
+bd56c74e-b253-47fb-b952-3adccefe4469,Borrower_bd56c74e,user_bd56c74e@example.com,23,28893.15,26177.9,638,109,3,5.7,48,0.2503,Bachelor's,Full-time,Married,True,False,Auto,True
+398376d4-b6c8-49c3-b380-5194e8844e5a,Borrower_398376d4,user_398376d4@example.com,47,61103.04,59909.71,758,98,3,4.17,12,0.3094,High School,Full-time,Divorced,True,False,Auto,False
+42265e18-ae2c-408c-94f3-0c3ba3973343,Borrower_42265e18,user_42265e18@example.com,47,43498.58,45456.96,737,99,2,4.8,12,0.3459,Bachelor's,Full-time,Married,False,True,Auto,True
+6e43ea96-bb08-4445-ae38-f95d240233a0,Borrower_6e43ea96,user_6e43ea96@example.com,40,149999.0,249999.0,738,21,1,12.66,12,0.2733,High School,Self-employed,Married,False,False,Home,False
+e295b555-de51-4370-b695-976fc2b78e70,Borrower_e295b555,user_e295b555@example.com,52,37651.88,51673.39,642,81,1,19.43,36,0.4497,High School,Full-time,Married,False,False,Business,False
+146f0bd4-f167-413b-a697-95e6d882fdc3,Borrower_146f0bd4,user_146f0bd4@example.com,59,18475.11,22685.95,388,95,2,6.73,36,0.2743,Bachelor's,Part-time,Single,False,False,Business,False
+c89a53db-2a77-495c-8cde-0015cb145002,Borrower_c89a53db,user_c89a53db@example.com,57,60000.0,130800.56,714,107,3,10.18,36,0.3563,Master's,Full-time,Married,True,False,Business,False
+dad60f53-fee5-4ac7-ba05-b739863cbebb,Borrower_dad60f53,user_dad60f53@example.com,43,36501.72,54245.04,846,98,1,8.88,60,0.2992,Bachelor's,Full-time,Married,False,False,Business,True
+693c9052-31db-4fbe-a57c-9caa01889f39,Borrower_693c9052,user_693c9052@example.com,60,40450.45,28592.72,430,2,1,17.36,12,0.1698,Bachelor's,Full-time,Married,True,False,Auto,False
+d0400769-b5c6-415d-98ba-85eb8eaffcdb,Borrower_d0400769,user_d0400769@example.com,57,102790.68,144829.54,680,50,2,11.29,24,0.4437,Bachelor's,Part-time,Divorced,False,False,Business,True
+c56dc46c-9db7-4495-afae-eca85c47a4f6,Borrower_c56dc46c,user_c56dc46c@example.com,26,23682.74,26211.92,444,0,4,17.92,48,0.3143,Bachelor's,Unemployed,Single,True,True,Other,True
+81872388-03cf-42aa-aa7b-38112c82a789,Borrower_81872388,user_81872388@example.com,30,60845.66,45517.2,659,110,2,16.77,12,0.3932,High School,Unemployed,Divorced,False,True,Auto,False
+9990ea34-1965-4d2d-b5f1-c022ba99a148,Borrower_9990ea34,user_9990ea34@example.com,23,134918.35,94089.95,431,24,4,13.54,60,0.4502,High School,Self-employed,Divorced,True,True,Auto,True
+d0451672-d4f4-4182-80c0-27d5cc218d4b,Borrower_d0451672,user_d0451672@example.com,69,104294.64,102398.81,582,86,3,6.21,48,0.365,Bachelor's,Unemployed,Divorced,True,False,Education,True
+9dfbadc2-3e48-48a2-a61c-9b076a12d557,Borrower_9dfbadc2,user_9dfbadc2@example.com,59,88196.31,80465.18,350,105,2,15.38,48,0.4307,Bachelor's,Full-time,Divorced,True,True,Auto,True
+76c892ba-6784-40be-b8ec-b0c731c127ad,Borrower_76c892ba,user_76c892ba@example.com,65,71775.51,84493.58,675,57,1,10.59,12,0.2978,Master's,Full-time,Married,True,True,Education,True
+461991f4-43c4-4b51-b264-7cbf47a11f4c,Borrower_461991f4,user_461991f4@example.com,26,99500.52,105734.79,821,87,1,18.27,12,0.2309,High School,Full-time,Divorced,True,True,Auto,False
+8179fe96-9082-4c28-9d25-c2a477de24ea,Borrower_8179fe96,user_8179fe96@example.com,41,23346.77,24388.78,469,81,4,24.31,60,0.4168,Bachelor's,Full-time,Single,True,False,Auto,True
+b8c7982d-7609-402d-b8e0-566fdebb06c3,Borrower_b8c7982d,user_b8c7982d@example.com,57,149999.0,123683.52,843,30,2,21.36,24,0.3381,Bachelor's,Full-time,Married,False,True,Auto,False
+eb3a9307-c04c-470f-bb39-03ee1cc5ed8f,Borrower_eb3a9307,user_eb3a9307@example.com,48,68406.79,67271.03,426,63,3,18.68,24,0.3024,PhD,Self-employed,Divorced,True,True,Auto,True
+cab4197c-3ad3-4525-b9f2-8319adf4200a,Borrower_cab4197c,user_cab4197c@example.com,34,58298.35,78797.75,410,89,1,17.28,12,0.2936,Master's,Full-time,Single,False,True,Home,False
+54de605d-d869-4ab8-a79e-448ee2780c97,Borrower_54de605d,user_54de605d@example.com,68,47066.33,45080.22,411,38,2,6.07,60,0.3823,Bachelor's,Full-time,Divorced,True,False,Education,True
+f74e57c1-983e-4f4f-950b-7171fcf3c41c,Borrower_f74e57c1,user_f74e57c1@example.com,19,60000.0,119125.05,445,96,3,6.81,36,0.2325,Bachelor's,Full-time,Married,False,True,Home,True
+6ae18d50-664e-4097-9d6c-60b898747b1b,Borrower_6ae18d50,user_6ae18d50@example.com,35,56626.33,49784.78,474,106,3,7.59,60,0.3124,Bachelor's,Unemployed,Married,True,True,Education,True
+49ebfbc0-13ec-4409-9443-118417fc5ddc,Borrower_49ebfbc0,user_49ebfbc0@example.com,48,71500.39,85232.57,351,66,1,24.43,48,0.3151,Bachelor's,Full-time,Single,False,False,Auto,False
+62868481-275c-4a59-ac3c-aecea0392912,Borrower_62868481,user_62868481@example.com,49,66310.75,52909.84,731,20,3,24.41,12,0.2446,High School,Full-time,Married,True,False,Auto,False
+9f4a94c4-731b-4a84-b672-a8f28b502a5f,Borrower_9f4a94c4,user_9f4a94c4@example.com,33,94028.79,153226.8,680,57,4,21.29,48,0.4867,High School,Full-time,Divorced,False,True,Business,True
+bd5ae6c5-672c-4062-a8cf-bd316b166302,Borrower_bd5ae6c5,user_bd5ae6c5@example.com,43,126117.73,169868.59,541,102,4,20.16,48,0.3016,High School,Self-employed,Married,False,True,Business,False
+6875f24c-f09a-41b1-93ed-c11801a00c30,Borrower_6875f24c,user_6875f24c@example.com,37,44561.23,28661.38,670,72,1,24.41,36,0.4764,High School,Part-time,Single,True,True,Auto,True
+7244c11d-ae25-4148-8eb1-be1634189fa4,Borrower_7244c11d,user_7244c11d@example.com,27,15000.0,14273.31,303,90,3,23.59,36,0.4381,Bachelor's,Full-time,Single,False,False,Other,True
+5dad898d-6987-423e-a95d-191425b18301,Borrower_5dad898d,user_5dad898d@example.com,24,45561.89,62570.5,680,65,2,13.77,12,0.3084,PhD,Full-time,Married,False,True,Auto,False
+88fe8e5d-d6bf-4fdd-a4c0-8c20a13856bf,Borrower_88fe8e5d,user_88fe8e5d@example.com,49,119910.16,162316.38,680,79,2,20.14,60,0.3835,Bachelor's,Full-time,Divorced,False,False,Home,False
+03bd0ac3-c6f3-40d7-aed5-4113a70adc29,Borrower_03bd0ac3,user_03bd0ac3@example.com,43,54399.21,106418.54,655,74,3,12.26,12,0.2997,Bachelor's,Unemployed,Single,False,False,Home,True
+992117c2-06a3-4637-84d2-3389b57a2abc,Borrower_992117c2,user_992117c2@example.com,61,60131.86,60137.59,471,11,4,23.04,36,0.4711,PhD,Full-time,Divorced,True,False,Education,True
+da16f1f4-373d-45fa-bdc3-5a5dae235681,Borrower_da16f1f4,user_da16f1f4@example.com,55,60957.66,60270.52,804,62,4,2.37,12,0.2053,Bachelor's,Self-employed,Divorced,False,True,Auto,True
+6f961c58-458f-43c1-bff0-da7b68933f23,Borrower_6f961c58,user_6f961c58@example.com,69,30368.09,28208.44,322,105,4,4.45,60,0.3677,High School,Full-time,Single,True,True,Education,False
+0723d183-fb9c-49a5-b1a6-ccdc1b5ade9c,Borrower_0723d183,user_0723d183@example.com,25,149999.0,143793.3,596,93,1,6.93,48,0.3263,High School,Full-time,Single,False,False,Auto,True
+5142e0ae-efa9-4d26-8d25-19703e63af1e,Borrower_5142e0ae,user_5142e0ae@example.com,43,96329.17,111585.24,674,115,2,16.13,12,0.1933,Bachelor's,Full-time,Divorced,False,True,Business,False
+ffe55871-a531-48d2-abb8-6f1c68e4466c,Borrower_ffe55871,user_ffe55871@example.com,44,31290.64,16401.19,753,77,3,3.67,12,0.2857,Bachelor's,Self-employed,Married,False,False,Auto,True
+5dd3b958-f6a2-4410-bb10-3cf01e91193b,Borrower_5dd3b958,user_5dd3b958@example.com,60,66667.97,117712.6,441,101,1,14.37,12,0.1821,Bachelor's,Part-time,Divorced,False,True,Home,True
+d3f4ec89-2a15-4edf-a8fa-db40418ed4e2,Borrower_d3f4ec89,user_d3f4ec89@example.com,19,120056.92,74862.04,393,25,1,4.61,36,0.435,Bachelor's,Self-employed,Single,True,True,Business,True
+c3fc98fb-bfe9-4d94-8530-cb0175626212,Borrower_c3fc98fb,user_c3fc98fb@example.com,22,54553.25,48348.73,318,24,3,16.45,12,0.4183,High School,Self-employed,Single,False,True,Auto,True
+3904371f-0f02-411e-a796-5bf5fdffddf8,Borrower_3904371f,user_3904371f@example.com,35,83231.81,74609.0,578,56,4,19.54,48,0.3649,Master's,Part-time,Divorced,False,True,Other,False
+cb085c4f-8536-4bc6-89f4-e032fde43674,Borrower_cb085c4f,user_cb085c4f@example.com,43,36533.81,31198.22,558,91,4,6.38,36,0.4494,Master's,Full-time,Married,True,False,Auto,False
+6f741c17-1ab5-4ae0-ab62-861a09c7ae35,Borrower_6f741c17,user_6f741c17@example.com,43,40204.6,29649.67,658,48,3,18.85,60,0.3333,Bachelor's,Full-time,Divorced,False,True,Education,False
+da6b0800-3cab-4f72-8967-5210c05d380a,Borrower_da6b0800,user_da6b0800@example.com,56,54891.63,36600.76,418,111,1,11.85,36,0.1778,Bachelor's,Part-time,Single,False,False,Auto,False
+d7f106c3-74bd-4d53-96a1-3d48df9134fe,Borrower_d7f106c3,user_d7f106c3@example.com,27,24766.23,28904.43,584,85,1,13.3,24,0.2667,Master's,Part-time,Divorced,False,False,Business,False
+331e05fe-754d-484f-bdc4-fd10a9fdd545,Borrower_331e05fe,user_331e05fe@example.com,65,60000.0,43178.81,667,12,3,2.65,60,0.4602,Bachelor's,Full-time,Single,True,True,Auto,True
+24130e52-40ca-44bb-880b-18eb2783efb7,Borrower_24130e52,user_24130e52@example.com,36,85828.75,77379.84,836,89,2,16.08,48,0.4735,Bachelor's,Self-employed,Married,True,False,Auto,False
+6460f18f-2575-480e-8f4c-758a290c5151,Borrower_6460f18f,user_6460f18f@example.com,28,41217.37,38453.1,682,70,2,14.07,12,0.3556,Bachelor's,Self-employed,Divorced,False,False,Education,True
