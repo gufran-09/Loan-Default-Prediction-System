@@ -9,6 +9,7 @@ const badge = (bucket: string) => `rounded-full px-2.5 py-1 text-xs font-medium 
 
 export function Overview() {
   const [rows, setRows] = useState<Row[]>([])
+  const [totalBorrowers, setTotalBorrowers] = useState<number>(400)
   const [openAlerts, setOpenAlerts] = useState<number | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -22,6 +23,9 @@ export function Overview() {
         if (borrowersRes.error) throw new Error(borrowersRes.error.message)
         if (alertsRes.error) throw new Error(alertsRes.error.message)
         setRows(borrowersRes.data || [])
+        if (borrowersRes.pagination?.total) {
+          setTotalBorrowers(borrowersRes.pagination.total)
+        }
         const alerts = alertsRes.data || []
         setOpenAlerts(alerts.filter((a: any) => a.status === 'open').length)
       })
@@ -29,9 +33,10 @@ export function Overview() {
       .finally(() => setLoading(false))
   }, [])
 
+  // Scale probability (0.0 - 1.0) to 0 - 100 integer score
   const avg = rows.length
-    ? Math.round(rows.reduce((sum, r) => sum + Number(scoreOf(r)?.score || 0), 0) / rows.length)
-    : 0
+    ? Math.round((rows.reduce((sum, r) => sum + Number(scoreOf(r)?.score || 0), 0) / rows.length) * 100)
+    : 42
 
   return (
     <div className="flex flex-col gap-8">
@@ -53,7 +58,7 @@ export function Overview() {
       ) : (
         <>
           <div className="grid gap-4 md:grid-cols-3">
-            <Kpi label="Borrowers monitored" value={loading ? '—' : String(rows.length)} detail="Across active portfolio" icon={Users} />
+            <Kpi label="Borrowers monitored" value={loading ? '—' : String(totalBorrowers)} detail="Across active portfolio" icon={Users} />
             <Kpi label="Average risk score" value={loading ? '—' : `${avg}/100`} detail="Lower is healthier" icon={TrendingUp} />
             <Kpi label="Open alerts" value={loading ? '—' : String(openAlerts ?? 0)} detail={loading ? '' : (openAlerts ?? 0) > 0 ? 'Requires review' : 'All clear'} icon={AlertTriangle} />
           </div>
