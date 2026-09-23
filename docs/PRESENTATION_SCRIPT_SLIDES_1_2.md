@@ -34,8 +34,8 @@
 | Term / Acronym | Plain English Translation | Why It Matters |
 | :--- | :--- | :--- |
 | **Loan Default** | When a borrower stops making required loan payments. | The primary risk every lender must minimize. |
-| **Class Imbalance (7.6 : 1)** | In our historical data, only **11.6%** of borrowers defaulted (1 defaulter for every 7.6 good payers). | If a model is lazy, it can guess "no default" every time and be 88.4% accurate, while failing completely at catching actual risk. |
-| **`scale_pos_weight = 7.6`** | A special dial in the XGBoost algorithm that tells the AI: *"Missing a defaulter is 7.6 times worse than wrongly flagging a good borrower."* | Forces the AI to actively look for rare default warning signs. |
+| **Class Imbalance (6.5 : 1)** | In our seasoned portfolio, **13.38%** of borrowers defaulted (1 defaulter for every 6.48 good payers). | If a model is lazy, it can guess "no default" every time and be 86.6% accurate, while failing completely at catching actual risk. |
+| **`scale_pos_weight = 6.48`** | A special dial in the XGBoost algorithm that tells the AI: *"Missing a defaulter is 6.48 times worse than wrongly flagging a good borrower."* | Forces the AI to actively look for rare default warning signs. |
 | **XGBoost** | A tournament of hundreds of small decision trees that vote together to make an ultra-accurate prediction. | The gold standard machine learning algorithm for tabular financial data. |
 | **SHAP / TreeSHAP** | A mathematical technique derived from Nobel Prize-winning game theory that shows how much each piece of data pushed the score up or down. | Solves the "black-box" problem. Tells the underwriter and borrower *why* the loan was approved or rejected. |
 | **Federal Reserve SR 11-7** | The US banking regulation that says: *"You cannot put an AI model into a financial institution unless you test it, monitor it for drift, and understand how it works."* | MassMutual is heavily audited under these rules; mentioning SR 11-7 proves enterprise readiness. |
@@ -94,7 +94,7 @@
 * **Word-for-Word Spoken Script:**
   > "Aegis Risk is architected around five operational pillars:
   >
-  > 1. **Predict:** At its core is a calibrated **XGBoost gradient-boosted classifier**. Because real-world default is rare, we tuned the loss function with a `scale_pos_weight` of **7.6** to directly conquer severe class imbalance and optimize default detection.
+  > 1. **Predict:** At its core is a calibrated **XGBoost gradient-boosted classifier**. Because real-world default is rare, we tuned the loss function with a `scale_pos_weight` of **6.48** to directly conquer class imbalance and optimize default detection on seasoned loans.
   > 2. **Explain:** Prediction without explainability is a legal liability. Using **SHAP (SHapley Additive exPlanations)**, Aegis translates complex multi-tree interactions into underwriter-readable reasons. Every score is mathematically decomposed so credit officers know exactly *why* a decision was made.
   > 3. **Govern:** In accordance with **Federal Reserve SR 11-7 model risk management**, we proactively test and benchmark model drift across demographic and macroeconomic stress scenarios, ensuring stability over time.
   > 4. **Act:** Aegis is not a passive dashboard; it is an **active underwriter decision cockpit**. Credit officers can run interactive **'What-If' loan restructuring simulations**, instantly generate legally compliant **CFPB Adverse Action Notices**, and perform real-time applicant scoring.
@@ -240,10 +240,10 @@ Here are the exact questions an evaluator or technical architect might ask you, 
 
 ---
 
-### Q2: "What exactly does `scale_pos_weight = 7.6` mean and why did you use it?"
-* **The Intuition (For You):** Out of 100 people, roughly 88 pay their loans and only 12 default. That's a 7.6 to 1 ratio. If you don't tell the AI this, it will just ignore the defaults because they're rare. By setting this dial to 7.6, we make the AI pay 7.6 times more attention to default mistakes.
+### Q2: "What exactly does `scale_pos_weight = 6.48` mean and why did you use it?"
+* **The Intuition (For You):** Out of 100 seasoned loans, roughly 87 pay their loans and about 13 default. That's a 6.48 to 1 ratio. If you don't tell the AI this, it will just ignore the defaults because they're the minority class. By setting this dial to 6.48, we make the AI penalize default misses 6.48 times more heavily.
 * **The Winning Spoken Response:**
-  > *"Our dataset has an 11.6% baseline default rate, which creates an inherent 7.6-to-1 class imbalance. Without correction, a standard classifier tends to minimize loss by under-predicting defaults. By setting `scale_pos_weight` to 7.6, we adjust the gradient loss function to penalize false negatives 7.6 times more heavily, training the model to detect subtle default indicators that standard models overlook."*
+  > *"Our seasoned dataset has a 13.38% default rate, which creates an inherent 6.48-to-1 class imbalance. Without correction, a standard classifier tends to minimize loss by under-predicting defaults. By setting `scale_pos_weight` to 6.48, we adjust the gradient loss function to penalize false negatives 6.48 times more heavily, training the model to detect subtle default indicators that standard models overlook."*
 
 ---
 
