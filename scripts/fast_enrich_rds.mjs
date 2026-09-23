@@ -17,6 +17,7 @@ if (fs.existsSync(envPath)) {
       const key = trimmed.slice(0, idx).trim()
       const val = trimmed.slice(idx + 1).trim()
       if (!process.env[key]) process.env[key] = val
+
     }
   }
 }
@@ -45,8 +46,6 @@ async function fastEnrich() {
       UPDATE borrowers SET
         age = 22 + (abs(hashtext(id::text)) % 48),
         date_of_birth = CURRENT_DATE - ((22 + (abs(hashtext(id::text)) % 48)) * INTERVAL '365 days'),
-        health_status = CASE abs(hashtext(id::text)) % 5 WHEN 3 THEN 'chronic_condition' WHEN 4 THEN 'disability' ELSE 'healthy' END,
-        disability_flag = (abs(hashtext(id::text)) % 5 = 4),
         num_dependents = abs(hashtext(id::text)) % 4,
         marital_status = CASE abs(hashtext(id::text)) % 5 WHEN 0 THEN 'single' WHEN 1 THEN 'married' WHEN 2 THEN 'married' WHEN 3 THEN 'divorced' ELSE 'widowed' END,
         existing_credit_card_debt = ROUND(COALESCE(monthly_income, 5000) * (0.10 + (abs(hashtext(id::text)) % 30) / 100.0)),
