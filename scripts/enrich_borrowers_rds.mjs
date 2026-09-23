@@ -52,8 +52,6 @@ async function enrich() {
       const h = pseudoHash(b.id)
       const age = 23 + (h % 48) // 23 - 71
       const numDependents = h % 4
-      const healthChoices = ['healthy', 'healthy', 'healthy', 'chronic_condition', 'disability']
-      const health = healthChoices[h % healthChoices.length]
       const maritalChoices = ['single', 'married', 'married', 'divorced', 'widowed']
       const marital = maritalChoices[h % maritalChoices.length]
       
@@ -94,27 +92,25 @@ async function enrich() {
       await client.query(`
         UPDATE borrowers SET
           age = $1,
-          health_status = $2,
-          disability_flag = $3,
-          num_dependents = $4,
-          marital_status = $5,
-          existing_credit_card_debt = $6,
-          existing_auto_loans = $7,
-          existing_personal_loans = $8,
-          alimony_obligations = $9,
-          real_estate_value = $10,
-          liquid_savings = $11,
-          investment_portfolio_value = $12,
-          collateral_type = $13,
-          collateral_value = $14,
-          income_source = $15,
-          income_verified = $16,
-          months_at_current_job = $17,
-          income_consistency_score = $18,
-          alternative_credit_score = $19
-        WHERE id = $20
+          num_dependents = $2,
+          marital_status = $3,
+          existing_credit_card_debt = $4,
+          existing_auto_loans = $5,
+          existing_personal_loans = $6,
+          alimony_obligations = $7,
+          real_estate_value = $8,
+          liquid_savings = $9,
+          investment_portfolio_value = $10,
+          collateral_type = $11,
+          collateral_value = $12,
+          income_source = $13,
+          income_verified = $14,
+          months_at_current_job = $15,
+          income_consistency_score = $16,
+          alternative_credit_score = $17
+        WHERE id = $18
       `, [
-        age, health, health === 'disability', numDependents, marital,
+        age, numDependents, marital,
         ccDebt, autoLoan, persLoan, alimony,
         realEstate, liquidSavings, investments,
         collateralType, collateralValue,
