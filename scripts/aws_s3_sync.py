@@ -8,9 +8,17 @@ to an Amazon S3 Data Lake bucket.
 import os
 import sys
 import json
-from dotenv import load_dotenv
-
-load_dotenv()
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    if os.path.exists(".env"):
+        with open(".env", "r") as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    k, v = line.split("=", 1)
+                    os.environ.setdefault(k.strip(), v.strip())
 
 def sync_artifacts():
     bucket_name = os.getenv("AWS_S3_BUCKET_NAME", "aegis-risk-storage-022671037337")
@@ -18,10 +26,12 @@ def sync_artifacts():
 
 
     artifacts = [
-        ("ml/model.pkl", "models/v1.0.0/model.pkl"),
-        ("ml/feature_columns.json", "models/v1.0.0/feature_columns.json"),
-        ("ml/drift_report.json", "audits/drift_report_latest.json"),
-        ("ml/model_card.md", "documentation/model_card.md"),
+        ("ml/model.pkl", "models/v2.0.0/model.pkl"),
+        ("ml/model.json", "models/v2.0.0/model.json"),
+        ("ml/feature_columns.json", "models/v2.0.0/feature_columns.json"),
+        ("ml/model_card.md", "documentation/v2.0.0/model_card.md"),
+        ("ml/model.json", "models/latest/model.json"),
+        ("ml/feature_columns.json", "models/latest/feature_columns.json"),
         ("seed_borrowers.csv", "datasets/seed_borrowers.csv"),
     ]
 
