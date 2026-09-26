@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Shell } from "@/components/dashboard/shell";
+import { Pagination } from "@/components/ui/pagination";
 import { Bell, ArrowUpRight, CheckCircle, Clock, AlertTriangle } from "lucide-react";
 
 const severityStyles = (severity: string) => {
@@ -32,6 +33,8 @@ const statusStyles = (status: string) => {
 export default function Alerts() {
   const [alerts, setAlerts] = useState<any[]>([]);
   const [filterStatus, setFilterStatus] = useState<string>("all");
+  const [page, setPage] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(10);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -77,6 +80,14 @@ export default function Alerts() {
     return (a.status || "open") === filterStatus;
   });
 
+  const totalPages = Math.max(1, Math.ceil(filteredAlerts.length / pageSize));
+  const paginatedAlerts = filteredAlerts.slice((page - 1) * pageSize, page * pageSize);
+
+  const handleFilterChange = (status: string) => {
+    setFilterStatus(status);
+    setPage(1);
+  };
+
   const openCount = alerts.filter((a) => (a.status || "open") === "open").length;
   const acknowledgedCount = alerts.filter((a) => a.status === "acknowledged").length;
   const resolvedCount = alerts.filter((a) => a.status === "resolved").length;
@@ -97,25 +108,25 @@ export default function Alerts() {
 
           <div className="flex gap-2 rounded-lg border bg-card p-1 text-xs font-medium">
             <button
-              onClick={() => setFilterStatus("all")}
+              onClick={() => handleFilterChange("all")}
               className={`rounded-md px-3 py-1.5 transition-colors ${filterStatus === "all" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
             >
               All ({alerts.length})
             </button>
             <button
-              onClick={() => setFilterStatus("open")}
+              onClick={() => handleFilterChange("open")}
               className={`rounded-md px-3 py-1.5 transition-colors ${filterStatus === "open" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
             >
               Open ({openCount})
             </button>
             <button
-              onClick={() => setFilterStatus("acknowledged")}
+              onClick={() => handleFilterChange("acknowledged")}
               className={`rounded-md px-3 py-1.5 transition-colors ${filterStatus === "acknowledged" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
             >
               Acknowledged ({acknowledgedCount})
             </button>
             <button
-              onClick={() => setFilterStatus("resolved")}
+              onClick={() => handleFilterChange("resolved")}
               className={`rounded-md px-3 py-1.5 transition-colors ${filterStatus === "resolved" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
             >
               Resolved ({resolvedCount})
@@ -138,7 +149,7 @@ export default function Alerts() {
               No alerts found under the &quot;{filterStatus}&quot; filter.
             </div>
           ) : (
-            filteredAlerts.map((a) => {
+            paginatedAlerts.map((a) => {
               const styles = severityStyles(a.severity);
               const currentStatus = a.status || "open";
               const isUpdating = actionLoading === a.id;
@@ -208,6 +219,28 @@ export default function Alerts() {
             })
           )}
         </div>
+
+        {!loading && !error && filteredAlerts.length > 0 && (
+          <div className="overflow-hidden rounded-xl border bg-card">
+            <Pagination
+              currentPage={page}
+              totalPages={totalPages}
+              totalItems={filteredAlerts.length}
+              pageSize={pageSize}
+              pageSizeOptions={[5, 10, 25, 50]}
+              onPageChange={(newPage) => {
+                setPage(newPage);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              onPageSizeChange={(newSize) => {
+                setPageSize(newSize);
+                setPage(1);
+              }}
+              itemName="alerts"
+              className="border-t-0"
+            />
+          </div>
+        )}
       </div>
     </Shell>
   );
