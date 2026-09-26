@@ -64,7 +64,7 @@ _Notice issued in accordance with institutional OCC SR 11-7 model standards._`
   }
 
   // 2. Live production dispatch via Meta WhatsApp Business Cloud API protected by Circuit Breaker
-  return whatsappCircuitBreaker.execute(
+  return whatsappCircuitBreaker.execute<{ success: boolean; simulated: boolean; messageId: string }>(
     async () => {
       const url = `https://graph.facebook.com/v20.0/${phoneNumberId}/messages`
       const requestBody = {
