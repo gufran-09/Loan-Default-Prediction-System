@@ -57,6 +57,11 @@ export interface BorrowerScoreDetail {
     has_mortgage?: boolean
     has_dependents?: boolean
     has_cosigner?: boolean
+    // Dataset v2 Underwriting Predictors
+    credit_utilization?: number
+    delinquency_count_12m?: number
+    num_inquiries_6m?: number
+    prior_defaults?: number
   }
 }
 
@@ -105,6 +110,11 @@ function normalizeBorrower(raw: any) {
     has_mortgage: raw.has_mortgage != null ? Boolean(raw.has_mortgage) : false,
     has_dependents: hasDependents,
     has_cosigner: raw.has_cosigner != null ? Boolean(raw.has_cosigner) : false,
+    // Dataset v2 Predictors
+    credit_utilization: raw.credit_utilization != null ? Number(raw.credit_utilization) : 0.38,
+    delinquency_count_12m: raw.delinquency_count_12m != null ? Number(raw.delinquency_count_12m) : 0,
+    num_inquiries_6m: raw.num_inquiries_6m != null ? Number(raw.num_inquiries_6m) : 1,
+    prior_defaults: raw.prior_defaults != null ? Number(raw.prior_defaults) : 0,
   }
 }
 
