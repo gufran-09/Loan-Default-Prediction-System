@@ -124,12 +124,23 @@ def build_feature_vector(raw_features, feature_columns):
         vec[f_map["HasDependents_Yes"]] = 1.0 if has_dep else 0.0
         vec[f_map["HasDependents_No"]] = 0.0 if has_dep else 1.0
 
-    # Categorical: LoanPurpose
-    purpose = str(raw_features.get("loan_purpose") or raw_features.get("LoanPurpose") or raw_features.get("loan_type") or "Other")
+    # Categorical: LoanPurpose (One-hot invariant: exactly one flag set to 1.0)
+    raw_purpose = str(raw_features.get("loan_purpose") or raw_features.get("LoanPurpose") or raw_features.get("loan_type") or "Other").lower()
+    if "auto" in raw_purpose:
+        matched_purpose = "Auto"
+    elif "business" in raw_purpose:
+        matched_purpose = "Business"
+    elif "education" in raw_purpose:
+        matched_purpose = "Education"
+    elif "home" in raw_purpose:
+        matched_purpose = "Home"
+    else:
+        matched_purpose = "Other"  # explicitly maps 'personal', 'personal loan', etc. to 'Other'
+
     for val in ["Auto", "Business", "Education", "Home", "Other"]:
         col = f"LoanPurpose_{val}"
         if col in f_map:
-            vec[f_map[col]] = 1.0 if val.lower() in purpose.lower() else 0.0
+            vec[f_map[col]] = 1.0 if val == matched_purpose else 0.0
 
     # Categorical: HasCoSigner
     has_cosigner = bool(raw_features.get("has_cosigner") or raw_features.get("has_co_signer") or raw_features.get("HasCoSigner", False))
