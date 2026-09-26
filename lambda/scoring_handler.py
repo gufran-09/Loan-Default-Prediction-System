@@ -13,11 +13,6 @@ def calculate_risk_score(features):
     tenure_months = float(features.get("tenure_months") or 36)
     outstanding_balance = float(features.get("outstanding_balance") or 5000)
 
-    # Demographic features
-    age = float(features.get("age") or 43)
-    num_dependents = float(features.get("num_dependents") or 0)
-    marital_status = str(features.get("marital_status") or "single").lower()
-
     # Financial & Debt features
     total_existing_debt = float(features.get("total_existing_debt") or 0)
     collateral_value = float(features.get("collateral_value") or 0)
@@ -29,6 +24,12 @@ def calculate_risk_score(features):
     alt_credit = features.get("alternative_credit_score") or features.get("credit_score")
     alt_credit_score = float(alt_credit) if alt_credit is not None else 680.0
     interest_rate = float(features.get("interest_rate") or 10.5)
+
+    # v2 Underwriting Predictors
+    credit_utilization = float(features.get("credit_utilization") or 0.38)
+    delinquency_count_12m = float(features.get("delinquency_count_12m") or 0)
+    num_inquiries_6m = float(features.get("num_inquiries_6m") or 1)
+    prior_defaults = float(features.get("prior_defaults") or 0)
 
     # Core credit ratios
     annual_income = monthly_income * 12.0 + 1e-5
@@ -61,11 +62,23 @@ def calculate_risk_score(features):
     emp_impact = -min(0.25, max(-0.25, (months_at_current_job - 24) * 0.005))
     shap_contributions["MonthsEmployed"] = round(emp_impact, 3)
 
-    # 6. Age Profile
-    age_impact = -(age - 40.0) * 0.004
-    shap_contributions["Age"] = round(age_impact, 3)
+    # 6. Recent Delinquencies (Top v2 Driver - Protected Demographics like Age Excluded)
+    delinq_impact = delinquency_count_12m * 0.45
+    shap_contributions["delinquency_count_12m"] = round(delinq_impact, 3)
 
-    # 7. Collateral Cushion
+    # 7. Credit Utilization (v2 Driver)
+    util_impact = (credit_utilization - 0.35) * 0.85
+    shap_contributions["credit_utilization"] = round(util_impact, 3)
+
+    # 8. Recent Credit Inquiries (v2 Driver)
+    inq_impact = (num_inquiries_6m - 1.0) * 0.15
+    shap_contributions["num_inquiries_6m"] = round(inq_impact, 3)
+
+    # 9. Prior Defaults (v2 Driver)
+    prior_impact = prior_defaults * 0.60
+    shap_contributions["prior_defaults"] = round(prior_impact, 3)
+
+    # 10. Collateral Cushion
     if collateral_coverage > 0.8:
         collateral_impact = -0.30
     elif collateral_coverage > 0.3:
@@ -74,11 +87,11 @@ def calculate_risk_score(features):
         collateral_impact = 0.05
     shap_contributions["collateral_coverage"] = round(collateral_impact, 3)
 
-    # 8. Asset Liquidity
+    # 11. Asset Liquidity
     asset_impact = -min(0.20, asset_cushion * 0.08)
     shap_contributions["asset_liquidity"] = round(asset_impact, 3)
 
-    # Aggregate logit & compute calibrated probability
+    # Aggregate logit & compute calibrated probability (Age excluded for ECOA/CFPB compliance)
     total_logit = (
         base_logit
         + lti_impact
@@ -86,7 +99,10 @@ def calculate_risk_score(features):
         + credit_impact
         + rate_impact
         + emp_impact
-        + age_impact
+        + delinq_impact
+        + util_impact
+        + inq_impact
+        + prior_impact
         + collateral_impact
         + asset_impact
     )
@@ -121,8 +137,14 @@ def calculate_risk_score(features):
             desc = f"Interest rate of {round(interest_rate, 1)}% {'increases payment burden' if impact > 0 else 'maintains manageable borrowing costs'}"
         elif feat == "MonthsEmployed":
             desc = f"Employment history of {int(months_at_current_job)} months {'demonstrates income stability' if impact < 0 else 'presents shorter earnings track record'}"
-        elif feat == "Age":
-            desc = f"Age profile ({int(age)} yrs) {'reflects established actuarial baseline' if impact < 0 else 'reflects emerging credit profile'}"
+        elif feat == "delinquency_count_12m":
+            desc = f"{int(delinquency_count_12m)} recent delinquency incidents in past 12 months" if delinquency_count_12m > 0 else "Clean payment history with 0 recent delinquencies in past 12 months"
+        elif feat == "credit_utilization":
+            desc = f"Revolving credit line utilization of {round(credit_utilization * 100, 1)}%"
+        elif feat == "num_inquiries_6m":
+            desc = f"{int(num_inquiries_6m)} hard credit inquiries over prior 6 months"
+        elif feat == "prior_defaults":
+            desc = f"Record of {int(prior_defaults)} prior loan defaults" if prior_defaults > 0 else "Zero historical prior defaults"
         elif feat == "collateral_coverage":
             desc = f"Collateral coverage ({round(collateral_coverage*100, 1)}%) {'substantially secures credit' if impact < 0 else 'is modest relative to principal'}"
         else:
