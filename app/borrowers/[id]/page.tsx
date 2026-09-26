@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Shell } from "@/components/dashboard/shell";
+import { Pagination } from "@/components/ui/pagination";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import {
@@ -42,8 +43,24 @@ export default function BorrowerDetail({
 
   // Alternative Credit & Scoring History State
   const [altCredit, setAltCredit] = useState<any[]>([]);
+  const [altCreditPage, setAltCreditPage] = useState(1);
+  const altCreditPageSize = 5;
+
   const [scoringHistory, setScoringHistory] = useState<any[]>([]);
+  const [historyPage, setHistoryPage] = useState(1);
+  const historyPageSize = 5;
+
   const [liveRescoreLoading, setLiveRescoreLoading] = useState(false);
+
+  const paginatedAltCredit = altCredit.slice(
+    (altCreditPage - 1) * altCreditPageSize,
+    altCreditPage * altCreditPageSize
+  );
+
+  const paginatedHistory = scoringHistory.slice(
+    (historyPage - 1) * historyPageSize,
+    historyPage * historyPageSize
+  );
 
   // What-If Simulation State
   const [simLoanAmount, setSimLoanAmount] = useState<number>(0);
@@ -189,7 +206,9 @@ export default function BorrowerDetail({
   }, [routeBorrowerId, params]);
 
   // Dynamic What-If Risk Recalculation (Local Elasticity Baseline)
-  const baselineScore = data ? Number(data.score) : 0.5;
+  const rawScore = data ? Number(data.score) : 0.5;
+  // Normalize if score is stored on 0-1000 scale (e.g. 507 -> 0.507) vs probability 0-1
+  const baselineScore = rawScore > 1 ? Number((rawScore / 1000).toFixed(4)) : rawScore;
   const originalAmount = data?.borrower ? Number(data.borrower.loan_amount || 1) : 1;
   const originalTenure = data?.borrower ? Number(data.borrower.tenure_months || 1) : 1;
   const originalIncome = data?.borrower ? Number(data.borrower.monthly_income || 1) : 1;
@@ -199,8 +218,8 @@ export default function BorrowerDetail({
   const tenureFactor = (simTenure - originalTenure) / Math.max(originalTenure, 12) * 0.10;
 
   const simulatedScoreRaw = baselineScore + amountFactor + incomeFactor + tenureFactor;
-  const simulatedScore = Math.max(0.05, Math.min(0.98, Number(simulatedScoreRaw.toFixed(2))));
-  const scoreDelta = Number((simulatedScore - baselineScore).toFixed(2));
+  const simulatedScore = Math.max(0.05, Math.min(0.98, Number(simulatedScoreRaw.toFixed(4))));
+  const scoreDelta = Number((simulatedScore - baselineScore).toFixed(4));
 
   const getBucket = (score: number) => {
     if (score < 0.3) return "low";
@@ -596,7 +615,7 @@ export default function BorrowerDetail({
                       </tr>
                     </thead>
                     <tbody className="divide-y">
-                      {altCredit.map((ac) => (
+                      {paginatedAltCredit.map((ac) => (
                         <tr key={ac.id} className="hover:bg-muted/20">
                           <td className="px-4 py-3 font-medium text-foreground">{ac.provider_name}</td>
                           <td className="px-4 py-3 capitalize text-muted-foreground">{ac.data_type.replace('_', ' ')}</td>
@@ -614,6 +633,20 @@ export default function BorrowerDetail({
                     </tbody>
                   </table>
                 </div>
+
+                {altCredit.length > altCreditPageSize && (
+                  <div className="mt-4 border-t border-border pt-3">
+                    <Pagination
+                      currentPage={altCreditPage}
+                      totalPages={Math.ceil(altCredit.length / altCreditPageSize)}
+                      totalItems={altCredit.length}
+                      pageSize={altCreditPageSize}
+                      onPageChange={setAltCreditPage}
+                      itemName="records"
+                      compact
+                    />
+                  </div>
+                )}
               </section>
             )}
 
@@ -814,7 +847,7 @@ export default function BorrowerDetail({
                       </tr>
                     </thead>
                     <tbody className="divide-y">
-                      {scoringHistory.map((sh) => (
+                      {paginatedHistory.map((sh) => (
                         <tr key={sh.id} className="hover:bg-muted/20">
                           <td className="px-4 py-3 font-mono text-muted-foreground">
                             {new Date(sh.scored_at).toLocaleString()}
@@ -836,6 +869,20 @@ export default function BorrowerDetail({
                     </tbody>
                   </table>
                 </div>
+
+                {scoringHistory.length > historyPageSize && (
+                  <div className="mt-4 border-t border-border pt-3">
+                    <Pagination
+                      currentPage={historyPage}
+                      totalPages={Math.ceil(scoringHistory.length / historyPageSize)}
+                      totalItems={scoringHistory.length}
+                      pageSize={historyPageSize}
+                      onPageChange={setHistoryPage}
+                      itemName="snapshots"
+                      compact
+                    />
+                  </div>
+                )}
               </section>
             )}
           </>
