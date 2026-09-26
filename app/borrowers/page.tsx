@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { Shell } from '@/components/dashboard/shell'
+import { Pagination } from '@/components/ui/pagination'
 import { Search, ArrowUpRight, PlusCircle, X, Calculator, CheckCircle2, AlertTriangle, ShieldCheck } from 'lucide-react'
 
 type RiskScore = { score: number; bucket: string }
@@ -34,6 +35,7 @@ export default function Borrowers() {
   const [search, setSearch] = useState('')
   const [bucket, setBucket] = useState('')
   const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(10)
   const [pagination, setPagination] = useState({ page: 1, pageSize: 10, total: 0, totalPages: 1 })
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -41,7 +43,7 @@ export default function Borrowers() {
   // Live New Applicant Scorer Modal
   const [showScorer, setShowScorer] = useState(false)
   const [applicantName, setApplicantName] = useState('Jordan Taylor')
-  const [loanType, setLoanType] = useState('Personal')
+  const [loanType, setLoanType] = useState('Other')
   const [loanAmount, setLoanAmount] = useState(25000)
   const [monthlyIncome, setMonthlyIncome] = useState(6500)
   const [creditScore, setCreditScore] = useState(710)
@@ -52,7 +54,13 @@ export default function Borrowers() {
   const [collateralValue, setCollateralValue] = useState(0)
   const [existingDebt, setExistingDebt] = useState(3500)
 
-  // Core 31-Feature Model Inputs (Aligned with XGBoost & SHAP drivers)
+  // Dataset v2 Top Predictors
+  const [delinquencyCount12m, setDelinquencyCount12m] = useState(0)
+  const [creditUtilization, setCreditUtilization] = useState(38) // in percent
+  const [numInquiries6m, setNumInquiries6m] = useState(1)
+  const [priorDefaults, setPriorDefaults] = useState(0)
+
+  // Core Model Inputs
   const [monthsEmployed, setMonthsEmployed] = useState(36)
   const [numCreditLines, setNumCreditLines] = useState(4)
   const [interestRate, setInterestRate] = useState(10.5)
@@ -85,17 +93,17 @@ export default function Borrowers() {
   useEffect(() => {
     setLoading(true)
     setError(null)
-    const params = new URLSearchParams({ page: String(page), pageSize: '10', search, bucket })
+    const params = new URLSearchParams({ page: String(page), pageSize: String(pageSize), search, bucket })
     fetch(`/api/borrowers?${params}`)
       .then(r => r.json())
       .then(x => {
         if (x.error) throw new Error(x.error.message)
         setRows(x.data || [])
-        setPagination(x.pagination)
+        setPagination(x.pagination || { page, pageSize, total: x.data?.length || 0, totalPages: 1 })
       })
       .catch(e => setError(e.message))
       .finally(() => setLoading(false))
-  }, [search, bucket, page])
+  }, [search, bucket, page, pageSize])
 
   // Live Underwriting Score Calculation & Telemetry
   const runAssessment = async (e: React.FormEvent) => {
@@ -103,43 +111,57 @@ export default function Borrowers() {
     const monthlyPayment = (loanAmount / tenure) * (1 + (interestRate / 100))
     const dti = (monthlyPayment + existingDebt / 12) / Math.max(monthlyIncome, 500)
 
-    // Calibrated credit baseline with multi-factor weighting using top SHAP drivers
-    let rawScore = 0.28
-    if (dti > 0.45) rawScore += 0.28
-    else if (dti > 0.35) rawScore += 0.14
-    else if (dti < 0.20) rawScore -= 0.10
+    // Calibrated credit baseline with multi-factor weighting using verified Dataset v2 SHAP drivers
+    let rawScore = 0.22
+    if (dti > 0.45) rawScore += 0.20
+    else if (dti > 0.35) rawScore += 0.10
+    else if (dti < 0.20) rawScore -= 0.08
 
-    if (creditScore < 600) rawScore += 0.30
-    else if (creditScore < 680) rawScore += 0.15
-    else if (creditScore > 740) rawScore -= 0.12
+    if (creditScore < 600) rawScore += 0.25
+    else if (creditScore < 680) rawScore += 0.12
+    else if (creditScore > 740) rawScore -= 0.10
 
-    if (employment === 'Unemployed') rawScore += 0.35
-    else if (employment === 'Self-Employed') rawScore += 0.06
+    if (employment === 'Unemployed') rawScore += 0.30
+    else if (employment === 'Self-Employed') rawScore += 0.05
 
-    // Top-3 SHAP Driver 1: Interest Rate (higher rate = higher default hazard)
-    if (interestRate > 15) rawScore += 0.14
-    else if (interestRate > 12) rawScore += 0.07
-    else if (interestRate < 8) rawScore -= 0.08
+    // Top-3 SHAP Driver #1: Delinquency Count (last 12m) - 100% empirical frequency
+    if (delinquencyCount12m >= 2) rawScore += 0.42
+    else if (delinquencyCount12m === 1) rawScore += 0.24
 
-    // Top-3 SHAP Driver 2: Months Employed (longer tenure = strong stabilizing factor)
-    if (monthsEmployed < 12) rawScore += 0.14
-    else if (monthsEmployed >= 48) rawScore -= 0.12
-    else if (monthsEmployed >= 24) rawScore -= 0.06
+    // Top-3 SHAP Driver #2: Credit Utilization (%) - 87% empirical frequency
+    if (creditUtilization > 75) rawScore += 0.22
+    else if (creditUtilization > 50) rawScore += 0.10
+    else if (creditUtilization < 25) rawScore -= 0.08
+
+    // Top-3 SHAP Driver #3: Credit Inquiries (last 6m) - 46.5% empirical frequency
+    if (numInquiries6m >= 4) rawScore += 0.18
+    else if (numInquiries6m >= 2) rawScore += 0.08
+
+    // Historical Prior Defaults
+    if (priorDefaults >= 2) rawScore += 0.35
+    else if (priorDefaults === 1) rawScore += 0.20
+
+    // Carrying cost & Employment tenure
+    if (interestRate > 15) rawScore += 0.10
+    else if (interestRate < 8) rawScore -= 0.06
+
+    if (monthsEmployed < 12) rawScore += 0.08
+    else if (monthsEmployed >= 36) rawScore -= 0.08
 
     // Active Credit Lines
-    if (numCreditLines > 8) rawScore += 0.06
-    else if (numCreditLines < 2) rawScore += 0.04
+    if (numCreditLines > 8) rawScore += 0.04
+    else if (numCreditLines < 2) rawScore += 0.03
 
     // Mitigating & Risk Flags
     if (hasCoSigner) rawScore -= 0.15
-    if (hasMortgage) rawScore += 0.05
-    if (hasDependents) rawScore += 0.05
+    if (hasMortgage) rawScore += 0.04
+    if (hasDependents) rawScore += 0.04
 
     // Education Level Credential
-    if (education === 'PhD' || education === "Master's") rawScore -= 0.06
-    else if (education === 'High School') rawScore += 0.05
+    if (education === 'PhD' || education === "Master's") rawScore -= 0.05
+    else if (education === 'High School') rawScore += 0.04
 
-    // Collateral Cushion
+    // Collateral Cushion (Model Input)
     if (collateralValue > loanAmount * 0.8) rawScore -= 0.14
 
     const score = Math.max(0.04, Math.min(0.96, Number(rawScore.toFixed(2))))
@@ -186,10 +208,11 @@ export default function Borrowers() {
     if (!calculatedScore) return
     setSavingApplicant(true)
     try {
+      const sanitizedLoanType = (loanType === 'Personal' || loanType === 'Personal Loan') ? 'Other' : loanType
       const payload = {
         full_name: applicantName,
         email: `${applicantName.toLowerCase().replace(/\s+/g, '.')}@example.com`,
-        loan_type: loanType,
+        loan_type: sanitizedLoanType,
         loan_amount: loanAmount,
         outstanding_balance: loanAmount,
         geography: 'North America',
@@ -200,7 +223,7 @@ export default function Borrowers() {
         collateral_type: collateralType,
         collateral_value: collateralValue,
         existing_credit_card_debt: existingDebt,
-        // Core 31-Feature Model Inputs
+        // Core Model Inputs
         months_employed: monthsEmployed,
         num_credit_lines: numCreditLines,
         interest_rate: interestRate,
@@ -208,6 +231,11 @@ export default function Borrowers() {
         has_mortgage: hasMortgage,
         has_dependents: hasDependents,
         has_cosigner: hasCoSigner,
+        // Dataset v2 Underwriting Predictors
+        delinquency_count_12m: delinquencyCount12m,
+        credit_utilization: creditUtilization / 100,
+        num_inquiries_6m: numInquiries6m,
+        prior_defaults: priorDefaults,
         initial_score: calculatedScore.score,
         initial_tier: calculatedScore.tier,
       }
@@ -223,11 +251,31 @@ export default function Borrowers() {
         const newId = result.data.id
         setSavedBorrowerId(newId)
 
-        // Trigger rescore endpoint to save scoring history and run live inference
+        // Trigger rescore endpoint with full v2 feature snapshot for live XGBoost inference
         await fetch(`/api/borrowers/${newId}/rescore`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ method: 'realtime' }),
+          body: JSON.stringify({
+            method: 'realtime',
+            overrides: {
+              loan_amount: loanAmount,
+              tenure_months: tenure,
+              monthly_income: monthlyIncome,
+              loan_type: sanitizedLoanType,
+              delinquency_count_12m: delinquencyCount12m,
+              credit_utilization: creditUtilization / 100,
+              num_inquiries_6m: numInquiries6m,
+              prior_defaults: priorDefaults,
+              collateral_value: collateralValue,
+              interest_rate: interestRate,
+              months_employed: monthsEmployed,
+              num_credit_lines: numCreditLines,
+              education: education,
+              has_mortgage: hasMortgage,
+              has_dependents: hasDependents,
+              has_cosigner: hasCoSigner,
+            }
+          }),
         }).catch(console.warn)
 
         // Refresh borrower table
@@ -341,13 +389,22 @@ export default function Borrowers() {
           </div>
 
           {!loading && !error && rows.length > 0 && (
-            <div className="flex items-center justify-between border-t px-5 py-3 text-sm text-muted-foreground">
-              <span>Page {pagination.page} of {pagination.totalPages} · {pagination.total} borrowers</span>
-              <div className="flex gap-2">
-                <button disabled={page <= 1} onClick={() => setPage(p => p - 1)} className="rounded-md border px-3 py-1.5 disabled:opacity-40">Previous</button>
-                <button disabled={page >= pagination.totalPages} onClick={() => setPage(p => p + 1)} className="rounded-md border px-3 py-1.5 disabled:opacity-40">Next</button>
-              </div>
-            </div>
+            <Pagination
+              currentPage={page}
+              totalPages={pagination.totalPages || Math.max(1, Math.ceil(pagination.total / pageSize))}
+              totalItems={pagination.total}
+              pageSize={pageSize}
+              pageSizeOptions={[10, 20, 50, 100]}
+              onPageChange={(newPage) => {
+                setPage(newPage)
+                window.scrollTo({ top: 0, behavior: 'smooth' })
+              }}
+              onPageSizeChange={(newSize) => {
+                setPageSize(newSize)
+                setPage(1)
+              }}
+              itemName="borrowers"
+            />
           )}
         </div>
 
@@ -390,7 +447,7 @@ export default function Borrowers() {
                         onChange={(e) => { setLoanType(e.target.value); recordRevision() }}
                         className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
                       >
-                        <option value="Personal">Personal Loan</option>
+                        <option value="Other">Other (Personal / Uncategorized)</option>
                         <option value="Auto">Auto Loan</option>
                         <option value="Home">Home Mortgage</option>
                         <option value="Education">Education Loan</option>
@@ -421,10 +478,7 @@ export default function Borrowers() {
                       />
                     </div>
                     <div>
-                      <div className="flex items-center justify-between">
-                        <label className="text-xs font-medium text-foreground">Interest Rate (%)</label>
-                        <span className="rounded bg-primary/10 px-1.5 py-0.5 text-[10px] font-medium text-primary">Top-3 SHAP Driver</span>
-                      </div>
+                      <label className="text-xs font-medium text-foreground">Interest Rate (%)</label>
                       <input
                         type="number"
                         step="0.1"
@@ -472,10 +526,73 @@ export default function Borrowers() {
                   </div>
                 </div>
 
-                {/* Section 2: Employment & Credit Profile (Core Model Drivers) */}
+                {/* Section 2: Credit Bureau & Telemetry (Dataset v2 Top SHAP Predictors) */}
                 <div className="pt-2 border-t">
                   <h4 className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-                    Employment & Credit Profile (31-Feature Model)
+                    Credit Bureau & Telemetry (Dataset v2 Top Predictors)
+                  </h4>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <label className="text-xs font-medium text-foreground">Delinquencies (Last 12 Mos)</label>
+                        <span className="rounded bg-primary/10 px-1.5 py-0.5 text-[10px] font-medium text-primary">Top-3 SHAP Driver #1</span>
+                      </div>
+                      <input
+                        type="number"
+                        min={0}
+                        max={20}
+                        value={delinquencyCount12m}
+                        onChange={(e) => { setDelinquencyCount12m(Number(e.target.value)); recordRevision() }}
+                        className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
+                      />
+                    </div>
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <label className="text-xs font-medium text-foreground">Credit Utilization (%)</label>
+                        <span className="rounded bg-primary/10 px-1.5 py-0.5 text-[10px] font-medium text-primary">Top-3 SHAP Driver #2</span>
+                      </div>
+                      <input
+                        type="number"
+                        step="0.1"
+                        min={0}
+                        max={150}
+                        value={creditUtilization}
+                        onChange={(e) => { setCreditUtilization(Number(e.target.value)); recordRevision() }}
+                        className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
+                      />
+                    </div>
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <label className="text-xs font-medium text-foreground">Credit Inquiries (Last 6 Mos)</label>
+                        <span className="rounded bg-primary/10 px-1.5 py-0.5 text-[10px] font-medium text-primary">Top-3 SHAP Driver #3</span>
+                      </div>
+                      <input
+                        type="number"
+                        min={0}
+                        max={30}
+                        value={numInquiries6m}
+                        onChange={(e) => { setNumInquiries6m(Number(e.target.value)); recordRevision() }}
+                        className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium text-foreground">Prior Defaults (Count)</label>
+                      <input
+                        type="number"
+                        min={0}
+                        max={10}
+                        value={priorDefaults}
+                        onChange={(e) => { setPriorDefaults(Number(e.target.value)); recordRevision() }}
+                        className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Section 3: Employment & Credit Profile (Trained Model Features) */}
+                <div className="pt-2 border-t">
+                  <h4 className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+                    Employment & Credit Profile (Trained Model Features)
                   </h4>
                   <div className="grid gap-3 sm:grid-cols-2">
                     <div>
@@ -492,10 +609,7 @@ export default function Borrowers() {
                       </select>
                     </div>
                     <div>
-                      <div className="flex items-center justify-between">
-                        <label className="text-xs font-medium text-foreground">Months Employed</label>
-                        <span className="rounded bg-primary/10 px-1.5 py-0.5 text-[10px] font-medium text-primary">Top-3 SHAP Driver</span>
-                      </div>
+                      <label className="text-xs font-medium text-foreground">Months Employed</label>
                       <input
                         type="number"
                         min={0}
@@ -534,12 +648,12 @@ export default function Borrowers() {
                   </div>
                 </div>
 
-                {/* Section 3: Risk Mitigants & Household Structure */}
+                {/* Section 4: Risk Mitigants & Household Structure */}
                 <div className="pt-2 border-t">
                   <h4 className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-                    Obligations, Mitigants & Household
+                    Obligations, Mitigants & Household Structure
                   </h4>
-                  <div className="grid gap-3 sm:grid-cols-3">
+                  <div className="grid gap-3 sm:grid-cols-2">
                     <div>
                       <label className="text-xs font-medium text-foreground">Has Mortgage?</label>
                       <select
@@ -573,9 +687,6 @@ export default function Borrowers() {
                         <option value="yes">Yes</option>
                       </select>
                     </div>
-                  </div>
-
-                  <div className="mt-3 grid gap-3 sm:grid-cols-3">
                     <div>
                       <label className="text-xs font-medium text-foreground">Marital Status</label>
                       <select
@@ -589,8 +700,41 @@ export default function Borrowers() {
                         <option value="widowed">Widowed</option>
                       </select>
                     </div>
+                  </div>
+                </div>
+
+                {/* Section 5: Loss Mitigation & Collateral (Recovery Reference vs Model Input) */}
+                <div className="pt-2 border-t">
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      Loss Mitigation & Collateral
+                    </h4>
+                    <span className="text-[10px] text-muted-foreground">Hybrid Underwriting Inputs</span>
+                  </div>
+                  <div className="grid gap-3 sm:grid-cols-2">
                     <div>
-                      <label className="text-xs font-medium text-foreground">Collateral Type</label>
+                      <div className="flex items-center justify-between">
+                        <label className="text-xs font-medium text-foreground">Collateral Value ($)</label>
+                        <span className="rounded bg-emerald-500/10 px-1.5 py-0.5 text-[10px] font-medium text-emerald-600 dark:text-emerald-400">
+                          Model Input (Feature #36)
+                        </span>
+                      </div>
+                      <input
+                        type="number"
+                        min={0}
+                        value={collateralValue}
+                        onChange={(e) => { setCollateralValue(Number(e.target.value)); recordRevision() }}
+                        className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
+                      />
+                      <p className="mt-1 text-[10px] text-muted-foreground">Pledged asset cushion used in XGBoost model calculation</p>
+                    </div>
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <label className="text-xs font-medium text-foreground">Collateral Asset Type</label>
+                        <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground">
+                          Loss Mitigation (Not Model Input)
+                        </span>
+                      </div>
                       <select
                         value={collateralType}
                         onChange={(e) => { setCollateralType(e.target.value as any); recordRevision() }}
@@ -601,16 +745,7 @@ export default function Borrowers() {
                         <option value="vehicle">Vehicle Title</option>
                         <option value="securities">Securities Portfolio</option>
                       </select>
-                    </div>
-                    <div>
-                      <label className="text-xs font-medium text-foreground">Collateral Value ($)</label>
-                      <input
-                        type="number"
-                        min={0}
-                        value={collateralValue}
-                        onChange={(e) => { setCollateralValue(Number(e.target.value)); recordRevision() }}
-                        className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
-                      />
+                      <p className="mt-1 text-[10px] text-muted-foreground">Recorded for LGD workout and recovery tracking</p>
                     </div>
                   </div>
                 </div>
