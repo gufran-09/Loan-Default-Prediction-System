@@ -279,7 +279,7 @@ export async function POST(request: Request) {
       external_id,
       full_name: body.full_name,
       email: body.email,
-      loan_type: body.loan_type || 'Personal Loan',
+      loan_type: (body.loan_type === 'Personal' || body.loan_type === 'Personal Loan') ? 'Other' : (body.loan_type || 'Other'),
       loan_amount: Number(body.loan_amount || 10000),
       outstanding_balance: Number(body.outstanding_balance ?? body.loan_amount ?? 10000),
       geography: body.geography || 'North America',
@@ -304,7 +304,7 @@ export async function POST(request: Request) {
       months_at_current_job: monthsEmployed,
       income_consistency_score: Number(body.income_consistency_score || 0.75),
       alternative_credit_score: body.alternative_credit_score ? Number(body.alternative_credit_score) : null,
-      // Core 31-Feature Model Inputs
+      // Core Model Inputs
       months_employed: monthsEmployed,
       num_credit_lines: numCreditLines,
       interest_rate: interestRate,
@@ -312,6 +312,11 @@ export async function POST(request: Request) {
       has_mortgage: hasMortgage,
       has_dependents: hasDependents,
       has_cosigner: hasCoSigner,
+      // Dataset v2 Underwriting Predictors
+      credit_utilization: Number(body.credit_utilization ?? 0.38),
+      delinquency_count_12m: Number(body.delinquency_count_12m ?? 0),
+      num_inquiries_6m: Number(body.num_inquiries_6m ?? 1),
+      prior_defaults: Number(body.prior_defaults ?? 0),
     }
 
     // Insert borrower into RDS if available
@@ -366,7 +371,7 @@ export async function POST(request: Request) {
     if (!sbError) {
       sbData = primarySb
     } else {
-      const { months_employed, num_credit_lines, interest_rate, education, has_mortgage, has_dependents, has_cosigner, ...legacyPayload } = borrowerPayload
+      const { months_employed, num_credit_lines, interest_rate, education, has_mortgage, has_dependents, has_cosigner, credit_utilization, delinquency_count_12m, num_inquiries_6m, prior_defaults, ...legacyPayload } = borrowerPayload
       const { data: fallbackSb, error: fallbackSbErr } = await supabase
         .from('borrowers')
         .insert({
