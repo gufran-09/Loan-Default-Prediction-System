@@ -27,6 +27,10 @@ export const borrowerInputSchema = z.object({
   has_cosigner: z.boolean().default(false),
   collateral_value: z.number().nonnegative().default(0),
   total_existing_debt: z.number().nonnegative().default(0),
+  num_inquiries_6m: z.number().int().nonnegative().max(50).default(1),
+  credit_utilization: z.number().min(0).max(5).default(0.38),
+  delinquency_count_12m: z.number().int().nonnegative().max(50).default(0),
+  prior_defaults: z.number().int().nonnegative().max(50).default(0),
 })
 
 /**
@@ -56,6 +60,10 @@ export const rescoreRequestSchema = z.object({
       has_cosigner: z.boolean().optional(),
       collateral_value: z.number().nonnegative().optional(),
       total_existing_debt: z.number().nonnegative().optional(),
+      num_inquiries_6m: z.number().int().nonnegative().max(50).optional(),
+      credit_utilization: z.number().min(0).max(5).optional(),
+      delinquency_count_12m: z.number().int().nonnegative().max(50).optional(),
+      prior_defaults: z.number().int().nonnegative().max(50).optional(),
     })
     .optional()
     .default({}),
