@@ -148,12 +148,19 @@ export function buildXGBoostVector(raw: any, featureColumns: string[]): number[]
     vec[fMap['HasDependents_No']] = hasDependents ? 0 : 1
   }
 
-  // 25-29. LoanPurpose
-  const purpose = String(raw.loan_purpose ?? raw.LoanPurpose ?? raw.loan_type ?? 'Other').toLowerCase()
+  // 25-29. LoanPurpose (One-hot invariant: exactly one flag is set to 1)
+  const rawPurpose = String(raw.loan_purpose ?? raw.LoanPurpose ?? raw.loan_type ?? 'Other').toLowerCase()
+  let matchedPurpose = 'Other'
+  if (rawPurpose.includes('auto')) matchedPurpose = 'Auto'
+  else if (rawPurpose.includes('business')) matchedPurpose = 'Business'
+  else if (rawPurpose.includes('education')) matchedPurpose = 'Education'
+  else if (rawPurpose.includes('home')) matchedPurpose = 'Home'
+  else matchedPurpose = 'Other' // explicitly maps 'personal', 'personal loan', etc. to 'Other'
+
   ;['Auto', 'Business', 'Education', 'Home', 'Other'].forEach((val) => {
     const col = `LoanPurpose_${val}`
     if (fMap[col] !== undefined) {
-      vec[fMap[col]] = purpose.includes(val.toLowerCase()) ? 1 : 0
+      vec[fMap[col]] = val === matchedPurpose ? 1 : 0
     }
   })
 
@@ -190,7 +197,7 @@ export function buildXGBoostVector(raw: any, featureColumns: string[]): number[]
 
   // 36. collateral_value
   let collat = Number(raw.collateral_value ?? raw.collateralValue ?? 0)
-  if (collat === 0 && (purpose.includes('home') || purpose.includes('auto'))) {
+  if (collat === 0 && (matchedPurpose === 'Home' || matchedPurpose === 'Auto')) {
     collat = loanAmt * 1.1
   }
   if (fMap['collateral_value'] !== undefined) {
@@ -266,15 +273,18 @@ export function predictXGBoost(rawBorrower: any): XGBoostInferenceResult {
     bucket = 'low'
   }
 
-  // Format SHAP attributions
+  // Format SHAP attributions (ECOA / CFPB Fair Lending Compliance: purge protected attributes)
+  const protectedDemographics = new Set(['Age', 'Gender', 'Race'])
   const shapValues: Record<string, number> = {}
   for (const [feat, val] of Object.entries(featContribs)) {
-    shapValues[feat] = Number(val.toFixed(4))
+    if (!protectedDemographics.has(feat)) {
+      shapValues[feat] = Number(val.toFixed(4))
+    }
   }
 
   // Sort top risk reasons by absolute magnitude
   const sorted = Object.entries(shapValues)
-    .filter(([_, val]) => Math.abs(val) > 0.001)
+    .filter(([feat, val]) => !protectedDemographics.has(feat) && Math.abs(val) > 0.001)
     .sort((a, b) => Math.abs(b[1]) - Math.abs(a[1]))
 
   const fMap: Record<string, number> = {}
