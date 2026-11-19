@@ -17,6 +17,11 @@ This directory contains deep-dive architectural documentation explaining each AW
 | **07** | [`07_IDENTITY_ACCESS_MANAGEMENT_COGNITO_IAM.md`](./07_IDENTITY_ACCESS_MANAGEMENT_COGNITO_IAM.md) | **Identity & Role-Based Access** | AWS Cognito & IAM | Underwriter SSO, JWT verification, and least-privilege policies |
 | **08** | [`08_OBSERVABILITY_GOVERNANCE_CLOUDWATCH.md`](./08_OBSERVABILITY_GOVERNANCE_CLOUDWATCH.md) | **Observability & Model Governance** | Amazon CloudWatch | Immutable audit logging for Fed SR 11-7 compliance & telemetry |
 | **09** | [`09_EVENT_DRIVEN_MESSAGING_SNS.md`](./09_EVENT_DRIVEN_MESSAGING_SNS.md) | **Pub/Sub Messaging** | Amazon SNS | Asynchronous event push for critical credit threshold breaches |
+| **10** | [`10_DOCUMENT_INTELLIGENCE_AMAZON_TEXTRACT.md`](./10_DOCUMENT_INTELLIGENCE_AMAZON_TEXTRACT.md) | **Document Intelligence & OCR** | Amazon Textract | Automated payslip & tax document income extraction for DTI validation |
+| **11** | [`11_CONTAINER_ORCHESTRATION_ECS_FARGATE.md`](./11_CONTAINER_ORCHESTRATION_ECS_FARGATE.md) | **Serverless Container Compute** | Amazon ECS & AWS Fargate | Production Next.js 16 container runtime with zero-downtime rolling updates |
+| **12** | [`12_CONTAINER_REGISTRY_AMAZON_ECR.md`](./12_CONTAINER_REGISTRY_AMAZON_ECR.md) | **Private Container Registry** | Amazon ECR | AES-256 encrypted Docker image storage with IAM token auth |
+| **13** | [`13_CLOUD_CI_CD_AWS_CODEBUILD.md`](./13_CLOUD_CI_CD_AWS_CODEBUILD.md) | **Cloud CI/CD Build Automation** | AWS CodeBuild | On-demand Linux Docker build pipeline triggered from S3 source bundles |
+| **14** | [`14_LOAD_BALANCING_NETWORKING_ALB_VPC.md`](./14_LOAD_BALANCING_NETWORKING_ALB_VPC.md) | **Load Balancing & VPC Networking** | Elastic Load Balancing (ALB) & VPC | Multi-AZ Layer-7 traffic routing, `/api/health` probing & Security Groups |
 
 ---
 
@@ -25,7 +30,13 @@ This directory contains deep-dive architectural documentation explaining each AW
 ```
                  [ Underwriter / Credit Officer ]
                                 |
-                     HTTPS / Next.js 16 UI
+                    HTTP/HTTPS -> Elastic Load Balancing
+                 (Application Load Balancer: aegis-risk-alb)
+                                |
+                       Amazon VPC & Security Groups
+                                |
+                 Amazon ECS Fargate (Next.js 16 Standalone)
+                 [ Built by AWS CodeBuild -> Stored in ECR ]
                                 |
         +-----------------------+-----------------------+
         |                                               |
@@ -48,6 +59,7 @@ This directory contains deep-dive architectural documentation explaining each AW
                  |            Downstream Integrations         |
                  | - Amazon RDS PostgreSQL (State of Record)  |
                  | - Amazon Bedrock (GenAI Credit Memo)       |
+                 | - Amazon Textract (Payslip OCR Extraction) |
                  | - CloudWatch (Audit Trail & Telemetry)     |
                  | - Amazon SNS (Critical Risk Alerts)        |
                  | - Meta WhatsApp Cloud API (Borrower Notice)|
