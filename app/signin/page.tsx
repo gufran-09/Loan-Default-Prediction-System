@@ -2,7 +2,6 @@
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/client";
 import { ShieldCheck, ArrowRight } from "lucide-react";
 
 export default function SignInPage() {
@@ -15,21 +14,27 @@ export default function SignInPage() {
     event.preventDefault();
     setLoading(true);
     setError("");
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    if (error) {
-      setError(
-        error.message.toLowerCase().includes("confirm")
-          ? "Please confirm your email before signing in."
-          : "Invalid email or password.",
-      );
-    } else {
-      window.location.href = "/";
+
+    try {
+      const res = await fetch("/api/auth/signin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || data.error) {
+        setError(data.error?.message || "Invalid email or password.");
+        setLoading(false);
+        return;
+      }
+
+      window.location.href = "/borrowers";
+    } catch (err: any) {
+      setError(err?.message || "Failed to sign in. Please try again.");
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   return (
