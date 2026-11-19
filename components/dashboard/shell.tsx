@@ -3,8 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { BarChart3, Bell, LayoutDashboard, LogOut, ShieldCheck, Users, Menu, X } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { BarChart3, Bell, LayoutDashboard, ShieldCheck, Users, Menu, X } from 'lucide-react'
 
 const nav = [
   { href: '/', label: 'Overview', icon: LayoutDashboard },
@@ -16,30 +15,11 @@ const nav = [
 export function Shell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [userEmail, setUserEmail] = useState<string | null>(null)
-
-  useEffect(() => {
-    async function loadUser() {
-      const supabase = createClient()
-      const { data: { user } } = await supabase.auth.getUser()
-      if (user?.email) {
-        setUserEmail(user.email)
-      }
-    }
-    loadUser()
-  }, [])
 
   // Close mobile drawer on route change
   useEffect(() => {
     setMobileOpen(false)
   }, [pathname])
-
-  async function logout() {
-    await createClient().auth.signOut()
-    window.location.href = '/signin'
-  }
-
-  const initials = userEmail ? userEmail.slice(0, 2).toUpperCase() : 'RO'
 
   return (
     <div className="min-h-screen bg-background">
@@ -68,12 +48,6 @@ export function Shell({ children }: { children: React.ReactNode }) {
             </Link>
           ))}
         </nav>
-        <div className="border-t p-4">
-          <button onClick={logout} className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-accent hover:text-foreground">
-            <LogOut className="size-4" />
-            Sign out
-          </button>
-        </div>
       </aside>
 
       {/* Mobile Drawer Overlay */}
@@ -110,12 +84,6 @@ export function Shell({ children }: { children: React.ReactNode }) {
                 </Link>
               ))}
             </nav>
-            <div className="border-t p-4">
-              <button onClick={logout} className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-accent hover:text-foreground">
-                <LogOut className="size-4" />
-                Sign out
-              </button>
-            </div>
           </div>
         </div>
       )}
@@ -139,11 +107,11 @@ export function Shell({ children }: { children: React.ReactNode }) {
           </div>
           <div className="flex items-center gap-3">
             <div className="hidden text-right sm:block">
-              <p className="text-sm font-medium">{userEmail || 'Risk Officer'}</p>
-              <p className="text-xs text-muted-foreground">Authorized workspace</p>
+              <p className="text-sm font-medium">Risk Officer</p>
+              <p className="text-xs text-muted-foreground">Credit Risk Workspace</p>
             </div>
             <div className="flex size-9 items-center justify-center rounded-full bg-primary/10 font-mono text-xs font-semibold text-primary">
-              {initials}
+              RO
             </div>
           </div>
         </header>
