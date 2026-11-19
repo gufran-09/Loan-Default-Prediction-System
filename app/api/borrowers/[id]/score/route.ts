@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
 import { getScore } from '@/lib/scoring/getScore'
+import { getSessionUser } from '@/lib/auth/session'
 
 export async function GET(
-  _: Request,
+  request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params
@@ -15,10 +15,7 @@ export async function GET(
     )
   }
 
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const user = await getSessionUser(request)
 
   if (!user) {
     return NextResponse.json(
