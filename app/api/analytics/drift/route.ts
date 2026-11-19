@@ -1,13 +1,10 @@
 import { NextResponse } from 'next/server'
 import fs from 'fs'
 import path from 'path'
-import { createClient } from '@/lib/supabase/server'
+import { getSessionUser } from '@/lib/auth/session'
 
-export async function GET() {
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+export async function GET(request: Request) {
+  const user = await getSessionUser(request)
 
   if (!user) {
     return NextResponse.json(
