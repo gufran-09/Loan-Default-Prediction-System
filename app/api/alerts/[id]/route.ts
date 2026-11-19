@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { getSessionUser } from '@/lib/auth/session'
 
 export async function PATCH(
   request: Request,
@@ -14,10 +15,7 @@ export async function PATCH(
     )
   }
 
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const user = await getSessionUser(request)
 
   if (!user) {
     return NextResponse.json(
@@ -25,6 +23,8 @@ export async function PATCH(
       { status: 401 }
     )
   }
+
+  const supabase = await createClient()
 
   let body: { status?: string }
   try {
@@ -51,7 +51,29 @@ export async function PATCH(
     )
   }
 
-  // Update alert record
+  // 1. Primary: Amazon RDS PostgreSQL
+  if (process.env.DATABASE_URL) {
+    try {
+      const { queryOne } = await import('@/lib/db/postgres')
+      const updated = await queryOne(
+        `UPDATE alerts 
+         SET status = $1 
+         WHERE id = $2 
+         RETURNING id, borrower_id, title, description, severity, status, created_at`,
+        [status, id]
+      )
+      if (updated) {
+        return NextResponse.json({
+          data: updated,
+          message: `Alert status updated to ${status}`,
+        })
+      }
+    } catch (rdsErr) {
+      console.warn('[RDS Alert Update Warning] Falling back to Supabase:', rdsErr)
+    }
+  }
+
+  // 2. Fallback: Supabase Client
   const { data, error } = await supabase
     .from('alerts')
     .update({ status })
