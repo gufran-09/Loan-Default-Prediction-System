@@ -2,7 +2,6 @@
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/client";
 import { ShieldCheck, ArrowRight, CheckCircle2 } from "lucide-react";
 
 export default function SignUpPage() {
@@ -18,8 +17,8 @@ export default function SignUpPage() {
     event.preventDefault();
     setError("");
 
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters long.");
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters long.");
       return;
     }
 
@@ -29,32 +28,27 @@ export default function SignUpPage() {
     }
 
     setLoading(true);
-    const supabase = createClient();
 
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          full_name: fullName,
-        },
-        emailRedirectTo: typeof window !== "undefined" ? `${window.location.origin}/auth/callback` : undefined,
-      },
-    });
+    try {
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password, fullName }),
+      });
 
-    if (error) {
-      setError(error.message);
+      const data = await res.json();
+
+      if (!res.ok || data.error) {
+        setError(data.error?.message || "Failed to create account.");
+        setLoading(false);
+        return;
+      }
+
+      window.location.href = "/borrowers";
+    } catch (err: any) {
+      setError(err?.message || "Failed to connect to authentication server.");
       setLoading(false);
-      return;
     }
-
-    // If session is immediately established (e.g. email confirmation disabled in Supabase)
-    if (data.session) {
-      window.location.href = "/";
-    } else {
-      setSuccess(true);
-    }
-    setLoading(false);
   }
 
   return (
