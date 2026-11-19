@@ -8,7 +8,7 @@
  * - Formatted institutional credit assessment messages
  */
 
-import { whatsappCircuitBreaker } from '@/lib/resilience/circuitBreaker'
+import { whatsappCircuitBreaker } from '../resilience/circuitBreaker'
 
 export interface WhatsAppNotificationPayload {
   recipientPhoneNumber: string // Format: "+1234567890" or "+919876543210"
