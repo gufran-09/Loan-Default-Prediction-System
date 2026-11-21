@@ -26,5 +26,17 @@ export async function POST(
     riskReasons: riskReasons || [],
   })
 
+  // Asynchronously log to Amazon CloudWatch for OCC SR 11-7 compliance
+  const { logUnderwriterAudit } = await import('@/lib/aws/cloudwatch')
+  logUnderwriterAudit({
+    underwriterId: user.id || 'Risk-Officer',
+    borrowerId: id,
+    action: 'REVIEWED',
+    score: Number(score || 500),
+    bucket: bucket || 'MEDIUM',
+    justification: 'Automated Credit Underwriting Memorandum generated via Amazon Bedrock Claude 3.5',
+    metadata: { memoLength: memo.length },
+  }).catch(console.warn)
+
   return NextResponse.json({ memo })
 }
