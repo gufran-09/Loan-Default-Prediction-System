@@ -26,8 +26,16 @@ import {
   CheckCircle2,
   RefreshCw,
   Zap,
+  Check,
+  AlertTriangle,
+  GitMerge,
+  FileSearch,
+  Plus,
+  Loader2,
+  FileCheck2,
 } from "lucide-react";
 import { generateLimeCards, LimeCard } from "@/lib/scoring/explainability";
+import { DocumentUploadDropzone } from "@/components/documents/document-upload-dropzone";
 
 export default function BorrowerDetail({
   params,
@@ -142,6 +150,184 @@ export default function BorrowerDetail({
     } finally {
       setWaLoading(false);
     }
+  };
+
+  // Underwriting Decisioning State
+  const [showDecisionModal, setShowDecisionModal] = useState(false);
+  const [selectedDecision, setSelectedDecision] = useState<"APPROVED" | "DECLINED" | "REFERRED_TO_COMMITTEE">("APPROVED");
+  const [decisionNotes, setDecisionNotes] = useState("");
+  const [decisionLoading, setDecisionLoading] = useState(false);
+  const [decisionFeedback, setDecisionFeedback] = useState<{ success: boolean; message: string } | null>(null);
+
+  const handleOpenDecisionModal = (decision: "APPROVED" | "DECLINED" | "REFERRED_TO_COMMITTEE") => {
+    setSelectedDecision(decision);
+    setDecisionNotes(
+      decision === "APPROVED"
+        ? "Applicant satisfies risk appetite threshold with acceptable debt-to-income and asset coverage."
+        : decision === "DECLINED"
+        ? "Exceeds portfolio risk tolerance; high default probability and inadequate debt service capacity."
+        : "Referred to Credit Committee for secondary review due to borderline risk factors and alternative credit profile."
+    );
+    setDecisionFeedback(null);
+    setShowDecisionModal(true);
+  };
+
+  const submitUnderwriterDecision = async () => {
+    if (!data?.borrower) return;
+    setDecisionLoading(true);
+    setDecisionFeedback(null);
+    try {
+      const res = await fetch(`/api/borrowers/${data.borrower.id}/decision`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          decision: selectedDecision,
+          notes: decisionNotes,
+          decidedBy: "Lead Credit Officer",
+        }),
+      });
+      const result = await res.json();
+      if (!res.ok || result.error) {
+        throw new Error(result.error?.message || "Failed to record decision");
+      }
+      setData((prev: any) => ({
+        ...prev,
+        borrower: {
+          ...prev.borrower,
+          underwriting_decision: selectedDecision,
+          decision_notes: decisionNotes,
+          decided_at: new Date().toISOString(),
+          decided_by: "Lead Credit Officer",
+        },
+      }));
+      setDecisionFeedback({
+        success: true,
+        message: `Decision successfully recorded as ${selectedDecision}. OCC SR 11-7 audit logged to Amazon CloudWatch.`,
+      });
+    } catch (e: any) {
+      setDecisionFeedback({
+        success: false,
+        message: e.message || "Failed to record underwriting decision",
+      });
+    } finally {
+      setDecisionLoading(false);
+    }
+  };
+
+  // Step Functions STP Workflow State
+  const [showStpModal, setShowStpModal] = useState(false);
+  const [stpLoading, setStpLoading] = useState(false);
+  const [stpResult, setStpResult] = useState<any>(null);
+  const [stpError, setStpError] = useState<string | null>(null);
+
+  const handleRunSTP = async () => {
+    if (!data?.borrower) return;
+    setStpLoading(true);
+    setStpResult(null);
+    setStpError(null);
+    setShowStpModal(true);
+
+    try {
+      const res = await fetch(`/api/borrowers/${data.borrower.id}/decision-workflow`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          features: {
+            loan_amount: data.borrower.loan_amount,
+            monthly_income: data.borrower.monthly_income,
+            tenure_months: data.borrower.tenure_months,
+            credit_score: data.score,
+            credit_utilization: data.borrower.credit_utilization || 0.38,
+            delinquency_count_12m: data.borrower.delinquency_count_12m || 0,
+            num_inquiries_6m: data.borrower.num_inquiries_6m || 1,
+            prior_defaults: data.borrower.prior_defaults || 0,
+          },
+        }),
+      });
+      const result = await res.json();
+      if (!res.ok || result.error) {
+        throw new Error(result.error?.message || "Step Functions execution failed");
+      }
+      setStpResult(result);
+    } catch (e: any) {
+      setStpError(e.message || "Failed to invoke AWS Step Functions workflow");
+    } finally {
+      setStpLoading(false);
+    }
+  };
+
+  // Alternative Credit Ingestion State
+  const [showAddAltCredit, setShowAddAltCredit] = useState(false);
+  const [altDataType, setAltDataType] = useState("utility_payment");
+  const [altProvider, setAltProvider] = useState("National Grid Energy");
+  const [altMonths, setAltMonths] = useState(24);
+  const [altOnTimeRate, setAltOnTimeRate] = useState(96);
+  const [altAvgAmount, setAltAvgAmount] = useState(145);
+  const [altLoading, setAltLoading] = useState(false);
+
+  const handleAddAltCredit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!data?.borrower) return;
+    setAltLoading(true);
+    try {
+      const res = await fetch(`/api/borrowers/${data.borrower.id}/alternative-credit`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          data_type: altDataType,
+          provider_name: altProvider,
+          months_of_history: altMonths,
+          on_time_payment_rate: altOnTimeRate / 100,
+          average_monthly_amount: altAvgAmount,
+        }),
+      });
+      const result = await res.json();
+      if (!res.ok || result.error) throw new Error(result.error?.message || "Failed to save record");
+
+      // Reload alternative credit list
+      const updatedList = await fetch(`/api/borrowers/${data.borrower.id}/alternative-credit`).then(r => r.json());
+      if (updatedList.data) setAltCredit(updatedList.data);
+
+      if (result.calculated_score) {
+        setData((prev: any) => ({
+          ...prev,
+          borrower: {
+            ...prev.borrower,
+            alternative_credit_score: result.calculated_score,
+          },
+        }));
+      }
+      setShowAddAltCredit(false);
+    } catch (err: any) {
+      alert(err.message || "Error adding alternative credit");
+    } finally {
+      setAltLoading(false);
+    }
+  };
+
+  // Document Intelligence OCR State
+  const [verifiedIncome, setVerifiedIncome] = useState<number | null>(null);
+  const [ocrConfidence, setOcrConfidence] = useState<number | null>(null);
+  const [ocrDocumentName, setOcrDocumentName] = useState<string | null>(null);
+
+  const handleIncomeVerified = (ocrData: {
+    monthlyIncome: number;
+    confidence: number;
+    rawText: string;
+    documentName: string;
+  }) => {
+    setVerifiedIncome(ocrData.monthlyIncome);
+    setOcrConfidence(ocrData.confidence);
+    setOcrDocumentName(ocrData.documentName);
+    setSimIncome(ocrData.monthlyIncome);
+    setData((prev: any) => ({
+      ...prev,
+      borrower: {
+        ...prev.borrower,
+        verified_income: ocrData.monthlyIncome,
+        income_verification_status: "VERIFIED_TEXTRACT",
+      },
+    }));
   };
 
 
@@ -292,29 +478,71 @@ export default function BorrowerDetail({
 
           {data && (
             <div className="flex flex-wrap items-center gap-2">
+              <div className="flex items-center gap-1 rounded-lg border border-border bg-card p-1">
+                <button
+                  onClick={() => handleOpenDecisionModal("APPROVED")}
+                  className="inline-flex items-center gap-1 rounded-md bg-emerald-600/90 px-2.5 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-emerald-600"
+                >
+                  <Check className="size-3.5" />
+                  Approve
+                </button>
+                <button
+                  onClick={() => handleOpenDecisionModal("DECLINED")}
+                  className="inline-flex items-center gap-1 rounded-md bg-destructive/90 px-2.5 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-destructive"
+                >
+                  <X className="size-3.5" />
+                  Decline
+                </button>
+                <button
+                  onClick={() => handleOpenDecisionModal("REFERRED_TO_COMMITTEE")}
+                  className="inline-flex items-center gap-1 rounded-md bg-amber-600/90 px-2.5 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-amber-600"
+                >
+                  <AlertTriangle className="size-3.5" />
+                  Refer
+                </button>
+              </div>
+
+              <button
+                onClick={handleRunSTP}
+                disabled={stpLoading}
+                className="inline-flex items-center gap-1.5 rounded-lg border border-blue-500/30 bg-blue-500/10 px-3 py-2 text-xs font-semibold text-blue-400 transition-colors hover:bg-blue-500/20 disabled:opacity-50"
+              >
+                {stpLoading ? (
+                  <>
+                    <Loader2 className="size-3.5 animate-spin" />
+                    Executing STP...
+                  </>
+                ) : (
+                  <>
+                    <GitMerge className="size-3.5" />
+                    Run STP Workflow (Step Functions)
+                  </>
+                )}
+              </button>
+
               <button
                 onClick={() => {
                   setWaResult(null);
                   setShowWhatsAppModal(true);
                 }}
-                className="inline-flex items-center gap-2 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-2 text-xs font-medium text-emerald-400 transition-colors hover:bg-emerald-500/20"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-xs font-medium text-emerald-400 transition-colors hover:bg-emerald-500/20"
               >
-                <MessageSquare className="size-4" />
+                <MessageSquare className="size-3.5" />
                 Notify via WhatsApp
               </button>
               <button
                 onClick={fetchCreditMemo}
-                className="inline-flex items-center gap-2 rounded-lg border border-purple-500/30 bg-purple-500/10 px-3.5 py-2 text-xs font-medium text-purple-400 transition-colors hover:bg-purple-500/20"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-purple-500/30 bg-purple-500/10 px-3 py-2 text-xs font-medium text-purple-400 transition-colors hover:bg-purple-500/20"
               >
-                <Sparkles className="size-4" />
-                Generate AI Credit Memo (AWS Bedrock)
+                <Sparkles className="size-3.5" />
+                AI Memo (Bedrock)
               </button>
               <button
                 onClick={() => setShowNotice(true)}
-                className="inline-flex items-center gap-2 rounded-lg border border-primary/20 bg-primary/5 px-3.5 py-2 text-xs font-medium text-primary transition-colors hover:bg-primary/10"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-primary/20 bg-primary/5 px-3 py-2 text-xs font-medium text-primary transition-colors hover:bg-primary/10"
               >
-                <FileText className="size-4" />
-                Generate Adverse Action Notice (ECOA/CFPB)
+                <FileText className="size-3.5" />
+                Adverse Action (ECOA)
               </button>
             </div>
           )}
@@ -350,6 +578,17 @@ export default function BorrowerDetail({
 
               {/* Status Badges */}
               <div className="flex flex-wrap items-center gap-2">
+                {data.borrower?.underwriting_decision && (
+                  <span className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider ${
+                    data.borrower.underwriting_decision === 'APPROVED' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' :
+                    data.borrower.underwriting_decision === 'DECLINED' ? 'bg-destructive/20 text-destructive border border-destructive/30' :
+                    'bg-amber-500/20 text-amber-400 border border-amber-500/30'
+                  }`}>
+                    {data.borrower.underwriting_decision === 'APPROVED' ? <Check className="size-3.5" /> : <AlertTriangle className="size-3.5" />}
+                    {data.borrower.underwriting_decision}
+                  </span>
+                )}
+
                 <span className={`rounded-full px-3 py-1 text-xs font-semibold capitalize ${
                   data.bucket === 'critical' ? 'bg-destructive/15 text-destructive' :
                   data.bucket === 'high' ? 'bg-orange-500/15 text-orange-500' :
@@ -374,6 +613,47 @@ export default function BorrowerDetail({
                 )}
               </div>
             </div>
+
+            {/* Underwriting Decision Banner */}
+            {data.borrower?.underwriting_decision && (
+              <div
+                className={`flex flex-col gap-2 rounded-xl border p-4 sm:flex-row sm:items-center sm:justify-between ${
+                  data.borrower.underwriting_decision === "APPROVED"
+                    ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-300"
+                    : data.borrower.underwriting_decision === "DECLINED"
+                    ? "border-destructive/30 bg-destructive/10 text-destructive"
+                    : "border-amber-500/30 bg-amber-500/10 text-amber-300"
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  {data.borrower.underwriting_decision === "APPROVED" ? (
+                    <CheckCircle2 className="size-6 text-emerald-400" />
+                  ) : data.borrower.underwriting_decision === "DECLINED" ? (
+                    <AlertTriangle className="size-6 text-destructive" />
+                  ) : (
+                    <Users className="size-6 text-amber-400" />
+                  )}
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-sm tracking-wide">
+                        UNDERWRITER DECISION: {data.borrower.underwriting_decision}
+                      </span>
+                      <span className="text-xs opacity-75">
+                        by {data.borrower.decided_by || "Risk Officer"}
+                      </span>
+                    </div>
+                    {data.borrower.decision_notes && (
+                      <p className="mt-1 text-xs opacity-90">{data.borrower.decision_notes}</p>
+                    )}
+                  </div>
+                </div>
+                {data.borrower.decided_at && (
+                  <span className="font-mono text-xs opacity-75 sm:text-right">
+                    {new Date(data.borrower.decided_at).toLocaleString()}
+                  </span>
+                )}
+              </div>
+            )}
 
             {/* Comprehensive Multi-Factor Underwriting Dossier */}
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -448,15 +728,91 @@ export default function BorrowerDetail({
                   </h3>
                 </div>
                 <div className="grid grid-cols-2 gap-3">
-                  <Field label="Monthly Income" value={`$${Number(data.borrower?.monthly_income || 0).toLocaleString()}`} />
+                  <Field label="Declared Income" value={`$${Number(data.borrower?.monthly_income || 0).toLocaleString()}`} />
+                  <Field label="OCR Verified Income" value={data.borrower?.verified_income ? `$${Number(data.borrower.verified_income).toLocaleString()}` : verifiedIncome ? `$${Number(verifiedIncome).toLocaleString()}` : 'Pending OCR'} />
                   <Field label="Employment Status" value={data.borrower?.employment_status} />
                   <Field label="Months Employed" value={data.borrower?.months_employed != null ? `${data.borrower.months_employed} months` : data.borrower?.months_at_current_job != null ? `${data.borrower.months_at_current_job} months` : '—'} />
                   <Field label="Income Source" value={data.borrower?.income_source ? data.borrower.income_source.replace('_', ' ') : 'Wages'} />
                   <Field label="Income Consistency" value={data.borrower?.income_consistency_score ? `${Math.round(data.borrower.income_consistency_score * 100)}/100` : '75/100'} />
-                  <Field label="Credit Category" value={data.borrower?.loan_type || 'Standard'} />
                 </div>
               </div>
             </div>
+
+            {/* Document Intelligence & Income Verification (Amazon Textract OCR) */}
+            <section className="rounded-xl border bg-card p-6 shadow-sm">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-4 gap-2">
+                <div className="flex items-center gap-2.5">
+                  <div className="flex size-9 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-500">
+                    <FileCheck2 className="size-5" />
+                  </div>
+                  <div>
+                    <h2 className="text-base font-semibold text-foreground">
+                      Document Intelligence & Payslip OCR (Amazon Textract)
+                    </h2>
+                    <p className="text-xs text-muted-foreground">
+                      Extract, parse, and verify borrower monthly earnings from authentic W-2, 1099, or corporate payslips with institutional audit trails.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  {(data.borrower?.verified_income || verifiedIncome) ? (
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-400 border border-emerald-500/20">
+                      <CheckCircle2 className="size-3.5" />
+                      Income Verified: ${(data.borrower?.verified_income || verifiedIncome)?.toLocaleString()} /mo
+                    </span>
+                  ) : (
+                    <span className="rounded-full bg-amber-500/10 px-3 py-1 text-xs font-medium text-amber-400 border border-amber-500/20">
+                      Pending Verification
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              <div className="mt-5 grid gap-6 md:grid-cols-[1.2fr_1fr]">
+                <DocumentUploadDropzone onParsed={handleIncomeVerified} />
+
+                <div className="flex flex-col justify-between rounded-lg border bg-muted/20 p-4 text-xs space-y-3">
+                  <div>
+                    <h4 className="font-semibold text-foreground">Underwriter Reconciliation</h4>
+                    <div className="mt-3 space-y-2">
+                      <div className="flex justify-between py-1 border-b">
+                        <span className="text-muted-foreground">Declared Monthly Income:</span>
+                        <span className="font-mono font-medium">${Number(data.borrower?.monthly_income || 0).toLocaleString()}</span>
+                      </div>
+                      <div className="flex justify-between py-1 border-b">
+                        <span className="text-muted-foreground">Textract Verified Income:</span>
+                        <span className="font-mono font-medium text-emerald-400">
+                          {(data.borrower?.verified_income || verifiedIncome)
+                            ? `$${Number(data.borrower?.verified_income || verifiedIncome).toLocaleString()}`
+                            : "Awaiting Document"}
+                        </span>
+                      </div>
+                      <div className="flex justify-between py-1 border-b">
+                        <span className="text-muted-foreground">OCR Engine Confidence:</span>
+                        <span className="font-mono font-medium">
+                          {ocrConfidence ? `${Math.round(ocrConfidence)}%` : "—"}
+                        </span>
+                      </div>
+                      <div className="flex justify-between py-1">
+                        <span className="text-muted-foreground">Reconciliation Status:</span>
+                        <span className="font-semibold">
+                          {(data.borrower?.verified_income || verifiedIncome) ? (
+                            Math.abs(Number(data.borrower?.monthly_income || 0) - Number(data.borrower?.verified_income || verifiedIncome)) <= 250
+                              ? "✓ Within Risk Tolerance (Matched)"
+                              : "⚠ Discrepancy Flagged for Underwriter Review"
+                          ) : (
+                            "Not Executed"
+                          )}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-[11px] text-muted-foreground leading-relaxed">
+                    Amazon Textract extracts financial tables, gross wage lines, and year-to-date earnings with OCR key-value pair mapping for SR 11-7 validation.
+                  </p>
+                </div>
+              </div>
+            </section>
 
             {/* Score & SHAP Attribution Section */}
             <div className="grid gap-6 md:grid-cols-[1fr_1.4fr]">
@@ -583,72 +939,87 @@ export default function BorrowerDetail({
             </section>
 
             {/* Alternative Credit Cashflow Signals */}
-            {altCredit && altCredit.length > 0 && (
-              <section className="rounded-xl border bg-card p-6 shadow-sm">
-                <div className="flex items-center justify-between border-b pb-4">
-                  <div className="flex items-center gap-2">
-                    <Activity className="size-5 text-blue-500" />
-                    <div>
-                      <h2 className="text-base font-semibold text-foreground">
-                        Alternative Credit & Utility Cashflow Signals
-                      </h2>
-                      <p className="text-xs text-muted-foreground">
-                        Real-time telecom, rental, and utility payment telemetry augmenting traditional FICO records.
-                      </p>
-                    </div>
+            <section className="rounded-xl border bg-card p-6 shadow-sm">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-4 gap-3">
+                <div className="flex items-center gap-2">
+                  <Activity className="size-5 text-blue-500" />
+                  <div>
+                    <h2 className="text-base font-semibold text-foreground">
+                      Alternative Credit & Utility Cashflow Signals
+                    </h2>
+                    <p className="text-xs text-muted-foreground">
+                      Real-time telecom, rental, and utility payment telemetry augmenting traditional FICO records.
+                    </p>
                   </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setShowAddAltCredit(true)}
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-blue-500/30 bg-blue-500/10 px-3 py-1.5 text-xs font-medium text-blue-400 hover:bg-blue-500/20"
+                  >
+                    <Plus className="size-3.5" />
+                    Ingest Stream
+                  </button>
                   <span className="rounded-full bg-blue-500/10 px-3 py-1 text-xs font-semibold text-blue-600 dark:text-blue-400 border border-blue-500/20">
                     Alt Score: {data.borrower?.alternative_credit_score || '720'}
                   </span>
                 </div>
+              </div>
 
-                <div className="mt-4 overflow-x-auto">
-                  <table className="w-full text-left text-xs">
-                    <thead className="bg-muted/40 uppercase tracking-wider text-[10px] text-muted-foreground">
-                      <tr>
-                        <th className="px-4 py-2.5 font-medium">Provider / Aggregator</th>
-                        <th className="px-4 py-2.5 font-medium">Payment Stream</th>
-                        <th className="px-4 py-2.5 font-medium">Track Record</th>
-                        <th className="px-4 py-2.5 font-medium">On-Time Payment Rate</th>
-                        <th className="px-4 py-2.5 font-medium">Average Monthly Bill</th>
-                        <th className="px-4 py-2.5 font-medium">Last Verified</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y">
-                      {paginatedAltCredit.map((ac) => (
-                        <tr key={ac.id} className="hover:bg-muted/20">
-                          <td className="px-4 py-3 font-medium text-foreground">{ac.provider_name}</td>
-                          <td className="px-4 py-3 capitalize text-muted-foreground">{ac.data_type.replace('_', ' ')}</td>
-                          <td className="px-4 py-3 font-mono">{ac.months_of_history} months</td>
-                          <td className="px-4 py-3">
-                            <span className="inline-flex items-center gap-1 font-semibold text-emerald-600 dark:text-emerald-400">
-                              <CheckCircle2 className="size-3.5" />
-                              {(Number(ac.on_time_payment_rate) * 100).toFixed(0)}%
-                            </span>
-                          </td>
-                          <td className="px-4 py-3 font-mono">${Number(ac.average_monthly_amount).toFixed(2)}</td>
-                          <td className="px-4 py-3 text-muted-foreground">{new Date(ac.last_updated).toLocaleDateString()}</td>
+              {altCredit && altCredit.length > 0 ? (
+                <>
+                  <div className="mt-4 overflow-x-auto">
+                    <table className="w-full text-left text-xs">
+                      <thead className="bg-muted/40 uppercase tracking-wider text-[10px] text-muted-foreground">
+                        <tr>
+                          <th className="px-4 py-2.5 font-medium">Provider / Aggregator</th>
+                          <th className="px-4 py-2.5 font-medium">Payment Stream</th>
+                          <th className="px-4 py-2.5 font-medium">Track Record</th>
+                          <th className="px-4 py-2.5 font-medium">On-Time Payment Rate</th>
+                          <th className="px-4 py-2.5 font-medium">Average Monthly Bill</th>
+                          <th className="px-4 py-2.5 font-medium">Last Verified</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-
-                {altCredit.length > altCreditPageSize && (
-                  <div className="mt-4 border-t border-border pt-3">
-                    <Pagination
-                      currentPage={altCreditPage}
-                      totalPages={Math.ceil(altCredit.length / altCreditPageSize)}
-                      totalItems={altCredit.length}
-                      pageSize={altCreditPageSize}
-                      onPageChange={setAltCreditPage}
-                      itemName="records"
-                      compact
-                    />
+                      </thead>
+                      <tbody className="divide-y">
+                        {paginatedAltCredit.map((ac) => (
+                          <tr key={ac.id} className="hover:bg-muted/20">
+                            <td className="px-4 py-3 font-medium text-foreground">{ac.provider_name}</td>
+                            <td className="px-4 py-3 capitalize text-muted-foreground">{ac.data_type.replace('_', ' ')}</td>
+                            <td className="px-4 py-3 font-mono">{ac.months_of_history} months</td>
+                            <td className="px-4 py-3">
+                              <span className="inline-flex items-center gap-1 font-semibold text-emerald-600 dark:text-emerald-400">
+                                <CheckCircle2 className="size-3.5" />
+                                {(Number(ac.on_time_payment_rate) * 100).toFixed(0)}%
+                              </span>
+                            </td>
+                            <td className="px-4 py-3 font-mono">${Number(ac.average_monthly_amount).toFixed(2)}</td>
+                            <td className="px-4 py-3 text-muted-foreground">{new Date(ac.last_updated).toLocaleDateString()}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
-                )}
-              </section>
-            )}
+
+                  {altCredit.length > altCreditPageSize && (
+                    <div className="mt-4 border-t border-border pt-3">
+                      <Pagination
+                        currentPage={altCreditPage}
+                        totalPages={Math.ceil(altCredit.length / altCreditPageSize)}
+                        totalItems={altCredit.length}
+                        pageSize={altCreditPageSize}
+                        onPageChange={setAltCreditPage}
+                        itemName="records"
+                        compact
+                      />
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div className="py-8 text-center text-xs text-muted-foreground">
+                  No alternative credit records currently ingested. Click &ldquo;Ingest Stream&rdquo; above to link utility, rental, or telecom cashflow history.
+                </div>
+              )}
+            </section>
 
             {/* MassMutual Underwriter "What-If" Scenario Simulator with Live AWS Rescore */}
             <section className="rounded-xl border bg-card p-6 shadow-sm">
@@ -1096,6 +1467,335 @@ export default function BorrowerDetail({
                   )}
                 </button>
               </div>
+            </div>
+          </div>
+        )}
+        {/* Underwriter Decision Modal */}
+        {showDecisionModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+            <div className="w-full max-w-lg rounded-xl border bg-card p-6 shadow-2xl">
+              <div className="flex items-center justify-between border-b pb-3">
+                <div className="flex items-center gap-2">
+                  <FileCheck2 className="size-5 text-primary" />
+                  <h3 className="font-semibold text-base">
+                    Record Underwriting Disposition
+                  </h3>
+                </div>
+                <button
+                  onClick={() => setShowDecisionModal(false)}
+                  className="rounded-lg p-1 text-muted-foreground hover:bg-muted"
+                >
+                  <X className="size-4" />
+                </button>
+              </div>
+
+              <div className="mt-4 space-y-4 text-xs">
+                <div>
+                  <label className="font-medium text-foreground">Select Disposition</label>
+                  <div className="mt-2 grid grid-cols-3 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setSelectedDecision("APPROVED")}
+                      className={`flex flex-col items-center justify-center rounded-lg border p-3 font-semibold transition-colors ${
+                        selectedDecision === "APPROVED"
+                          ? "border-emerald-500 bg-emerald-500/15 text-emerald-400"
+                          : "border-border text-muted-foreground hover:bg-muted/40"
+                      }`}
+                    >
+                      <Check className="size-5 mb-1" />
+                      Approve
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedDecision("DECLINED")}
+                      className={`flex flex-col items-center justify-center rounded-lg border p-3 font-semibold transition-colors ${
+                        selectedDecision === "DECLINED"
+                          ? "border-destructive bg-destructive/15 text-destructive"
+                          : "border-border text-muted-foreground hover:bg-muted/40"
+                      }`}
+                    >
+                      <X className="size-5 mb-1" />
+                      Decline
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedDecision("REFERRED_TO_COMMITTEE")}
+                      className={`flex flex-col items-center justify-center rounded-lg border p-3 font-semibold transition-colors ${
+                        selectedDecision === "REFERRED_TO_COMMITTEE"
+                          ? "border-amber-500 bg-amber-500/15 text-amber-400"
+                          : "border-border text-muted-foreground hover:bg-muted/40"
+                      }`}
+                    >
+                      <AlertTriangle className="size-5 mb-1" />
+                      Refer
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="font-medium text-foreground">
+                    Underwriting Rationale & Compliance Notes
+                  </label>
+                  <textarea
+                    rows={4}
+                    value={decisionNotes}
+                    onChange={(e) => setDecisionNotes(e.target.value)}
+                    className="mt-1 w-full rounded-lg border bg-background p-2.5 text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="Provide detailed justification and mitigating factors..."
+                  />
+                </div>
+
+                <div className="rounded-lg border border-primary/20 bg-primary/5 p-3 text-[11px] text-muted-foreground space-y-1">
+                  <p className="font-semibold text-primary">OCC SR 11-7 Compliance Assurance</p>
+                  <p>
+                    All decision outcomes, credit rationale, and model-attributed parameters are immutably logged to Amazon CloudWatch (/aegis-risk/audit-trail) and persisted in RDS PostgreSQL.
+                  </p>
+                </div>
+
+                {decisionFeedback && (
+                  <div
+                    className={`rounded-lg p-3 text-xs ${
+                      decisionFeedback.success
+                        ? "border border-emerald-500/30 bg-emerald-500/10 text-emerald-300"
+                        : "border border-destructive/30 bg-destructive/10 text-destructive"
+                    }`}
+                  >
+                    {decisionFeedback.message}
+                  </div>
+                )}
+              </div>
+
+              <div className="mt-6 flex justify-end gap-2 border-t pt-4">
+                <button
+                  onClick={() => setShowDecisionModal(false)}
+                  className="rounded-lg border px-3 py-2 text-xs font-medium hover:bg-muted"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={submitUnderwriterDecision}
+                  disabled={decisionLoading || !decisionNotes.trim()}
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground hover:opacity-90 disabled:opacity-50"
+                >
+                  {decisionLoading ? (
+                    <>
+                      <Loader2 className="size-3.5 animate-spin" />
+                      Recording Decision...
+                    </>
+                  ) : (
+                    <>
+                      <Check className="size-3.5" />
+                      Confirm Decision
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* AWS Step Functions STP Workflow Monitor Modal */}
+        {showStpModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+            <div className="w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-xl border bg-card p-6 shadow-2xl">
+              <div className="flex items-center justify-between border-b pb-3">
+                <div className="flex items-center gap-2">
+                  <GitMerge className="size-5 text-blue-400" />
+                  <h3 className="font-semibold text-base">
+                    AWS Step Functions Credit Decisioning Workflow
+                  </h3>
+                </div>
+                <button
+                  onClick={() => setShowStpModal(false)}
+                  className="rounded-lg p-1 text-muted-foreground hover:bg-muted"
+                >
+                  <X className="size-4" />
+                </button>
+              </div>
+
+              <div className="mt-4 space-y-4 text-xs">
+                <p className="text-muted-foreground">
+                  State Machine Orchestration: <span className="font-mono text-foreground">Aegis-Risk-Credit-Decisioning</span>
+                </p>
+
+                {stpLoading ? (
+                  <div className="flex flex-col items-center justify-center py-10 space-y-3">
+                    <Loader2 className="size-8 animate-spin text-blue-500" />
+                    <p className="font-medium text-foreground">Executing Step Functions State Machine...</p>
+                    <p className="text-muted-foreground text-[11px]">
+                      Orchestrating Lambda Inference → Risk Tier Evaluation → Committee Triage / Auto-Approval
+                    </p>
+                  </div>
+                ) : stpError ? (
+                  <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-4 text-destructive">
+                    <p className="font-semibold">Execution Failed</p>
+                    <p className="mt-1 text-[11px]">{stpError}</p>
+                  </div>
+                ) : stpResult ? (
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between rounded-lg bg-emerald-500/10 border border-emerald-500/30 p-3 text-emerald-400 font-semibold">
+                      <span>Workflow Status: {stpResult.data?.status || "SUCCEEDED"}</span>
+                      <span className="font-mono text-[11px]">
+                        Started: {new Date(stpResult.data?.startDate || Date.now()).toLocaleTimeString()}
+                      </span>
+                    </div>
+
+                    <div className="rounded-lg border bg-muted/20 p-3 font-mono text-[11px] space-y-1">
+                      <p className="text-muted-foreground">Execution ARN:</p>
+                      <p className="text-foreground break-all">{stpResult.data?.executionArn}</p>
+                    </div>
+
+                    <div className="rounded-lg border bg-card p-3 space-y-2">
+                      <h4 className="font-semibold text-foreground">State Machine Execution Path:</h4>
+                      <ol className="list-decimal pl-5 space-y-1 text-muted-foreground text-[11px]">
+                        <li>
+                          <span className="font-medium text-foreground">ScoreBorrowerRisk:</span> Remote Serverless Lambda inference executed
+                        </li>
+                        <li>
+                          <span className="font-medium text-foreground">EvaluateRiskTier:</span> Evaluated probability and default bounds
+                        </li>
+                        <li>
+                          <span className="font-medium text-foreground">Disposition Routing:</span>{" "}
+                          {stpResult.data?.status === "RUNNING"
+                            ? "Processing routing branch in AWS Step Functions..."
+                            : "Decision resolved according to institutional credit thresholds"}
+                        </li>
+                      </ol>
+                    </div>
+
+                    {stpResult.data?.output && (
+                      <div className="rounded-lg border bg-muted/40 p-3 font-mono text-[10px] max-h-40 overflow-y-auto">
+                        <pre>{JSON.stringify(stpResult.data.output, null, 2)}</pre>
+                      </div>
+                    )}
+                  </div>
+                ) : null}
+              </div>
+
+              <div className="mt-6 flex justify-end border-t pt-4">
+                <button
+                  onClick={() => setShowStpModal(false)}
+                  className="rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground hover:opacity-90"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Alternative Credit Ingestion Modal */}
+        {showAddAltCredit && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+            <div className="w-full max-w-md rounded-xl border bg-card p-6 shadow-2xl">
+              <div className="flex items-center justify-between border-b pb-3">
+                <div className="flex items-center gap-2">
+                  <Activity className="size-5 text-blue-400" />
+                  <h3 className="font-semibold text-base">
+                    Ingest Alternative Credit Telemetry
+                  </h3>
+                </div>
+                <button
+                  onClick={() => setShowAddAltCredit(false)}
+                  className="rounded-lg p-1 text-muted-foreground hover:bg-muted"
+                >
+                  <X className="size-4" />
+                </button>
+              </div>
+
+              <form onSubmit={handleAddAltCredit} className="mt-4 space-y-3.5 text-xs">
+                <div>
+                  <label className="font-medium text-foreground">Payment Stream Category</label>
+                  <select
+                    value={altDataType}
+                    onChange={(e) => setAltDataType(e.target.value)}
+                    className="mt-1 w-full rounded-lg border bg-background px-3 py-2 text-xs"
+                  >
+                    <option value="utility_payment">Utility Payments (Electric / Gas / Water)</option>
+                    <option value="telecom_bills">Telecom & Broadband (Cellular / Fiber)</option>
+                    <option value="rental_history">Rental Payment Ledger</option>
+                    <option value="bnpl_installment">BNPL Installment Stream</option>
+                    <option value="bank_cashflow">Open Banking Cashflow Telemetry</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="font-medium text-foreground">Provider / Aggregator Name</label>
+                  <input
+                    type="text"
+                    required
+                    value={altProvider}
+                    onChange={(e) => setAltProvider(e.target.value)}
+                    placeholder="e.g. National Grid Energy, Verizon, Plaid"
+                    className="mt-1 w-full rounded-lg border bg-background px-3 py-2 text-xs"
+                  />
+                </div>
+
+                <div className="grid grid-cols-3 gap-2">
+                  <div>
+                    <label className="font-medium text-foreground">Track Record</label>
+                    <input
+                      type="number"
+                      min={1}
+                      max={120}
+                      value={altMonths}
+                      onChange={(e) => setAltMonths(Number(e.target.value))}
+                      className="mt-1 w-full rounded-lg border bg-background px-3 py-2 text-xs"
+                    />
+                    <span className="text-[10px] text-muted-foreground">months</span>
+                  </div>
+                  <div>
+                    <label className="font-medium text-foreground">On-Time Rate</label>
+                    <input
+                      type="number"
+                      min={1}
+                      max={100}
+                      value={altOnTimeRate}
+                      onChange={(e) => setAltOnTimeRate(Number(e.target.value))}
+                      className="mt-1 w-full rounded-lg border bg-background px-3 py-2 text-xs"
+                    />
+                    <span className="text-[10px] text-muted-foreground">%</span>
+                  </div>
+                  <div>
+                    <label className="font-medium text-foreground">Avg Monthly</label>
+                    <input
+                      type="number"
+                      min={1}
+                      value={altAvgAmount}
+                      onChange={(e) => setAltAvgAmount(Number(e.target.value))}
+                      className="mt-1 w-full rounded-lg border bg-background px-3 py-2 text-xs"
+                    />
+                    <span className="text-[10px] text-muted-foreground">$ USD</span>
+                  </div>
+                </div>
+
+                <div className="mt-6 flex justify-end gap-2 border-t pt-4">
+                  <button
+                    type="button"
+                    onClick={() => setShowAddAltCredit(false)}
+                    className="rounded-lg border px-3 py-2 text-xs font-medium hover:bg-muted"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={altLoading}
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-blue-600 px-4 py-2 text-xs font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
+                  >
+                    {altLoading ? (
+                      <>
+                        <Loader2 className="size-3.5 animate-spin" />
+                        Ingesting...
+                      </>
+                    ) : (
+                      <>
+                        <Plus className="size-3.5" />
+                        Ingest & Recalculate
+                      </>
+                    )}
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         )}
