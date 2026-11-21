@@ -4,7 +4,24 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { Shell } from '@/components/dashboard/shell'
 import { Pagination } from '@/components/ui/pagination'
-import { Search, ArrowUpRight, PlusCircle, X, Calculator, CheckCircle2, AlertTriangle, ShieldCheck } from 'lucide-react'
+import {
+  Search,
+  ArrowUpRight,
+  PlusCircle,
+  X,
+  Calculator,
+  CheckCircle2,
+  AlertTriangle,
+  ShieldCheck,
+  Download,
+  UploadCloud,
+  FileSpreadsheet,
+  Loader2,
+  Sparkles,
+  FileCheck2,
+} from 'lucide-react'
+import { DocumentUploadDropzone } from '@/components/documents/document-upload-dropzone'
+import { downloadCsvFile, exportDataToCsv, getSampleBatchCsv, parseCsvText } from '@/lib/export/csv'
 
 type RiskScore = { score: number; bucket: string }
 type Borrower = {
@@ -74,6 +91,83 @@ export default function Borrowers() {
   const [savedBorrowerId, setSavedBorrowerId] = useState<string | null>(null)
   const [sessionStartTime, setSessionStartTime] = useState<string | null>(null)
   const [revisionCount, setRevisionCount] = useState(0)
+
+  // Batch Applicant Ingestion State
+  const [showBatchModal, setShowBatchModal] = useState(false)
+  const [batchLoading, setBatchLoading] = useState(false)
+  const [batchError, setBatchError] = useState<string | null>(null)
+  const [batchResult, setBatchResult] = useState<any | null>(null)
+  const [batchFile, setBatchFile] = useState<File | null>(null)
+  const [ocrIncomeVerified, setOcrIncomeVerified] = useState(false)
+
+  const handleExportCsv = () => {
+    if (!rows || rows.length === 0) return
+    const exportData = rows.map((r) => {
+      const sc = scoreOf(r)
+      return {
+        'Borrower ID': r.external_id,
+        'Full Name': r.full_name,
+        'Loan Purpose': r.loan_type,
+        'Outstanding Balance ($)': r.outstanding_balance,
+        'Risk Score': sc?.score ?? '—',
+        'Risk Bucket': sc?.bucket ?? '—',
+      }
+    })
+    exportDataToCsv(`aegis_borrowers_export_${new Date().toISOString().slice(0, 10)}`, exportData)
+  }
+
+  const handleDownloadSampleCsv = () => {
+    const csv = getSampleBatchCsv()
+    downloadCsvFile('sample_applicant_batch.csv', csv)
+  }
+
+  const handleBatchFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setBatchFile(e.target.files[0])
+      setBatchError(null)
+      setBatchResult(null)
+    }
+  }
+
+  const handleProcessBatchScoring = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!batchFile) {
+      setBatchError('Please select a CSV file first.')
+      return
+    }
+
+    setBatchLoading(true)
+    setBatchError(null)
+    setBatchResult(null)
+
+    try {
+      const text = await batchFile.text()
+      const applicants = parseCsvText(text)
+      if (applicants.length === 0) {
+        throw new Error('CSV is empty or could not be parsed. Download the sample template for guidance.')
+      }
+
+      const res = await fetch('/api/borrowers/batch-score', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ applicants }),
+      })
+      const data = await res.json()
+      if (!res.ok || data.error) {
+        throw new Error(data.error?.message || 'Failed to process batch applicants')
+      }
+
+      setBatchResult(data)
+      // Refresh borrower table
+      const params = new URLSearchParams({ page: '1', pageSize: String(pageSize), search, bucket })
+      const ref = await fetch(`/api/borrowers?${params}`).then((r) => r.json())
+      if (ref.data) setRows(ref.data)
+    } catch (err: any) {
+      setBatchError(err.message || 'Batch execution failed')
+    } finally {
+      setBatchLoading(false)
+    }
+  }
 
   // reset to page 1 whenever filters change
   useEffect(() => { setPage(1) }, [search, bucket])
@@ -303,13 +397,30 @@ export default function Borrowers() {
             <p className="mt-2 text-sm text-muted-foreground">Search and triage the monitored borrower book.</p>
           </div>
 
-          <button
-            onClick={openScorer}
-            className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground hover:opacity-90"
-          >
-            <PlusCircle className="size-4" />
-            Score New Applicant
-          </button>
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              onClick={handleExportCsv}
+              disabled={rows.length === 0}
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-border bg-card px-3.5 text-xs font-semibold text-foreground transition-colors hover:bg-muted disabled:opacity-50"
+            >
+              <Download className="size-3.5 text-muted-foreground" />
+              Export Portfolio (CSV)
+            </button>
+            <button
+              onClick={() => setShowBatchModal(true)}
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-border bg-card px-3.5 text-xs font-semibold text-foreground transition-colors hover:bg-muted"
+            >
+              <UploadCloud className="size-3.5 text-muted-foreground" />
+              Batch Score Applicants
+            </button>
+            <button
+              onClick={openScorer}
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-primary px-4 text-xs font-semibold text-primary-foreground hover:opacity-90"
+            >
+              <PlusCircle className="size-4" />
+              Score New Applicant
+            </button>
+          </div>
         </div>
 
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -503,7 +614,14 @@ export default function Borrowers() {
                       />
                     </div>
                     <div>
-                      <label className="text-xs font-medium text-foreground">Monthly Income ($)</label>
+                      <div className="flex items-center justify-between">
+                        <label className="text-xs font-medium text-foreground">Monthly Income ($)</label>
+                        {ocrIncomeVerified && (
+                          <span className="text-[10px] text-emerald-400 font-semibold flex items-center gap-1">
+                            <CheckCircle2 className="size-3" /> Textract Verified
+                          </span>
+                        )}
+                      </div>
                       <input
                         type="number"
                         required
@@ -523,6 +641,26 @@ export default function Borrowers() {
                         className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-xs outline-none focus:ring-1 focus:ring-primary"
                       />
                     </div>
+                  </div>
+
+                  {/* Optional Payslip OCR Auto-Extraction */}
+                  <div className="mt-3 rounded-lg border border-border bg-muted/20 p-3 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <FileCheck2 className="size-4 text-emerald-400" />
+                        <span className="text-xs font-semibold text-foreground">
+                          Payslip OCR Income Extraction (Amazon Textract)
+                        </span>
+                      </div>
+                      <span className="text-[10px] text-muted-foreground">Optional</span>
+                    </div>
+                    <DocumentUploadDropzone
+                      onParsed={(parsed: { monthlyIncome: number }) => {
+                        setMonthlyIncome(parsed.monthlyIncome)
+                        setOcrIncomeVerified(true)
+                        recordRevision()
+                      }}
+                    />
                   </div>
                 </div>
 
@@ -822,6 +960,141 @@ export default function Borrowers() {
                   </div>
                 </div>
               )}
+            </div>
+          </div>
+        )}
+        {/* Batch Applicant Ingestion Modal */}
+        {showBatchModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+            <div className="w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-xl border bg-card p-6 shadow-2xl">
+              <div className="flex items-center justify-between border-b pb-3">
+                <div className="flex items-center gap-2">
+                  <UploadCloud className="size-5 text-primary" />
+                  <h3 className="font-semibold text-base">
+                    Batch Applicant Scoring & Portfolio Ingestion
+                  </h3>
+                </div>
+                <button
+                  onClick={() => setShowBatchModal(false)}
+                  className="rounded-lg p-1 text-muted-foreground hover:bg-muted"
+                >
+                  <X className="size-4" />
+                </button>
+              </div>
+
+              <div className="mt-4 space-y-4 text-xs">
+                <p className="text-muted-foreground leading-relaxed">
+                  Ingest and score multiple credit applications simultaneously. Each applicant is processed through the calibrated XGBoost pipeline with automated risk tiering, RDS PostgreSQL persistence, and OCC SR 11-7 CloudWatch compliance logging.
+                </p>
+
+                <div className="flex items-center justify-between rounded-lg border border-border bg-muted/20 p-3">
+                  <div>
+                    <p className="font-semibold text-foreground">Standardized Batch Template</p>
+                    <p className="text-[11px] text-muted-foreground">
+                      Pre-formatted CSV with 21 underwriting and SHAP predictor columns.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleDownloadSampleCsv}
+                    className="inline-flex items-center gap-1.5 rounded-md border border-primary/30 bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary hover:bg-primary/20"
+                  >
+                    <Download className="size-3.5" />
+                    Download CSV Template
+                  </button>
+                </div>
+
+                <form onSubmit={handleProcessBatchScoring} className="space-y-4">
+                  <div className="rounded-lg border-2 border-dashed border-border p-6 text-center hover:border-primary/50 transition-colors">
+                    <input
+                      type="file"
+                      accept=".csv,text/csv"
+                      id="batch-csv-input"
+                      className="hidden"
+                      onChange={handleBatchFileChange}
+                    />
+                    <label
+                      htmlFor="batch-csv-input"
+                      className="flex flex-col items-center justify-center cursor-pointer space-y-2"
+                    >
+                      <FileSpreadsheet className="size-8 text-primary/70" />
+                      <span className="font-medium text-foreground">
+                        {batchFile ? batchFile.name : "Choose CSV file or drag here"}
+                      </span>
+                      <span className="text-[11px] text-muted-foreground">
+                        {batchFile
+                          ? `${(batchFile.size / 1024).toFixed(1)} KB selected`
+                          : "Supports up to 100 applicants per batch"}
+                      </span>
+                    </label>
+                  </div>
+
+                  {batchError && (
+                    <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-3 text-destructive">
+                      {batchError}
+                    </div>
+                  )}
+
+                  {batchResult && (
+                    <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 p-4 space-y-2 text-emerald-300">
+                      <div className="flex items-center gap-2 font-semibold">
+                        <CheckCircle2 className="size-4" />
+                        Batch Scoring Completed Successfully
+                      </div>
+                      <div className="grid grid-cols-2 gap-2 text-[11px] pt-1">
+                        <div>
+                          Total Scored: <span className="font-mono font-bold text-white">{batchResult.total}</span>
+                        </div>
+                        <div>
+                          Approved / Low Risk:{" "}
+                          <span className="font-mono font-bold text-emerald-400">
+                            {batchResult.summary?.low_risk || 0}
+                          </span>
+                        </div>
+                        <div>
+                          Manual Review:{" "}
+                          <span className="font-mono font-bold text-yellow-400">
+                            {(batchResult.summary?.medium_risk || 0) + (batchResult.summary?.high_risk || 0)}
+                          </span>
+                        </div>
+                        <div>
+                          Critical Alerts Fired (SNS):{" "}
+                          <span className="font-mono font-bold text-destructive">
+                            {batchResult.summary?.critical_alerts || 0}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="flex justify-end gap-2 border-t pt-4">
+                    <button
+                      type="button"
+                      onClick={() => setShowBatchModal(false)}
+                      className="rounded-lg border px-3 py-2 text-xs font-medium hover:bg-muted"
+                    >
+                      Close
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={batchLoading || !batchFile}
+                      className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground hover:opacity-90 disabled:opacity-50"
+                    >
+                      {batchLoading ? (
+                        <>
+                          <Loader2 className="size-3.5 animate-spin" />
+                          Processing Batch...
+                        </>
+                      ) : (
+                        <>
+                          <UploadCloud className="size-3.5" />
+                          Score & Ingest Batch
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         )}
