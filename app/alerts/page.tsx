@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Shell } from "@/components/dashboard/shell";
 import { Pagination } from "@/components/ui/pagination";
-import { Bell, ArrowUpRight, CheckCircle, Clock, AlertTriangle } from "lucide-react";
+import { Bell, ArrowUpRight, CheckCircle, Clock, AlertTriangle, Download } from "lucide-react";
+import { exportDataToCsv } from "@/lib/export/csv";
 
 const severityStyles = (severity: string) => {
   switch (severity) {
@@ -92,6 +93,20 @@ export default function Alerts() {
   const acknowledgedCount = alerts.filter((a) => a.status === "acknowledged").length;
   const resolvedCount = alerts.filter((a) => a.status === "resolved").length;
 
+  const handleExportAlertsCsv = () => {
+    if (!alerts || alerts.length === 0) return;
+    const exportData = filteredAlerts.map((a) => ({
+      "Alert ID": a.id,
+      "Title": a.title,
+      "Severity": a.severity,
+      "Status": a.status || "open",
+      "Borrower": a.borrowers?.full_name || "Unknown",
+      "Description": a.description,
+      "Created At": a.created_at,
+    }));
+    exportDataToCsv(`aegis_alerts_audit_${new Date().toISOString().slice(0, 10)}`, exportData);
+  };
+
   return (
     <Shell>
       <div className="flex flex-col gap-8">
@@ -106,31 +121,42 @@ export default function Alerts() {
             </p>
           </div>
 
-          <div className="flex gap-2 rounded-lg border bg-card p-1 text-xs font-medium">
+          <div className="flex flex-wrap items-center gap-2">
             <button
-              onClick={() => handleFilterChange("all")}
-              className={`rounded-md px-3 py-1.5 transition-colors ${filterStatus === "all" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
+              onClick={handleExportAlertsCsv}
+              disabled={alerts.length === 0}
+              className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border border-border bg-card px-3 text-xs font-semibold text-foreground transition-colors hover:bg-muted disabled:opacity-50"
             >
-              All ({alerts.length})
+              <Download className="size-3.5 text-muted-foreground" />
+              Export Alerts (CSV)
             </button>
-            <button
-              onClick={() => handleFilterChange("open")}
-              className={`rounded-md px-3 py-1.5 transition-colors ${filterStatus === "open" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
-            >
-              Open ({openCount})
-            </button>
-            <button
-              onClick={() => handleFilterChange("acknowledged")}
-              className={`rounded-md px-3 py-1.5 transition-colors ${filterStatus === "acknowledged" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
-            >
-              Acknowledged ({acknowledgedCount})
-            </button>
-            <button
-              onClick={() => handleFilterChange("resolved")}
-              className={`rounded-md px-3 py-1.5 transition-colors ${filterStatus === "resolved" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
-            >
-              Resolved ({resolvedCount})
-            </button>
+
+            <div className="flex gap-2 rounded-lg border bg-card p-1 text-xs font-medium">
+              <button
+                onClick={() => handleFilterChange("all")}
+                className={`rounded-md px-3 py-1.5 transition-colors ${filterStatus === "all" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
+              >
+                All ({alerts.length})
+              </button>
+              <button
+                onClick={() => handleFilterChange("open")}
+                className={`rounded-md px-3 py-1.5 transition-colors ${filterStatus === "open" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
+              >
+                Open ({openCount})
+              </button>
+              <button
+                onClick={() => handleFilterChange("acknowledged")}
+                className={`rounded-md px-3 py-1.5 transition-colors ${filterStatus === "acknowledged" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
+              >
+                Acknowledged ({acknowledgedCount})
+              </button>
+              <button
+                onClick={() => handleFilterChange("resolved")}
+                className={`rounded-md px-3 py-1.5 transition-colors ${filterStatus === "resolved" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
+              >
+                Resolved ({resolvedCount})
+              </button>
+            </div>
           </div>
         </div>
 
