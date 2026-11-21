@@ -63,6 +63,16 @@ export async function PATCH(
         [status, id]
       )
       if (updated) {
+        // Asynchronously log to Amazon CloudWatch for OCC SR 11-7 compliance
+        const { logUnderwriterAudit } = await import('@/lib/aws/cloudwatch')
+        logUnderwriterAudit({
+          underwriterId: user.id || 'Risk-Officer',
+          borrowerId: updated.borrower_id || id,
+          action: 'REVIEWED',
+          justification: `Alert ${id} status updated to ${status}`,
+          metadata: { alertId: id, newStatus: status, title: updated.title },
+        }).catch(console.warn)
+
         return NextResponse.json({
           data: updated,
           message: `Alert status updated to ${status}`,
@@ -88,6 +98,15 @@ export async function PATCH(
       { status: 500 }
     )
   }
+
+  const { logUnderwriterAudit } = await import('@/lib/aws/cloudwatch')
+  logUnderwriterAudit({
+    underwriterId: user.id || 'Risk-Officer',
+    borrowerId: data?.borrower_id || id,
+    action: 'REVIEWED',
+    justification: `Alert ${id} status updated to ${status} via fallback`,
+    metadata: { alertId: id, newStatus: status },
+  }).catch(console.warn)
 
   return NextResponse.json({
     data,
