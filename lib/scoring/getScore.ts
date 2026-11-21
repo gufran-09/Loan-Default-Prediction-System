@@ -49,6 +49,7 @@ export interface BorrowerScoreDetail {
     months_at_current_job?: number
     income_consistency_score?: number
     alternative_credit_score?: number
+    credit_score?: number
     // Core Model Features
     months_employed?: number
     num_credit_lines?: number
@@ -62,6 +63,13 @@ export interface BorrowerScoreDetail {
     delinquency_count_12m?: number
     num_inquiries_6m?: number
     prior_defaults?: number
+    // Underwriting Decision & Document Intelligence
+    underwriting_decision?: 'APPROVED' | 'DECLINED' | 'REFERRED_TO_COMMITTEE' | null
+    decision_notes?: string | null
+    decided_at?: string | null
+    decided_by?: string | null
+    verified_income?: number | null
+    income_verification_status?: string | null
   }
 }
 
@@ -103,6 +111,7 @@ function normalizeBorrower(raw: any) {
     months_at_current_job: monthsEmployed,
     income_consistency_score: Number(raw.income_consistency_score || 0.5),
     alternative_credit_score: raw.alternative_credit_score != null ? Number(raw.alternative_credit_score) : undefined,
+    credit_score: raw.credit_score != null ? Number(raw.credit_score) : raw.alternative_credit_score != null ? Number(raw.alternative_credit_score) : 680,
     months_employed: monthsEmployed,
     num_credit_lines: raw.num_credit_lines != null ? Number(raw.num_credit_lines) : 3,
     interest_rate: raw.interest_rate != null ? Number(raw.interest_rate) : 10.5,
@@ -115,6 +124,13 @@ function normalizeBorrower(raw: any) {
     delinquency_count_12m: raw.delinquency_count_12m != null ? Number(raw.delinquency_count_12m) : 0,
     num_inquiries_6m: raw.num_inquiries_6m != null ? Number(raw.num_inquiries_6m) : 1,
     prior_defaults: raw.prior_defaults != null ? Number(raw.prior_defaults) : 0,
+    // Underwriting Decision & Document Intelligence
+    underwriting_decision: raw.underwriting_decision || null,
+    decision_notes: raw.decision_notes || null,
+    decided_at: raw.decided_at || null,
+    decided_by: raw.decided_by || null,
+    verified_income: raw.verified_income != null ? Number(raw.verified_income) : null,
+    income_verification_status: raw.income_verification_status || null,
   }
 }
 
@@ -213,13 +229,50 @@ export async function getScore(borrowerId: string): Promise<BorrowerScoreDetail 
     }
   }
 
-  // 4. If no score in DB, compute in real-time via XGBoost Inference Engine
+  // 4. If no score in DB, compute in real-time via AWS Lambda Inference Engine or local XGBoost
   if (!scoreData) {
+    let remotePrediction: any = null
+    const inferenceUrl = process.env.AWS_INFERENCE_ENDPOINT_URL
+    if (inferenceUrl) {
+      try {
+        const res = await fetch(inferenceUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            borrower_id: borrowerId,
+            features: {
+              monthly_income: normalizedBorrower.monthly_income,
+              loan_amount: normalizedBorrower.loan_amount,
+              tenure_months: normalizedBorrower.tenure_months,
+              outstanding_balance: normalizedBorrower.outstanding_balance,
+              credit_score: normalizedBorrower.credit_score || 680,
+              interest_rate: normalizedBorrower.interest_rate || 10.5,
+              credit_utilization: normalizedBorrower.credit_utilization || 0.38,
+              delinquency_count_12m: normalizedBorrower.delinquency_count_12m || 0,
+              num_inquiries_6m: normalizedBorrower.num_inquiries_6m || 1,
+              prior_defaults: normalizedBorrower.prior_defaults || 0,
+              collateral_value: normalizedBorrower.collateral_value || 0,
+              months_employed: normalizedBorrower.months_employed || 24,
+            },
+          }),
+          signal: AbortSignal.timeout(2500),
+        })
+        if (res.ok) {
+          const j = await res.json()
+          if (j.score != null) {
+            remotePrediction = j
+          }
+        }
+      } catch {
+        // Safe fallback to local XGBoost
+      }
+    }
+
     const livePrediction = predictXGBoost(normalizedBorrower)
     return {
-      score: livePrediction.score,
-      bucket: livePrediction.bucket as RiskBucket,
-      model_version: livePrediction.model_version,
+      score: remotePrediction ? Number(remotePrediction.score) : livePrediction.score,
+      bucket: (remotePrediction?.bucket?.toLowerCase() || livePrediction.bucket) as RiskBucket,
+      model_version: remotePrediction ? `${remotePrediction.model_version} (AWS Lambda)` : livePrediction.model_version,
       scored_at: new Date().toISOString(),
       risk_reasons: livePrediction.risk_reasons,
       shap_values: livePrediction.shap_values,
