@@ -21,7 +21,9 @@ import {
   Zap,
   Landmark,
   ShieldAlert,
+  Download,
 } from "lucide-react";
+import { exportDataToCsv } from "@/lib/export/csv";
 
 function ChartTooltip({ active, payload, label }: any) {
   if (active && payload && payload.length) {
@@ -116,6 +118,24 @@ export default function Analytics() {
     }));
   };
 
+  const handleExportAnalyticsCsv = () => {
+    if (!data) return;
+    const summaryRows = [
+      { Metric: "Total Monitored Borrowers", Value: rawSummary.totalBorrowers },
+      { Metric: "Total Loan Volume ($)", Value: rawSummary.totalLoanVolume },
+      { Metric: "Total Outstanding Balance ($)", Value: rawSummary.totalOutstandingBalance },
+      { Metric: "Total Collateral Secured ($)", Value: rawSummary.totalCollateralSecured },
+      { Metric: "Collateralization Rate (%)", Value: rawSummary.collateralizationRate },
+      { Metric: "Average Default Probability (%)", Value: (averageScore * 100).toFixed(2) },
+      { Metric: "Actuarial Expected Loss ($)", Value: expectedLoss },
+      { Metric: "Capital Loss Avoidance ($)", Value: capitalSaved },
+      { Metric: "Critical Risk Alerts", Value: criticalAlerts },
+      { Metric: "High Risk Borrowers", Value: highRiskBorrowers },
+      { Metric: "Macro Environment Mode", Value: isStressTest ? "Stagflation Shock (+200 bps)" : "Baseline Conditions" },
+    ];
+    exportDataToCsv(`aegis_portfolio_analytics_${new Date().toISOString().slice(0, 10)}`, summaryRows);
+  };
+
   return (
     <Shell>
       <div className="flex flex-col gap-8">
@@ -132,29 +152,40 @@ export default function Analytics() {
             </p>
           </div>
 
-          {/* Macro Stress Test Toggle */}
-          <div className="flex items-center gap-2 rounded-lg border bg-card p-1 text-xs font-medium shadow-sm">
+          <div className="flex flex-wrap items-center gap-2">
             <button
-              onClick={() => setIsStressTest(false)}
-              className={`rounded-md px-3 py-1.5 transition-colors ${
-                !isStressTest
-                  ? "bg-primary text-primary-foreground font-semibold"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
+              onClick={handleExportAnalyticsCsv}
+              disabled={!data}
+              className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border border-border bg-card px-3 text-xs font-semibold text-foreground transition-colors hover:bg-muted disabled:opacity-50"
             >
-              Baseline Conditions
+              <Download className="size-3.5 text-muted-foreground" />
+              Export Summary (CSV)
             </button>
-            <button
-              onClick={() => setIsStressTest(true)}
-              className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 transition-colors ${
-                isStressTest
-                  ? "bg-destructive text-destructive-foreground font-semibold"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              <Zap className="size-3.5" />
-              Stagflation Shock (+200 bps)
-            </button>
+
+            {/* Macro Stress Test Toggle */}
+            <div className="flex items-center gap-2 rounded-lg border bg-card p-1 text-xs font-medium shadow-sm">
+              <button
+                onClick={() => setIsStressTest(false)}
+                className={`rounded-md px-3 py-1.5 transition-colors ${
+                  !isStressTest
+                    ? "bg-primary text-primary-foreground font-semibold"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                Baseline Conditions
+              </button>
+              <button
+                onClick={() => setIsStressTest(true)}
+                className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 transition-colors ${
+                  isStressTest
+                    ? "bg-destructive text-destructive-foreground font-semibold"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                <Zap className="size-3.5" />
+                Stagflation Shock (+200 bps)
+              </button>
+            </div>
           </div>
         </div>
 
