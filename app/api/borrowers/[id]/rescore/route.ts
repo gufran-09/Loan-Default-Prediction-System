@@ -156,6 +156,30 @@ export async function POST(
       console.warn('[Rescore API] Supabase write note:', supaErr)
     }
 
+    // 4. Asynchronously log to Amazon CloudWatch for OCC SR 11-7 compliance
+    const { logUnderwriterAudit } = await import('@/lib/aws/cloudwatch')
+    logUnderwriterAudit({
+      underwriterId: 'Risk-Officer',
+      borrowerId,
+      action: 'RESCORED',
+      score,
+      bucket,
+      justification: `What-If Scenario Simulation (${scoringMethod})`,
+      metadata: { overrides, score, bucket },
+    }).catch(console.warn)
+
+    // 5. Trigger Amazon SNS if borrower is in Critical risk tier
+    if (String(bucket).toLowerCase() === 'critical') {
+      const { sendCriticalRiskAlert } = await import('@/lib/aws/sns')
+      sendCriticalRiskAlert({
+        borrowerId,
+        borrowerName: baseScoreDetail.borrower?.full_name || `Borrower ${borrowerId.slice(0, 8)}`,
+        score,
+        bucket,
+        reasons,
+      }).catch(console.warn)
+    }
+
     return NextResponse.json({
       success: true,
       data: {
