@@ -28,7 +28,13 @@ export async function sendWhatsAppNotification(payload: WhatsAppNotificationPayl
 }> {
   const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID
   const accessToken = process.env.WHATSAPP_ACCESS_TOKEN
-  const cleanPhone = payload.recipientPhoneNumber.replace(/[^0-9+]/g, '')
+  let cleanPhone = payload.recipientPhoneNumber.replace(/[^0-9+]/g, '')
+  if (cleanPhone.startsWith('+')) {
+    cleanPhone = cleanPhone.slice(1)
+  }
+  if (cleanPhone.length === 10) {
+    cleanPhone = `91${cleanPhone}`
+  }
 
   // Compose formatted institutional alert
   const statusEmoji = payload.status === 'APPROVED' ? '✅' : payload.status === 'DECLINED' ? '⚠️' : '🔍'
@@ -66,16 +72,28 @@ _Notice issued in accordance with institutional OCC SR 11-7 model standards._`
   // 2. Live production dispatch via Meta WhatsApp Business Cloud API protected by Circuit Breaker
   return whatsappCircuitBreaker.execute<{ success: boolean; simulated: boolean; messageId: string }>(
     async () => {
-      const url = `https://graph.facebook.com/v20.0/${phoneNumberId}/messages`
+      const url = `https://graph.facebook.com/v21.0/${phoneNumberId}/messages`
       const requestBody = {
         messaging_product: 'whatsapp',
         recipient_type: 'individual',
-        to: cleanPhone.startsWith('+') ? cleanPhone.slice(1) : cleanPhone,
-        type: 'text',
-        text: {
-          preview_url: false,
-          body: messageText,
-        },
+        to: cleanPhone,
+        type: 'template',
+        template: {
+          name: 'credit_decision_alert',
+          language: { code: 'en' },
+          components: [
+            {
+              type: 'body',
+              parameters: [
+                { type: 'text', text: payload.borrowerName },
+                { type: 'text', text: payload.borrowerId },
+                { type: 'text', text: String(payload.score) },
+                { type: 'text', text: payload.bucket },
+                { type: 'text', text: payload.status.replace('_', ' ') }
+              ]
+            }
+          ]
+        }
       }
 
       const response = await fetch(url, {

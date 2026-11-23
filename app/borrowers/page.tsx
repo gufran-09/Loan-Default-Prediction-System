@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Shell } from '@/components/dashboard/shell'
 import { Pagination } from '@/components/ui/pagination'
@@ -48,6 +49,7 @@ const scoreOf = (row: Borrower) =>
   Array.isArray(row.risk_scores) ? row.risk_scores[0] : row.risk_scores
 
 export default function Borrowers() {
+  const router = useRouter()
   const [rows, setRows] = useState<Borrower[]>([])
   const [search, setSearch] = useState('')
   const [bucket, setBucket] = useState('')
@@ -477,9 +479,15 @@ export default function Borrowers() {
                 ) : rows.map(r => {
                   const s = scoreOf(r)
                   return (
-                    <tr key={r.id} className="hover:bg-muted/30">
+                    <tr
+                      key={r.id}
+                      onClick={() => router.push(`/borrowers/${r.id}`)}
+                      className="group cursor-pointer transition-colors hover:bg-muted/40"
+                    >
                       <td className="px-5 py-4">
-                        <Link className="font-medium hover:underline" href={`/borrowers/${r.id}`}>{r.full_name}</Link>
+                        <span className="font-medium text-foreground transition-colors group-hover:text-primary">
+                          {r.full_name}
+                        </span>
                         <p className="font-mono text-xs text-muted-foreground">{r.external_id}</p>
                       </td>
                       <td className="px-5 py-4 text-muted-foreground">{r.loan_type}</td>
@@ -488,9 +496,7 @@ export default function Borrowers() {
                         <span className={badgeClass(s?.bucket)}>{s ? `${s.bucket} · ${s.score}` : 'Pending'}</span>
                       </td>
                       <td className="px-5 py-4 text-right">
-                        <Link href={`/borrowers/${r.id}`}>
-                          <ArrowUpRight className="ml-auto size-4 text-muted-foreground" />
-                        </Link>
+                        <ArrowUpRight className="ml-auto size-4 text-muted-foreground transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-primary" />
                       </td>
                     </tr>
                   )
