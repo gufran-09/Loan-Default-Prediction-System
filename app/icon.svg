@@ -1,0 +1,92 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Background Midnight Radial -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#080E1E"/>
+      <stop offset="50%" stop-color="#0A1628"/>
+      <stop offset="100%" stop-color="#040812"/>
+    </linearGradient>
+
+    <!-- Border Glow -->
+    <linearGradient id="borderGrad" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#10B981" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#0284C7" stop-opacity="0.3"/>
+    </linearGradient>
+
+    <!-- Shield Left Facet Gradient -->
+    <linearGradient id="facetLeft" x1="128" y1="90" x2="256" y2="430" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#38BDF8"/>
+      <stop offset="40%" stop-color="#0284C7"/>
+      <stop offset="100%" stop-color="#1D4ED8"/>
+    </linearGradient>
+
+    <!-- Shield Right Facet Gradient -->
+    <linearGradient id="facetRight" x1="256" y1="90" x2="384" y2="430" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="60%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#10B981"/>
+    </linearGradient>
+
+    <!-- Inner Shield Surface Gradient -->
+    <linearGradient id="innerShield" x1="150" y1="120" x2="362" y2="400" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0F172A" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#020617" stop-opacity="0.95"/>
+    </linearGradient>
+
+    <!-- Sentry Checkmark Glowing Gradient -->
+    <linearGradient id="checkGrad" x1="160" y1="200" x2="350" y2="330" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="50%" stop-color="#E0F2FE"/>
+      <stop offset="100%" stop-color="#6EE7B7"/>
+    </linearGradient>
+
+    <!-- Soft Glow Filter -->
+    <filter id="shieldShadow" x="90" y="60" width="332" height="390" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#0284C7" flood-opacity="0.45"/>
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#10B981" flood-opacity="0.35"/>
+    </filter>
+
+    <filter id="checkGlow" x="130" y="170" width="250" height="200" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="0" stdDeviation="12" flood-color="#38BDF8" flood-opacity="0.6"/>
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#10B981" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Outer Squircle with Sleek Border -->
+  <rect x="8" y="8" width="496" height="496" rx="116" fill="url(#bgGrad)" stroke="url(#borderGrad)" stroke-width="8"/>
+
+  <!-- Sentry Orbital Radar Rings -->
+  <circle cx="256" cy="256" r="200" stroke="#38BDF8" stroke-opacity="0.08" stroke-width="2" stroke-dasharray="8 8"/>
+  <circle cx="256" cy="256" r="140" stroke="#10B981" stroke-opacity="0.07" stroke-width="2"/>
+
+  <!-- Shield Outer Shell with Shadow -->
+  <g filter="url(#shieldShadow)">
+    <!-- Left Facet -->
+    <path d="M256 86 C210 86 136 108 128 174 C128 290 196 384 256 428 V86 Z" fill="url(#facetLeft)"/>
+    <!-- Right Facet -->
+    <path d="M256 86 C302 86 376 108 384 174 C384 290 316 384 256 428 V86 Z" fill="url(#facetRight)"/>
+  </g>
+
+  <!-- Shield Rim Highlight -->
+  <path d="M256 88 C212 88 138 110 130 174 C130 286 196 378 256 422 C316 378 382 286 382 174 C374 110 300 88 256 88 Z" 
+        fill="none" stroke="#FFFFFF" stroke-opacity="0.25" stroke-width="4"/>
+
+  <!-- Inner Recessed Shield Core -->
+  <path d="M256 112 C220 112 158 130 152 182 C152 274 206 352 256 390 C306 352 360 274 360 182 C354 130 292 112 256 112 Z" 
+        fill="url(#innerShield)" stroke="#38BDF8" stroke-opacity="0.3" stroke-width="2"/>
+
+  <!-- Sentry Radar Diamond Beacon -->
+  <polygon points="256,128 268,146 256,164 244,146" fill="#38BDF8" opacity="0.95"/>
+  <polygon points="256,134 263,146 256,158 249,146" fill="#FFFFFF"/>
+
+  <!-- Bold Credit Verification Checkmark (Punches out at all scales) -->
+  <g filter="url(#checkGlow)">
+    <path d="M174 258 C166 250 154 250 146 258 C138 266 138 278 146 286 L216 354 C224 362 236 362 244 354 L366 226 C374 218 374 206 366 198 C358 190 346 190 338 198 L230 312 L174 258 Z" 
+          fill="url(#checkGrad)"/>
+  </g>
+
+  <!-- Glowing Horizon Pulse Line -->
+  <line x1="160" y1="230" x2="190" y2="230" stroke="#10B981" stroke-opacity="0.4" stroke-width="3" stroke-linecap="round"/>
+  <line x1="322" y1="260" x2="352" y2="260" stroke="#38BDF8" stroke-opacity="0.4" stroke-width="3" stroke-linecap="round"/>
+</svg>
