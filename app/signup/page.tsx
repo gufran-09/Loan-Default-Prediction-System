@@ -59,7 +59,7 @@ export default function SignUpPage() {
             <div className="flex size-10 items-center justify-center rounded-xl bg-primary-foreground/10">
               <ShieldCheck />
             </div>
-            <span className="font-semibold tracking-tight">Aegis Risk</span>
+            <span className="font-semibold tracking-tight">Loan Sentry</span>
           </div>
           <div className="max-w-lg">
             <p className="mb-5 font-mono text-xs uppercase tracking-[0.24em] text-primary-foreground/60">
@@ -83,7 +83,7 @@ export default function SignUpPage() {
               <div className="flex size-10 items-center justify-center rounded-xl bg-primary text-primary-foreground">
                 <ShieldCheck />
               </div>
-              <span className="font-semibold">Aegis Risk</span>
+              <span className="font-semibold">Loan Sentry</span>
             </div>
 
             {success ? (

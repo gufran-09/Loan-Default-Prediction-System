@@ -42,7 +42,7 @@ export async function sendWhatsAppNotification(payload: WhatsAppNotificationPayl
     ? `\n*Primary Factor:* ${payload.reasons[0].reason}`
     : ''
 
-  const messageText = `🏦 *Aegis Risk — Credit Assessment Notification*
+  const messageText = `🏦 *Loan Sentry — Credit Assessment Notification*
 
 Dear *${payload.borrowerName}*,
 

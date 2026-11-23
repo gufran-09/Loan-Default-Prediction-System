@@ -133,7 +133,7 @@ export default function Analytics() {
       { Metric: "High Risk Borrowers", Value: highRiskBorrowers },
       { Metric: "Macro Environment Mode", Value: isStressTest ? "Stagflation Shock (+200 bps)" : "Baseline Conditions" },
     ];
-    exportDataToCsv(`aegis_portfolio_analytics_${new Date().toISOString().slice(0, 10)}`, summaryRows);
+    exportDataToCsv(`loansentry_portfolio_analytics_${new Date().toISOString().slice(0, 10)}`, summaryRows);
   };
 
   return (
@@ -290,7 +290,7 @@ export default function Analytics() {
 
           <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-5">
             <p className="text-xs font-medium text-emerald-700 dark:text-emerald-400">
-              Aegis Early Intervention Capital Preserved
+              Loan Sentry Early Intervention Capital Preserved
             </p>
             <div className="mt-2 flex items-baseline gap-2">
               <span className="font-mono text-3xl font-bold tracking-tight text-emerald-600 dark:text-emerald-400">
@@ -449,7 +449,7 @@ export default function Analytics() {
           </div>
 
           <div className="mt-4 rounded-lg bg-muted/40 p-3 text-xs leading-5 text-muted-foreground">
-            <strong className="text-foreground">SR 11-7 Governance Compliance:</strong> Credit risk scoring models experience performance degradation when applicant age distribution shifts toward older cohorts. Aegis Risk monitors this gap in real-time to prevent biased approvals or systematic under-pricing of credit risk.
+            <strong className="text-foreground">SR 11-7 Governance Compliance:</strong> Credit risk scoring models experience performance degradation when applicant age distribution shifts toward older cohorts. Loan Sentry monitors this gap in real-time to prevent biased approvals or systematic under-pricing of credit risk.
           </div>
         </section>
       </div>

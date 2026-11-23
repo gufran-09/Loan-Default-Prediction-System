@@ -45,7 +45,7 @@ export default function SignInPage() {
             <div className="flex size-10 items-center justify-center rounded-xl bg-primary-foreground/10">
               <ShieldCheck />
             </div>
-            <span className="font-semibold tracking-tight">Aegis Risk</span>
+            <span className="font-semibold tracking-tight">Loan Sentry</span>
           </div>
           <div className="max-w-lg">
             <p className="mb-5 font-mono text-xs uppercase tracking-[0.24em] text-primary-foreground/60">
@@ -70,13 +70,13 @@ export default function SignInPage() {
               <div className="flex size-10 items-center justify-center rounded-xl bg-primary text-primary-foreground">
                 <ShieldCheck />
               </div>
-              <span className="font-semibold">Aegis Risk</span>
+              <span className="font-semibold">Loan Sentry</span>
             </div>
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
               Risk officer console
             </p>
             <h2 className="mt-3 text-3xl font-semibold tracking-tight">
-              Sign in to Aegis
+              Sign in to Loan Sentry
             </h2>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">
               Sign in to review portfolio signals and borrower exposure.

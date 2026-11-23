@@ -1292,7 +1292,7 @@ export default function BorrowerDetail({
                   <p><strong>Date:</strong> {new Date().toLocaleDateString()}</p>
                   <p><strong>Applicant:</strong> {data?.borrower?.full_name}</p>
                   <p><strong>Application / Loan ID:</strong> {data?.borrower?.external_id}</p>
-                  <p><strong>Creditor:</strong> Aegis Risk Portfolio Systems (on behalf of MassMutual Underwriting)</p>
+                  <p><strong>Creditor:</strong> Loan Sentry Portfolio Systems (on behalf of MassMutual Underwriting)</p>
                 </div>
 
                 <p>

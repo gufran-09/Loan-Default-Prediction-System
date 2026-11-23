@@ -115,7 +115,7 @@ export default function Borrowers() {
         'Risk Bucket': sc?.bucket ?? '—',
       }
     })
-    exportDataToCsv(`aegis_borrowers_export_${new Date().toISOString().slice(0, 10)}`, exportData)
+    exportDataToCsv(`loansentry_borrowers_export_${new Date().toISOString().slice(0, 10)}`, exportData)
   }
 
   const handleDownloadSampleCsv = () => {

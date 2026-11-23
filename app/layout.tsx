@@ -3,7 +3,7 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Aegis Risk | Portfolio intelligence',
+  title: 'Loan Sentry | Portfolio intelligence',
   description: 'Risk monitoring and borrower intelligence for modern credit teams.',
   generator: 'v0.app',
   icons: {

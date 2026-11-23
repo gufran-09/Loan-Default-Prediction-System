@@ -104,7 +104,7 @@ export default function Alerts() {
       "Description": a.description,
       "Created At": a.created_at,
     }));
-    exportDataToCsv(`aegis_alerts_audit_${new Date().toISOString().slice(0, 10)}`, exportData);
+    exportDataToCsv(`loansentry_alerts_audit_${new Date().toISOString().slice(0, 10)}`, exportData);
   };
 
   return (

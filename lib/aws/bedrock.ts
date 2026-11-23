@@ -103,6 +103,6 @@ ${
 ${params.riskReasons.map((r, i) => `${i + 1}. **${r.feature.toUpperCase()}**: ${r.reason}`).join('\n')}
 
 #### 3. Model Governance & SR 11-7 Compliance
-Scored using Aegis Risk v1.0.0 serverless model execution on AWS Lambda. All feature inputs and counterfactual simulations are permanently logged to Amazon CloudWatch audit stream \`underwriter-decisions\`.`
+Scored using Loan Sentry v1.0.0 serverless model execution on AWS Lambda. All feature inputs and counterfactual simulations are permanently logged to Amazon CloudWatch audit stream \`underwriter-decisions\`.`
   }
 }

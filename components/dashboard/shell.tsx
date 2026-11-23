@@ -30,7 +30,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
             <ShieldCheck className="size-5" />
           </div>
           <div>
-            <p className="font-semibold tracking-tight">Aegis Risk</p>
+            <p className="font-semibold tracking-tight">Loan Sentry</p>
             <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Officer console</p>
           </div>
         </div>
@@ -61,7 +61,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
                   <ShieldCheck className="size-5" />
                 </div>
                 <div>
-                  <p className="font-semibold tracking-tight">Aegis Risk</p>
+                  <p className="font-semibold tracking-tight">Loan Sentry</p>
                   <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Console</p>
                 </div>
               </div>
