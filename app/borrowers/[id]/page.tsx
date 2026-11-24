@@ -466,7 +466,7 @@ export default function BorrowerDetail({
 
   return (
     <Shell>
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-5 sm:gap-8">
         <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
           <Link
             href="/borrowers"
@@ -515,7 +515,7 @@ export default function BorrowerDetail({
                 ) : (
                   <>
                     <GitMerge className="size-3.5" />
-                    Run STP Workflow (Step Functions)
+                    Run STP Workflow
                   </>
                 )}
               </button>
@@ -528,21 +528,21 @@ export default function BorrowerDetail({
                 className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-xs font-medium text-emerald-400 transition-colors hover:bg-emerald-500/20"
               >
                 <MessageSquare className="size-3.5" />
-                Notify via WhatsApp
+                WhatsApp
               </button>
               <button
                 onClick={fetchCreditMemo}
                 className="inline-flex items-center gap-1.5 rounded-lg border border-purple-500/30 bg-purple-500/10 px-3 py-2 text-xs font-medium text-purple-400 transition-colors hover:bg-purple-500/20"
               >
                 <Sparkles className="size-3.5" />
-                AI Memo (Bedrock)
+                AI Memo
               </button>
               <button
                 onClick={() => setShowNotice(true)}
                 className="inline-flex items-center gap-1.5 rounded-lg border border-primary/20 bg-primary/5 px-3 py-2 text-xs font-medium text-primary transition-colors hover:bg-primary/10"
               >
                 <FileText className="size-3.5" />
-                Adverse Action (ECOA)
+                Adverse Action
               </button>
             </div>
           )}
@@ -568,7 +568,7 @@ export default function BorrowerDetail({
                 <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
                   Institutional Credit File · SR 11-7 Governed
                 </p>
-                <h1 className="mt-1 text-3xl font-semibold tracking-tight">
+                <h1 className="mt-1 text-2xl sm:text-3xl font-semibold tracking-tight">
                   {data.borrower?.full_name}
                 </h1>
                 <p className="mt-1 text-xs text-muted-foreground">
@@ -656,7 +656,7 @@ export default function BorrowerDetail({
             )}
 
             {/* Comprehensive Multi-Factor Underwriting Dossier */}
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-4">
               {/* Block 1: Loan & Debt Obligations */}
               {/* Block 1: Credit & Debt Obligations */}
               <div className="rounded-xl border bg-card p-5 space-y-4 shadow-sm">
@@ -739,7 +739,7 @@ export default function BorrowerDetail({
             </div>
 
             {/* Document Intelligence & Income Verification (Amazon Textract OCR) */}
-            <section className="rounded-xl border bg-card p-6 shadow-sm">
+            <section className="rounded-xl border bg-card p-4 sm:p-6 shadow-sm">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-4 gap-2">
                 <div className="flex items-center gap-2.5">
                   <div className="flex size-9 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-500">
@@ -817,7 +817,7 @@ export default function BorrowerDetail({
             {/* Score & SHAP Attribution Section */}
             <div className="grid gap-6 md:grid-cols-[1fr_1.4fr]">
               {/* Score card */}
-              <section className="rounded-xl border bg-card p-6 shadow-sm flex flex-col justify-between">
+              <section className="rounded-xl border bg-card p-4 sm:p-6 shadow-sm flex flex-col justify-between">
                 <div>
                   <p className="text-xs uppercase tracking-wider text-muted-foreground">Calibrated Credit Risk Score</p>
                   <div className="mt-4 flex items-end gap-3">
@@ -857,7 +857,7 @@ export default function BorrowerDetail({
               </section>
 
               {/* SHAP Factors */}
-              <section className="rounded-xl border bg-card p-6 shadow-sm">
+              <section className="rounded-xl border bg-card p-4 sm:p-6 shadow-sm">
                 <div className="flex items-center gap-2">
                   <ShieldAlert className="size-5 text-primary" />
                   <h2 className="font-semibold text-foreground">Why this score? (SHAP Attributions)</h2>
@@ -889,7 +889,7 @@ export default function BorrowerDetail({
             </div>
 
             {/* Explainable AI (XAI) Attribution & Adverse Action Factors */}
-            <section className="rounded-xl border bg-card p-6 shadow-sm">
+            <section className="rounded-xl border bg-card p-4 sm:p-6 shadow-sm">
               <div className="flex items-center justify-between border-b pb-4">
                 <div>
                   <h2 className="text-base font-semibold text-foreground">
@@ -939,7 +939,7 @@ export default function BorrowerDetail({
             </section>
 
             {/* Alternative Credit Cashflow Signals */}
-            <section className="rounded-xl border bg-card p-6 shadow-sm">
+            <section className="rounded-xl border bg-card p-4 sm:p-6 shadow-sm">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-4 gap-3">
                 <div className="flex items-center gap-2">
                   <Activity className="size-5 text-blue-500" />
@@ -969,7 +969,7 @@ export default function BorrowerDetail({
               {altCredit && altCredit.length > 0 ? (
                 <>
                   <div className="mt-4 overflow-x-auto">
-                    <table className="w-full text-left text-xs">
+                    <table className="w-full min-w-[600px] text-left text-xs whitespace-nowrap">
                       <thead className="bg-muted/40 uppercase tracking-wider text-[10px] text-muted-foreground">
                         <tr>
                           <th className="px-4 py-2.5 font-medium">Provider / Aggregator</th>
@@ -1022,7 +1022,7 @@ export default function BorrowerDetail({
             </section>
 
             {/* MassMutual Underwriter "What-If" Scenario Simulator with Live AWS Rescore */}
-            <section className="rounded-xl border bg-card p-6 shadow-sm">
+            <section className="rounded-xl border bg-card p-4 sm:p-6 shadow-sm">
               <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
                 <div className="flex items-center gap-2.5">
                   <div className="flex size-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
@@ -1188,8 +1188,8 @@ export default function BorrowerDetail({
 
             {/* Continuous Learning & Scoring History Audit Trail */}
             {scoringHistory && scoringHistory.length > 0 && (
-              <section className="rounded-xl border bg-card p-6 shadow-sm">
-                <div className="flex items-center justify-between border-b pb-4">
+              <section className="rounded-xl border bg-card p-4 sm:p-6 shadow-sm">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-4 gap-2">
                   <div className="flex items-center gap-2">
                     <History className="size-5 text-primary" />
                     <div>
@@ -1207,7 +1207,7 @@ export default function BorrowerDetail({
                 </div>
 
                 <div className="mt-4 overflow-x-auto">
-                  <table className="w-full text-left text-xs">
+                  <table className="w-full min-w-[550px] text-left text-xs whitespace-nowrap">
                     <thead className="bg-muted/40 uppercase tracking-wider text-[10px] text-muted-foreground">
                       <tr>
                         <th className="px-4 py-2.5 font-medium">Timestamp</th>
@@ -1261,8 +1261,8 @@ export default function BorrowerDetail({
 
         {/* Adverse Action Notice Modal (CFPB / ECOA Model Form C-1) */}
         {showNotice && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-            <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-xl border bg-card p-6 shadow-2xl">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-2.5 sm:p-4 backdrop-blur-sm">
+            <div className="relative max-h-[92vh] sm:max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-xl border bg-card p-4 sm:p-6 shadow-2xl">
               <div className="flex items-center justify-between border-b pb-4">
                 <div className="flex items-center gap-2">
                   <FileText className="size-5 text-primary" />
@@ -1337,12 +1337,12 @@ export default function BorrowerDetail({
 
         {/* AWS Bedrock GenAI Credit Memo Modal */}
         {showMemoModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-            <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-xl border bg-card p-6 shadow-2xl">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-2.5 sm:p-4 backdrop-blur-sm">
+            <div className="max-h-[92vh] sm:max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-xl border bg-card p-4 sm:p-6 shadow-2xl">
               <div className="flex items-center justify-between border-b pb-4">
                 <div className="flex items-center gap-2">
                   <Sparkles className="size-5 text-purple-400" />
-                  <h3 className="font-semibold text-lg">
+                  <h3 className="font-semibold text-base sm:text-lg">
                     Credit Underwriting Memorandum
                   </h3>
                 </div>
@@ -1368,13 +1368,13 @@ export default function BorrowerDetail({
                 )}
               </div>
 
-              <div className="mt-6 flex justify-between border-t pt-4">
+              <div className="mt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t pt-4">
                 <span className="text-[11px] text-muted-foreground flex items-center">
                   Engine: AWS Bedrock Runtime · Model: Claude 3.5 Haiku
                 </span>
                 <button
                   onClick={() => setShowMemoModal(false)}
-                  className="rounded-lg bg-purple-600 px-4 py-2 text-xs font-medium text-white hover:bg-purple-700"
+                  className="rounded-lg bg-purple-600 px-4 py-2 text-xs font-medium text-white hover:bg-purple-700 w-full sm:w-auto"
                 >
                   Done
                 </button>
@@ -1385,8 +1385,8 @@ export default function BorrowerDetail({
 
         {/* WhatsApp Notification Dispatch Modal */}
         {showWhatsAppModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-            <div className="w-full max-w-md rounded-xl border bg-card p-6 shadow-2xl">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-2.5 sm:p-4 backdrop-blur-sm">
+            <div className="w-full max-w-md max-h-[92vh] sm:max-h-[90vh] overflow-y-auto rounded-xl border bg-card p-4 sm:p-6 shadow-2xl">
               <div className="flex items-center justify-between border-b pb-3">
                 <div className="flex items-center gap-2">
                   <MessageSquare className="size-5 text-emerald-400" />
@@ -1472,8 +1472,8 @@ export default function BorrowerDetail({
         )}
         {/* Underwriter Decision Modal */}
         {showDecisionModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-            <div className="w-full max-w-lg rounded-xl border bg-card p-6 shadow-2xl">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-2.5 sm:p-4 backdrop-blur-sm">
+            <div className="w-full max-w-lg max-h-[92vh] sm:max-h-[90vh] overflow-y-auto rounded-xl border bg-card p-4 sm:p-6 shadow-2xl">
               <div className="flex items-center justify-between border-b pb-3">
                 <div className="flex items-center gap-2">
                   <FileCheck2 className="size-5 text-primary" />
@@ -1596,8 +1596,8 @@ export default function BorrowerDetail({
 
         {/* AWS Step Functions STP Workflow Monitor Modal */}
         {showStpModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-            <div className="w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-xl border bg-card p-6 shadow-2xl">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-2.5 sm:p-4 backdrop-blur-sm">
+            <div className="w-full max-w-xl max-h-[92vh] sm:max-h-[90vh] overflow-y-auto rounded-xl border bg-card p-4 sm:p-6 shadow-2xl">
               <div className="flex items-center justify-between border-b pb-3">
                 <div className="flex items-center gap-2">
                   <GitMerge className="size-5 text-blue-400" />
@@ -1623,7 +1623,7 @@ export default function BorrowerDetail({
                     <Loader2 className="size-8 animate-spin text-blue-500" />
                     <p className="font-medium text-foreground">Executing Step Functions State Machine...</p>
                     <p className="text-muted-foreground text-[11px]">
-                      Orchestrating Lambda Inference → Risk Tier Evaluation → Committee Triage / Auto-Approval
+                       Orchestrating Lambda Inference → Risk Tier Evaluation → Committee Triage / Auto-Approval
                     </p>
                   </div>
                 ) : stpError ? (
@@ -1686,8 +1686,8 @@ export default function BorrowerDetail({
 
         {/* Alternative Credit Ingestion Modal */}
         {showAddAltCredit && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-            <div className="w-full max-w-md rounded-xl border bg-card p-6 shadow-2xl">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-2.5 sm:p-4 backdrop-blur-sm">
+            <div className="w-full max-w-md max-h-[92vh] sm:max-h-[90vh] overflow-y-auto rounded-xl border bg-card p-4 sm:p-6 shadow-2xl">
               <div className="flex items-center justify-between border-b pb-3">
                 <div className="flex items-center gap-2">
                   <Activity className="size-5 text-blue-400" />
@@ -1800,7 +1800,6 @@ export default function BorrowerDetail({
           </div>
         )}
       </div>
-
 
     </Shell>
   );

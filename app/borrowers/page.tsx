@@ -391,54 +391,54 @@ export default function Borrowers() {
 
   return (
     <Shell>
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-6 sm:gap-8">
         <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
           <div>
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">Portfolio Monitoring</p>
-            <h1 className="mt-2 text-3xl font-semibold tracking-tight">Borrowers</h1>
-            <p className="mt-2 text-sm text-muted-foreground">Search and triage the monitored borrower book.</p>
+            <h1 className="mt-1.5 text-2xl sm:text-3xl font-semibold tracking-tight text-foreground">Borrowers</h1>
+            <p className="mt-1.5 text-xs sm:text-sm text-muted-foreground">Search and triage the monitored borrower book.</p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="grid grid-cols-1 sm:flex sm:flex-wrap items-center gap-2 w-full md:w-auto">
             <button
               onClick={handleExportCsv}
               disabled={rows.length === 0}
-              className="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-border bg-card px-3.5 text-xs font-semibold text-foreground transition-colors hover:bg-muted disabled:opacity-50"
+              className="inline-flex h-9 sm:h-10 items-center justify-center gap-2 rounded-lg border border-border bg-card px-3 sm:px-3.5 text-xs font-semibold text-foreground transition-colors hover:bg-muted disabled:opacity-50 shadow-sm"
             >
               <Download className="size-3.5 text-muted-foreground" />
-              Export Portfolio (CSV)
+              <span>Export Portfolio (CSV)</span>
             </button>
             <button
               onClick={() => setShowBatchModal(true)}
-              className="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-border bg-card px-3.5 text-xs font-semibold text-foreground transition-colors hover:bg-muted"
+              className="inline-flex h-9 sm:h-10 items-center justify-center gap-2 rounded-lg border border-border bg-card px-3 sm:px-3.5 text-xs font-semibold text-foreground transition-colors hover:bg-muted shadow-sm"
             >
               <UploadCloud className="size-3.5 text-muted-foreground" />
-              Batch Score Applicants
+              <span>Batch Score Applicants</span>
             </button>
             <button
               onClick={openScorer}
-              className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-primary px-4 text-xs font-semibold text-primary-foreground hover:opacity-90"
+              className="inline-flex h-9 sm:h-10 items-center justify-center gap-2 rounded-lg bg-primary px-3.5 sm:px-4 text-xs font-semibold text-primary-foreground hover:opacity-90 shadow-sm"
             >
               <PlusCircle className="size-4" />
-              Score New Applicant
+              <span>Score New Applicant</span>
             </button>
           </div>
         </div>
 
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-          <div className="flex h-11 max-w-md flex-1 items-center gap-3 rounded-lg border bg-card px-3">
-            <Search className="size-4 text-muted-foreground" />
+        <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center">
+          <div className="flex h-10 sm:h-11 w-full sm:max-w-md flex-1 items-center gap-2.5 rounded-lg border bg-card px-3 shadow-sm">
+            <Search className="size-4 shrink-0 text-muted-foreground" />
             <input
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder="Search name or borrower ID (e.g. LN-000001)"
-              className="w-full bg-transparent text-sm outline-none"
+              className="w-full bg-transparent text-xs sm:text-sm outline-none placeholder:text-muted-foreground"
             />
           </div>
           <select
             value={bucket}
             onChange={e => setBucket(e.target.value)}
-            className="h-11 rounded-lg border bg-card px-3 text-sm outline-none"
+            className="h-10 sm:h-11 w-full sm:w-auto rounded-lg border bg-card px-3 text-xs sm:text-sm outline-none shadow-sm cursor-pointer"
           >
             <option value="">All risk buckets</option>
             {BUCKETS.map(b => (
@@ -447,9 +447,9 @@ export default function Borrowers() {
           </select>
         </div>
 
-        <div className="overflow-hidden rounded-xl border bg-card">
+        <div className="overflow-hidden rounded-xl border bg-card shadow-sm">
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
+            <table className="w-full text-left text-sm whitespace-nowrap min-w-[620px]">
               <thead className="bg-muted/40 text-xs uppercase tracking-wide text-muted-foreground">
                 <tr>
                   <th className="px-5 py-3 font-medium">Borrower</th>
@@ -527,8 +527,8 @@ export default function Borrowers() {
 
         {/* Live Score New Applicant Modal */}
         {showScorer && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-            <div className="relative max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-xl border bg-card p-6 shadow-2xl">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-2.5 sm:p-4 backdrop-blur-sm">
+            <div className="relative max-h-[92vh] sm:max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-xl border bg-card p-4 sm:p-6 shadow-2xl">
               <div className="flex items-center justify-between border-b pb-4">
                 <div className="flex items-center gap-2">
                   <Calculator className="size-5 text-primary" />
@@ -971,18 +971,18 @@ export default function Borrowers() {
         )}
         {/* Batch Applicant Ingestion Modal */}
         {showBatchModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-            <div className="w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-xl border bg-card p-6 shadow-2xl">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-2.5 sm:p-4 backdrop-blur-sm">
+            <div className="w-full max-w-xl max-h-[92vh] sm:max-h-[90vh] overflow-y-auto rounded-xl border bg-card p-4 sm:p-6 shadow-2xl">
               <div className="flex items-center justify-between border-b pb-3">
                 <div className="flex items-center gap-2">
                   <UploadCloud className="size-5 text-primary" />
-                  <h3 className="font-semibold text-base">
+                  <h3 className="font-semibold text-sm sm:text-base text-foreground">
                     Batch Applicant Scoring & Portfolio Ingestion
                   </h3>
                 </div>
                 <button
                   onClick={() => setShowBatchModal(false)}
-                  className="rounded-lg p-1 text-muted-foreground hover:bg-muted"
+                  className="rounded-lg p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground"
                 >
                   <X className="size-4" />
                 </button>
@@ -993,7 +993,7 @@ export default function Borrowers() {
                   Ingest and score multiple credit applications simultaneously. Each applicant is processed through the calibrated XGBoost pipeline with automated risk tiering, RDS PostgreSQL persistence, and OCC SR 11-7 CloudWatch compliance logging.
                 </p>
 
-                <div className="flex items-center justify-between rounded-lg border border-border bg-muted/20 p-3">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 rounded-lg border border-border bg-muted/20 p-3">
                   <div>
                     <p className="font-semibold text-foreground">Standardized Batch Template</p>
                     <p className="text-[11px] text-muted-foreground">

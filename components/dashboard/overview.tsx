@@ -39,65 +39,68 @@ export function Overview() {
     : 42
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-6 sm:gap-8">
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
         <div>
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">Overview</p>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight">Portfolio health</h1>
-          <p className="mt-2 text-sm text-muted-foreground">A clear view of exposure, concentration, and emerging borrower risk.</p>
+          <h1 className="mt-1.5 text-2xl sm:text-3xl font-semibold tracking-tight text-foreground">Portfolio health</h1>
+          <p className="mt-1.5 text-xs sm:text-sm text-muted-foreground">A clear view of exposure, concentration, and emerging borrower risk.</p>
         </div>
-        <Link href="/borrowers" className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground">
+        <Link
+          href="/borrowers"
+          className="inline-flex h-10 w-full sm:w-auto items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground shadow-sm hover:opacity-90 transition-opacity"
+        >
           Review borrowers<ArrowUpRight className="size-4" />
         </Link>
       </div>
 
       {error ? (
-        <div className="rounded-xl border border-destructive/30 bg-destructive/5 p-6 text-sm text-destructive">
+        <div className="rounded-xl border border-destructive/30 bg-destructive/5 p-4 sm:p-6 text-sm text-destructive">
           Couldn't load overview: {error}
         </div>
       ) : (
         <>
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid gap-3.5 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             <Kpi label="Borrowers monitored" value={loading ? '—' : String(totalBorrowers)} detail="Across active portfolio" icon={Users} />
             <Kpi label="Average risk score" value={loading ? '—' : `${avg}/100`} detail="Lower is healthier" icon={TrendingUp} />
             <Kpi label="Open alerts" value={loading ? '—' : String(openAlerts ?? 0)} detail={loading ? '' : (openAlerts ?? 0) > 0 ? 'Requires review' : 'All clear'} icon={AlertTriangle} />
           </div>
 
-          <section className="overflow-hidden rounded-xl border bg-card">
-            <div className="flex items-center justify-between border-b px-5 py-4">
+          <section className="overflow-hidden rounded-xl border bg-card shadow-sm">
+            <div className="flex items-center justify-between border-b px-4 sm:px-5 py-3.5 sm:py-4">
               <div>
-                <h2 className="font-semibold">Priority borrowers</h2>
-                <p className="text-sm text-muted-foreground">Highest signal in the current monitoring window.</p>
+                <h2 className="font-semibold text-sm sm:text-base text-foreground">Priority borrowers</h2>
+                <p className="text-xs text-muted-foreground">Highest signal in the current monitoring window.</p>
               </div>
-              <Link href="/borrowers" className="text-sm font-medium text-primary">View all</Link>
+              <Link href="/borrowers" className="text-xs sm:text-sm font-medium text-primary hover:underline">View all</Link>
             </div>
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm">
+              <table className="w-full text-left text-sm whitespace-nowrap min-w-[520px]">
                 <thead className="bg-muted/40 text-xs uppercase tracking-wide text-muted-foreground">
                   <tr>
-                    <th className="px-5 py-3 font-medium">Borrower</th>
-                    <th className="px-5 py-3 font-medium">Loan type</th>
-                    <th className="px-5 py-3 font-medium">Location</th>
-                    <th className="px-5 py-3 font-medium">Score</th>
+                    <th className="px-4 sm:px-5 py-3 font-medium">Borrower</th>
+                    <th className="px-4 sm:px-5 py-3 font-medium">Loan type</th>
+                    <th className="px-4 sm:px-5 py-3 font-medium">Location</th>
+                    <th className="px-4 sm:px-5 py-3 font-medium">Score</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y">
+                <tbody className="divide-y divide-border">
                   {loading ? (
                     Array.from({ length: 3 }).map((_, i) => (
-                      <tr key={i}><td className="px-5 py-4" colSpan={4}><div className="h-4 w-full animate-pulse rounded bg-muted" /></td></tr>
+                      <tr key={i}><td className="px-4 sm:px-5 py-4" colSpan={4}><div className="h-4 w-full animate-pulse rounded bg-muted" /></td></tr>
                     ))
                   ) : rows.length === 0 ? (
-                    <tr><td className="px-5 py-6 text-center text-sm text-muted-foreground" colSpan={4}>No borrowers match filters.</td></tr>
+                    <tr><td className="px-4 sm:px-5 py-6 text-center text-sm text-muted-foreground" colSpan={4}>No borrowers match filters.</td></tr>
                   ) : rows.map(r => {
                     const score = scoreOf(r)
                     return (
-                      <tr key={r.id} className="hover:bg-muted/30">
-                        <td className="px-5 py-4">
-                          <Link href={`/borrowers/${r.id}`} className="font-medium hover:underline">{r.full_name}</Link>
+                      <tr key={r.id} className="hover:bg-muted/30 transition-colors">
+                        <td className="px-4 sm:px-5 py-3.5 sm:py-4">
+                          <Link href={`/borrowers/${r.id}`} className="font-medium hover:underline text-foreground">{r.full_name}</Link>
                           <p className="font-mono text-xs text-muted-foreground">{r.external_id}</p>
                         </td>
-                        <td className="px-5 py-4 text-muted-foreground">{r.loan_type}</td>
-                        <td className="px-5 py-4 text-muted-foreground">{r.geography}</td>
+                        <td className="px-4 sm:px-5 py-3.5 sm:py-4 text-muted-foreground">{r.loan_type}</td>
+                        <td className="px-4 sm:px-5 py-3.5 sm:py-4 text-muted-foreground">{r.geography}</td>
                         <td className="px-5 py-4"><span className={badge(score?.bucket || 'low')}>{score?.bucket || 'pending'} · {score?.score || '—'}</span></td>
                       </tr>
                     )

@@ -77,7 +77,7 @@ export default function SignUpPage() {
           </p>
         </section>
 
-        <section className="flex items-center justify-center px-6 py-12">
+        <section className="flex items-center justify-center px-4 sm:px-6 py-8 sm:py-12">
           <div className="w-full max-w-sm">
             <div className="mb-10 flex items-center gap-3 lg:hidden">
               <div className="flex size-10 items-center justify-center rounded-xl bg-primary text-primary-foreground">

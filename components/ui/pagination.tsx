@@ -190,8 +190,34 @@ export function Pagination({
       </div>
 
       {/* Right side: Page navigation buttons & Jump input */}
-      <div className="flex flex-wrap items-center gap-2">
-        <div className="flex items-center gap-1">
+      <div className="flex flex-wrap items-center justify-between sm:justify-end gap-2 w-full sm:w-auto">
+        {/* Mobile-only compact pager */}
+        <div className="flex items-center justify-between sm:hidden w-full gap-2 pt-1 border-t sm:border-t-0 border-border">
+          <button
+            type="button"
+            disabled={activePage <= 1}
+            onClick={() => handlePageChange(activePage - 1)}
+            className="inline-flex h-8 flex-1 items-center justify-center gap-1.5 rounded-md border border-border bg-card px-2 text-xs font-medium text-foreground transition-colors hover:bg-muted disabled:pointer-events-none disabled:opacity-40"
+          >
+            <ChevronLeft className="size-3.5" />
+            Previous
+          </button>
+          <span className="text-xs font-medium text-foreground shrink-0 px-2 font-mono">
+            {activePage} / {totalPages}
+          </span>
+          <button
+            type="button"
+            disabled={activePage >= totalPages}
+            onClick={() => handlePageChange(activePage + 1)}
+            className="inline-flex h-8 flex-1 items-center justify-center gap-1.5 rounded-md border border-border bg-card px-2 text-xs font-medium text-foreground transition-colors hover:bg-muted disabled:pointer-events-none disabled:opacity-40"
+          >
+            Next
+            <ChevronRight className="size-3.5" />
+          </button>
+        </div>
+
+        {/* Tablet and Desktop full page number buttons */}
+        <div className="hidden sm:flex items-center gap-1">
           {/* First page button */}
           <button
             type="button"

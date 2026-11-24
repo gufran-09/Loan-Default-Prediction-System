@@ -138,13 +138,13 @@ export default function Analytics() {
 
   return (
     <Shell>
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-5 sm:gap-8">
         <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
           <div>
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
               Portfolio intelligence & Risk Actuarial
             </p>
-            <h1 className="mt-2 text-3xl font-semibold tracking-tight">
+            <h1 className="mt-2 text-2xl sm:text-3xl font-semibold tracking-tight">
               Portfolio Analytics
             </h1>
             <p className="mt-2 text-sm text-muted-foreground">
@@ -152,7 +152,7 @@ export default function Analytics() {
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 w-full md:w-auto">
             <button
               onClick={handleExportAnalyticsCsv}
               disabled={!data}
@@ -163,7 +163,7 @@ export default function Analytics() {
             </button>
 
             {/* Macro Stress Test Toggle */}
-            <div className="flex items-center gap-2 rounded-lg border bg-card p-1 text-xs font-medium shadow-sm">
+            <div className="flex flex-wrap sm:flex-nowrap items-center gap-1 sm:gap-2 rounded-lg border bg-card p-1 text-xs font-medium shadow-sm">
               <button
                 onClick={() => setIsStressTest(false)}
                 className={`rounded-md px-3 py-1.5 transition-colors ${
@@ -202,8 +202,8 @@ export default function Analytics() {
         )}
 
         {/* Top-Line KPI Summary Cards */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-          <div className="rounded-xl border bg-card p-5">
+        <div className="grid gap-3.5 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="rounded-xl border bg-card p-4 sm:p-5">
             <div className="flex items-center justify-between">
               <span className="text-xs font-medium text-muted-foreground">Total Book Volume</span>
               <DollarSign className="size-4 text-muted-foreground" />
@@ -216,7 +216,7 @@ export default function Analytics() {
             </p>
           </div>
 
-          <div className="rounded-xl border bg-card p-5">
+          <div className="rounded-xl border bg-card p-4 sm:p-5">
             <div className="flex items-center justify-between">
               <span className="text-xs font-medium text-muted-foreground">Outstanding Exposure</span>
               <Activity className="size-4 text-muted-foreground" />
@@ -229,7 +229,7 @@ export default function Analytics() {
             </p>
           </div>
 
-          <div className="rounded-xl border bg-card p-5">
+          <div className="rounded-xl border bg-card p-4 sm:p-5">
             <div className="flex items-center justify-between">
               <span className="text-xs font-medium text-muted-foreground">Collateral Secured</span>
               <Landmark className="size-4 text-purple-500" />
@@ -242,7 +242,7 @@ export default function Analytics() {
             </p>
           </div>
 
-          <div className="rounded-xl border bg-card p-5">
+          <div className="rounded-xl border bg-card p-4 sm:p-5">
             <div className="flex items-center justify-between">
               <span className="text-xs font-medium text-muted-foreground">Average Probability of Default</span>
               <Users className="size-4 text-muted-foreground" />
@@ -255,7 +255,7 @@ export default function Analytics() {
             </p>
           </div>
 
-          <div className="rounded-xl border bg-card p-5">
+          <div className="rounded-xl border bg-card p-4 sm:p-5">
             <div className="flex items-center justify-between">
               <span className="text-xs font-medium text-muted-foreground">Elevated Risk Accounts</span>
               <AlertTriangle className="size-4 text-destructive" />
@@ -271,7 +271,7 @@ export default function Analytics() {
 
         {/* Actuarial Financial Impact / ROI Metric Banner */}
         <div className="grid gap-4 md:grid-cols-2">
-          <div className="rounded-xl border border-destructive/20 bg-destructive/5 p-5">
+          <div className="rounded-xl border border-destructive/20 bg-destructive/5 p-4 sm:p-5">
             <p className="text-xs font-medium text-destructive">
               Actuarial Portfolio Expected Loss (EL)
             </p>
@@ -288,7 +288,7 @@ export default function Analytics() {
             </p>
           </div>
 
-          <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-5">
+          <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4 sm:p-5">
             <p className="text-xs font-medium text-emerald-700 dark:text-emerald-400">
               Loan Sentry Early Intervention Capital Preserved
             </p>
@@ -318,7 +318,7 @@ export default function Analytics() {
             </span>
           </div>
 
-          <div className="grid gap-5 lg:grid-cols-3">
+          <div className="grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3">
             {[
               ["Risk by Loan Purpose", "byLoanType"],
               ["Risk by Geography", "byGeography"],
@@ -327,7 +327,7 @@ export default function Analytics() {
               ["Risk by Collateral Asset Type", "byCollateralType"],
               ["Risk by Income Source", "byIncomeSource"],
             ].map(([title, key]) => (
-              <section key={key} className="rounded-xl border bg-card p-5">
+              <section key={key} className="rounded-xl border bg-card p-4 sm:p-5">
                 <div className="flex items-center justify-between">
                   <h3 className="font-semibold text-foreground text-sm">{title}</h3>
                   {isStressTest && (
@@ -387,7 +387,7 @@ export default function Analytics() {
         </div>
 
         {/* ML Model Drift & Reliability Governance Section */}
-        <section className="rounded-xl border bg-card p-6 shadow-sm">
+        <section className="rounded-xl border bg-card p-4 sm:p-6 shadow-sm">
           <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
             <div>
               <div className="flex items-center gap-2">

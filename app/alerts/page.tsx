@@ -109,19 +109,19 @@ export default function Alerts() {
 
   return (
     <Shell>
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-5 sm:gap-8">
         <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
           <div>
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
               Risk Monitoring & Triage
             </p>
-            <h1 className="mt-2 text-3xl font-semibold tracking-tight">Alerts</h1>
+            <h1 className="mt-2 text-2xl sm:text-3xl font-semibold tracking-tight">Alerts</h1>
             <p className="mt-2 text-sm text-muted-foreground">
               High-risk borrower flags requiring active credit officer triage.
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 w-full md:w-auto">
             <button
               onClick={handleExportAlertsCsv}
               disabled={alerts.length === 0}
@@ -131,7 +131,7 @@ export default function Alerts() {
               Export Alerts (CSV)
             </button>
 
-            <div className="flex gap-2 rounded-lg border bg-card p-1 text-xs font-medium">
+            <div className="flex flex-wrap sm:flex-nowrap gap-1 sm:gap-2 rounded-lg border bg-card p-1 text-xs font-medium">
               <button
                 onClick={() => handleFilterChange("all")}
                 className={`rounded-md px-3 py-1.5 transition-colors ${filterStatus === "all" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
@@ -183,7 +183,7 @@ export default function Alerts() {
               return (
                 <article
                   key={a.id}
-                  className="flex flex-col gap-4 rounded-xl border bg-card p-5 transition-shadow hover:shadow-sm md:flex-row md:items-center md:justify-between"
+                  className="flex flex-col gap-4 rounded-xl border bg-card p-4 sm:p-5 transition-shadow hover:shadow-sm md:flex-row md:items-center md:justify-between"
                 >
                   <div className="flex gap-4">
                     <div className={`mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-lg ${styles.icon}`}>
@@ -209,7 +209,7 @@ export default function Alerts() {
                     </div>
                   </div>
 
-                  <div className="flex flex-wrap items-center gap-2 md:self-center">
+                  <div className="flex flex-wrap items-center gap-2 w-full md:w-auto justify-end md:self-center">
                     {currentStatus === "open" && (
                       <button
                         disabled={isUpdating}
