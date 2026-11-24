@@ -9,6 +9,11 @@
 
 ---
 
+> [!NOTE]
+> **Black Box Models & Explainable AI (XAI) Deep Dive:**  
+> For an exhaustive, institutional-grade treatise on what black box models are, why tree ensembles become mathematically opaque, and how Loan Sentry converts black boxes into legally defensible glass boxes under CFPB Regulation B and Federal Reserve SR 11-7, read:  
+> ➔ [**`docs/ml_concepts/BLACK_BOX_AI_AND_EXPLAINABILITY.md`**](file:///D:/PROJECTS/MASS_MUTUAL/Loan-Default-Prediction-System/docs/ml_concepts/BLACK_BOX_AI_AND_EXPLAINABILITY.md)
+
 ## Table of Contents
 
 1. [Executive Overview & The Institutional Credit Problem](#1-executive-overview--the-institutional-credit-problem)
