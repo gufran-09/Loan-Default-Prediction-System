@@ -13,9 +13,9 @@ def get_one_hot_label(row, prefix, default_val):
 
 def generate_seed_data():
     print("Loading Loan_default_v2.csv for seed generation...")
-    data_path = "Loan_default_v2.csv"
+    data_path = os.path.join("data", "Loan_default_v2.csv") if os.path.exists(os.path.join("data", "Loan_default_v2.csv")) else "Loan_default_v2.csv"
     if not os.path.exists(data_path):
-        raise FileNotFoundError(f"{data_path} not found. Ensure dataset is in root.")
+        raise FileNotFoundError(f"{data_path} not found. Ensure dataset is in data/ or root.")
 
     df = pd.read_csv(data_path)
 
@@ -71,8 +71,9 @@ def generate_seed_data():
         borrowers_data.append(borrower)
 
     borrowers_df = pd.DataFrame(borrowers_data)
-    borrowers_df.to_csv("seed_borrowers.csv", index=False)
-    print("Generated seed_borrowers.csv successfully (400 records from v2).")
+    borrowers_out = os.path.join("data", "seed_borrowers.csv") if os.path.exists("data") else "seed_borrowers.csv"
+    borrowers_df.to_csv(borrowers_out, index=False)
+    print(f"Generated {borrowers_out} successfully (400 records from v2).")
 
     # 2. Compute Real XGBoost TreeSHAP predictions for seed_scores_reasons.csv
     f_map = {col: i for i, col in enumerate(feature_columns)}
@@ -151,8 +152,9 @@ def generate_seed_data():
         })
 
     scores_df = pd.DataFrame(scores_reasons_data)
-    scores_df.to_csv("seed_scores_reasons.csv", index=False)
-    print("Generated seed_scores_reasons.csv successfully (400 records with real TreeSHAP values).")
+    scores_out = os.path.join("data", "seed_scores_reasons.csv") if os.path.exists("data") else "seed_scores_reasons.csv"
+    scores_df.to_csv(scores_out, index=False)
+    print(f"Generated {scores_out} successfully (400 records with real TreeSHAP values).")
 
 if __name__ == "__main__":
     generate_seed_data()

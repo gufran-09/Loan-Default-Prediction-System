@@ -7,7 +7,7 @@
 
 ## 2. Why Amazon Bedrock Was Chosen for Aegis Risk
 In institutional credit underwriting, credit officers spend hours manually typing **Underwriting Memorandums** (Credit Memos) that synthesize:
-* Loan purpose and requested facility terms.
+* Loan purpo  se and requested facility terms.
 * Capacity to repay (Debt-to-Income, Annual Income, Employment Stability).
 * Actuarial risk assessment (XGBoost score and SHAP negative risk drivers).
 * Mitigating factors and underwriter recommendations.

@@ -11,8 +11,9 @@ np.random.seed(RANDOM_SEED)
 RNG = np.random.default_rng(RANDOM_SEED)
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-INPUT_PATH = PROJECT_ROOT / "Loan_default_cleaned.csv"
-OUTPUT_PATH = PROJECT_ROOT / "Loan_default_v2.csv"
+DATA_DIR = PROJECT_ROOT / "data" if (PROJECT_ROOT / "data").exists() else PROJECT_ROOT
+INPUT_PATH = (DATA_DIR / "Loan_default_cleaned.csv") if (DATA_DIR / "Loan_default_cleaned.csv").exists() else (PROJECT_ROOT / "Loan_default_cleaned.csv")
+OUTPUT_PATH = DATA_DIR / "Loan_default_v2.csv"
 
 
 def weighted_sample_indices(weights: np.ndarray, count: int) -> np.ndarray:

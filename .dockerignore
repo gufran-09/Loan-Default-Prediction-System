@@ -7,7 +7,9 @@ README.md
 .git
 .venv
 *.csv
+data/*.csv
 !seed_borrowers.csv
+!data/seed_borrowers.csv
 *.pptx
 *.jpg
 *.png

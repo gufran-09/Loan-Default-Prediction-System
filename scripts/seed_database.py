@@ -21,8 +21,9 @@ def seed():
     print("Starting database seeding...")
 
     # 1. Read seed_borrowers.csv
+    borrowers_path = os.path.join("data", "seed_borrowers.csv") if os.path.exists(os.path.join("data", "seed_borrowers.csv")) else "seed_borrowers.csv"
     borrowers = []
-    with open("seed_borrowers.csv", mode="r", encoding="utf-8") as f:
+    with open(borrowers_path, mode="r", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         for row in reader:
             borrowers.append({
@@ -47,7 +48,8 @@ def seed():
     risk_scores = {}
     risk_reasons = []
 
-    with open("seed_scores_reasons.csv", mode="r", encoding="utf-8") as f:
+    scores_path = os.path.join("data", "seed_scores_reasons.csv") if os.path.exists(os.path.join("data", "seed_scores_reasons.csv")) else "seed_scores_reasons.csv"
+    with open(scores_path, mode="r", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         for row in reader:
             score_id = row["score_id"]

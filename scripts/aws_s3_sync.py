@@ -32,7 +32,10 @@ def sync_artifacts():
         ("ml/model_card.md", "documentation/v2.0.0/model_card.md"),
         ("ml/model.json", "models/latest/model.json"),
         ("ml/feature_columns.json", "models/latest/feature_columns.json"),
-        ("seed_borrowers.csv", "datasets/seed_borrowers.csv"),
+        (
+            "data/seed_borrowers.csv" if os.path.exists("data/seed_borrowers.csv") else "seed_borrowers.csv",
+            "datasets/seed_borrowers.csv"
+        ),
     ]
 
     print("==================================================")

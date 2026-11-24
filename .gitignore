@@ -15,6 +15,7 @@ node_modules
 .DS_Store.env
 .venv/
 .env
+.vscode/
 *.tsbuildinfo
 lambda/*.zip
 __pycache__/

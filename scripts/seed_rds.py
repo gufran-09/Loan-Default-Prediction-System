@@ -40,9 +40,10 @@ def seed_rds():
     print("Schema and alert triggers created successfully on RDS.")
 
     # 2. Ingest Borrowers
-    print("Ingesting seed_borrowers.csv...")
+    borrowers_path = os.path.join("data", "seed_borrowers.csv") if os.path.exists(os.path.join("data", "seed_borrowers.csv")) else "seed_borrowers.csv"
+    print(f"Ingesting {borrowers_path}...")
     borrowers = []
-    with open("seed_borrowers.csv", mode="r", encoding="utf-8") as f:
+    with open(borrowers_path, mode="r", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         idx = 1
         for row in reader:
@@ -79,11 +80,12 @@ def seed_rds():
     print(f"Upserted {len(borrowers)} borrowers into Amazon RDS.")
 
     # 3. Ingest Risk Scores & Reasons
-    print("Ingesting seed_scores_reasons.csv...")
+    scores_path = os.path.join("data", "seed_scores_reasons.csv") if os.path.exists(os.path.join("data", "seed_scores_reasons.csv")) else "seed_scores_reasons.csv"
+    print(f"Ingesting {scores_path}...")
     risk_scores = {}
     risk_reasons = []
 
-    with open("seed_scores_reasons.csv", mode="r", encoding="utf-8") as f:
+    with open(scores_path, mode="r", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         for row in reader:
             score_id = row["score_id"]

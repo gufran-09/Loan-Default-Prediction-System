@@ -2,7 +2,7 @@
 
 **System Target:** Loan Sentry (AI-Powered Loan Default Prediction & Explainable Credit Underwriting Platform)  
 **Enterprise Standard:** Tier-1 Institutional Banking & Actuarial Governance (MassMutual, Federal Reserve OCC SR 11-7, CFPB Regulation B, ECOA, FCRA)  
-**Primary Dataset:** `Loan_default_v2.csv` (255,347 raw records ➔ 168,258 seasoned cohort loans)  
+**Primary Dataset:** `data/Loan_default_v2.csv` (255,347 raw records ➔ 168,258 seasoned cohort loans)  
 **Model Artifacts:** `ml/model.pkl`, `ml/model.json`, `ml/calibrator.pkl`, `ml/feature_columns.json`, `ml/drift_report.json`, `ml/fair_lending_audit.json`  
 **Classification Target:** `default_label` $\in \{0, 1\}$ (Binary loan default status)  
 **Document Location:** `docs/ml_concepts/README.md`  
@@ -343,7 +343,7 @@ Overall Portfolio Approval Rate: **85.49%**.
 ---
 
 ### 7.1 Training Pipeline (`scripts/train_model.py`)
-- Loads `Loan_default_v2.csv`.
+- Loads `data/Loan_default_v2.csv` (or root fallback).
 - Filters seasoned cohort (`default_label.notna()`).
 - Establishes **Out-of-Time (OOT) temporal split**:
   - Training: Loans originated on or before `2022-12-31`.

@@ -14,7 +14,7 @@ def main():
     print("  AEGIS RISK - PRODUCTION ML TRAINING (DATASET V2 - 38 FEAT) ")
     print("==========================================================")
     
-    dataset_path = 'Loan_default_v2.csv'
+    dataset_path = os.path.join('data', 'Loan_default_v2.csv') if os.path.exists(os.path.join('data', 'Loan_default_v2.csv')) else 'Loan_default_v2.csv'
     if not os.path.exists(dataset_path):
         raise FileNotFoundError(f"Dataset not found: {dataset_path}")
         

@@ -7,7 +7,7 @@ from sklearn.metrics import roc_auc_score
 
 def run_drift_simulation():
     print("Loading data for drift simulation from Loan_default_v2.csv...")
-    data_path = "Loan_default_v2.csv"
+    data_path = os.path.join("data", "Loan_default_v2.csv") if os.path.exists(os.path.join("data", "Loan_default_v2.csv")) else "Loan_default_v2.csv"
     if not os.path.exists(data_path):
         raise FileNotFoundError(f"{data_path} not found.")
 

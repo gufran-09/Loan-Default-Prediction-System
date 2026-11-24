@@ -18,7 +18,7 @@ def run_fair_lending_audit():
     print("  (Equal Credit Opportunity Act & CFPB Regulation B)      ")
     print("==========================================================")
 
-    data_path = "Loan_default_v2.csv"
+    data_path = os.path.join("data", "Loan_default_v2.csv") if os.path.exists(os.path.join("data", "Loan_default_v2.csv")) else "Loan_default_v2.csv"
     if not os.path.exists(data_path):
         raise FileNotFoundError(f"{data_path} not found.")
 
