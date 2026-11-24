@@ -1,4 +1,4 @@
-# Aegis Risk — AI-Powered Institutional Loan Default Prediction System
+# Aegis Risk — AI-Powered Institutional Loan Default Prediction System | 4FH9CQ
 
 Aegis Risk is an institutional-grade credit risk decisioning and portfolio governance platform designed for underwriting teams, risk officers, and bank actuarial committees. The system evaluates borrower default probability using a calibrated **XGBoost** machine learning model, provides explainable **TreeSHAP** attribution factors to ensure full compliance with the **Equal Credit Opportunity Act (ECOA)** and the **Fair Credit Reporting Act (FCRA)**, and enforces continuous model risk governance under **Federal Reserve SR 11-7** guidelines.
 
