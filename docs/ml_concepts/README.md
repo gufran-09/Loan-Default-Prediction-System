@@ -13,6 +13,7 @@
 > **Specialized ML Deep Dives & Architectural Guides:**  
 > - ➔ [**`docs/ml_concepts/BLACK_BOX_AI_AND_EXPLAINABILITY.md`**](file:///D:/PROJECTS/MASS_MUTUAL/Loan-Default-Prediction-System/docs/ml_concepts/BLACK_BOX_AI_AND_EXPLAINABILITY.md): What black box models are, why tree ensembles become mathematically opaque, and how Loan Sentry converts black boxes into legally defensible glass boxes under CFPB Regulation B and Federal Reserve SR 11-7.
 > - ➔ [**`docs/ml_concepts/RESULTANT_ML_CONCEPTS_AND_ARTIFACTS.md`**](file:///D:/PROJECTS/MASS_MUTUAL/Loan-Default-Prediction-System/docs/ml_concepts/RESULTANT_ML_CONCEPTS_AND_ARTIFACTS.md): Exhaustive guide to all resultant concepts in machine learning — evaluation metrics (ROC-AUC, PR-AUC, Brier score, PSI, Adverse Impact Ratio), serialized file formats (`.pkl` vs `.json`, schema contracts), and production decision outputs.
+> - ➔ [**`docs/ml_concepts/PYCARET_AND_MULTI_MODEL_BENCHMARKS.md`**](file:///D:/PROJECTS/MASS_MUTUAL/Loan-Default-Prediction-System/docs/ml_concepts/PYCARET_AND_MULTI_MODEL_BENCHMARKS.md): PyCaret-style multi-model champion-challenger benchmarking across 12 machine learning algorithms (XGBoost, LightGBM, Random Forest, Extra Trees, Gradient Boosting, AdaBoost, Logistic Regression, Decision Tree, LDA, Naive Bayes, KNN, Dummy), mathematical formulations, and empirical leaderboards.
 
 ## Table of Contents
 
