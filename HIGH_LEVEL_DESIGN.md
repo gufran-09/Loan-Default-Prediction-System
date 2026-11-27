@@ -4,10 +4,11 @@
 **Project:** Loan Sentry (formerly Aegis Risk) — AI-Powered Loan Default Prediction & Explainable Credit Underwriting Platform  
 **Target Enterprise:** MassMutual Financial Group (Institutional Credit & Actuarial Risk Evaluation)  
 **Production Domain:** [https://www.loansentry.in](https://www.loansentry.in) (Redirected from [http://loansentry.in](http://loansentry.in))  
-**Document Version:** 2.0.0  
+**Document Version:** 3.0.0  
 **Status:** Approved / Production-Active  
 **Author:** Loan Sentry Architecture & Engineering Team  
 **Review Board:** Institutional Model Risk Management (MRM) & Enterprise Architecture Committee  
+**Companion Specifications:** [`docs/COMPLETE_DEPLOYMENT_PROCESS.md`](file:///D:/PROJECTS/MASS_MUTUAL/Loan-Default-Prediction-System/docs/COMPLETE_DEPLOYMENT_PROCESS.md) • [`docs/LEGAL_REGULATORY_COMPLIANCE_AND_ETHICAL_BOUNDARIES.md`](file:///D:/PROJECTS/MASS_MUTUAL/Loan-Default-Prediction-System/docs/LEGAL_REGULATORY_COMPLIANCE_AND_ETHICAL_BOUNDARIES.md) • [`docs/ml_concepts/README.md`](file:///D:/PROJECTS/MASS_MUTUAL/Loan-Default-Prediction-System/docs/ml_concepts/README.md)  
 
 ---
 
@@ -170,24 +171,28 @@ flowchart TD
 ---
 
 ### 5.2 Underwriter Cockpit & Presentation Subsystem
-* **Next.js 16 App Router (React 19):** High-speed server-rendered frontend with streaming client hydration.
-* **Authentication & SSO:** Managed via AWS Cognito User Pool (`ap-southeast-2_80G23Am1X`) providing JWT session tokens.
+* **Next.js 16 App Router (React 19, Tailwind CSS v4):** High-speed server-rendered frontend with streaming client hydration and **responsive multi-viewport UI** across Mobile (320px–640px), Tablet (641px–1024px), and Desktop (1025px+) devices—featuring a scroll-locked ESC-dismissible mobile drawer, dual-mode compact/full pagination, horizontal-scroll tables (`min-w` + `whitespace-nowrap`), and viewport-constrained (`max-h-[92vh]`) modals.
+* **Authentication & SSO:** Managed via AWS Cognito User Pool (`ap-southeast-2_80G23Am1X`) providing RS256 JWT session tokens.
 * **Interactive Views:**
-  - **Overview Cockpit (`/`):** KPI summary cards (Portfolio Total, Weighted PD, At-Risk Capital, Approval Rate), area charts of delinquency curves, and fast-action alerts table.
-  - **Borrowers Portfolio (`/borrowers`):** Multi-dimensional search, bucket filtering (Low/Medium/High/Critical), and full-row click navigation.
-  - **Borrower Dossier (`/borrowers/[id]`):** TreeSHAP feature importance waterfall chart, What-If loan restructuring simulator, Bedrock executive memo drawer, Adverse Action generator, and WhatsApp dispatch trigger.
-  - **Alerts Operations Desk (`/alerts`):** Real-time triage desk for delinquent borrowers and credit score degradation flags.
-  - **Portfolio Analytics & Drift Governance (`/analytics`):** Expected Loss calculations, macroeconomic stress-testing, and live Population Stability Index (PSI) drift monitoring.
+  - **Overview Cockpit (`/`):** KPI summary cards (Portfolio Total, Weighted PD, At-Risk Capital, Approval Rate), priority borrowers table, and fast-action navigation.
+  - **Borrowers Portfolio (`/borrowers`):** Multi-dimensional search, risk bucket filtering (Low/Medium/High/Critical), live single-borrower scorer, batch CSV scoring modal, and full-row click navigation.
+  - **Borrower Dossier (`/borrowers/[id]`):** 4-block financial & collateral dossier, **Amazon Textract OCR** payslip/W-2 income reconciliation, **Alternative Credit & Utility Cashflow Signals** ingestion, **TreeSHAP** attribution cards, interactive **What-If** loan restructuring simulator, **Bedrock GenAI** credit memo drawer, **CFPB/ECOA Adverse Action Notice** generator, **Step Functions STP** monitor, scoring history audit trail, and **WhatsApp** dispatch trigger.
+  - **Alerts Operations Desk (`/alerts`):** Real-time triage desk for delinquent borrowers and credit score degradation flags with acknowledge/resolve workflows and CSV audit export.
+  - **Portfolio Analytics & Drift Governance (`/analytics`):** Expected Loss ($EL = PD \times EAD \times LGD$) and Early Intervention Capital Preserved metrics, 6-tranche concentration charts, **Fed `+200 bps` Stagflation Stress Test** toggle, and live Population Stability Index (PSI) / OOD drift monitoring.
 
 ---
 
 ### 5.3 Scoring Seam & Machine Learning Subsystem
-* **Decoupled Scoring Seam (`lib/scoring/getScore.ts`):** Central dispatcher coordinating remote inference and local fallback models.
-* **Amazon API Gateway v2:** Low-latency HTTP API handling sub-millisecond request validation and routing.
-* **AWS Lambda Scoring Engine (`aegis-risk-scoring-engine`):** Serverless Python compute runtime executing inference against memory-cached model weights within a 15-second budget.
-* **XGBoost Gradient Boosting Classifier:** Calibrated model trained on 168k seasoned cohort loans with heavy class imbalance weighting (`scale_pos_weight = 6.48`).
-* **TreeSHAP Attributions:** Computes exact Shapley values for all 43 feature columns, deriving the top positive and negative risk contributors.
-* **Amazon S3 Model Lake (`v2.0.0`):** Object storage maintaining versioned model binaries (`model.pkl`, `model.json`), calibrators, and feature schema definitions.
+* **Decoupled Scoring Seam (`lib/scoring/getScore.ts`):** Central dispatcher coordinating remote AWS Lambda inference and local/DB fallback models.
+* **Amazon API Gateway v2:** Low-latency HTTP API (`https://a3q6b9scn0.execute-api.ap-southeast-2.amazonaws.com/`) handling sub-millisecond request validation and routing.
+* **AWS Lambda Scoring Engine (`aegis-risk-scoring-engine`):** Serverless Python compute runtime executing inference against memory-cached model weights.
+* **Data Hygiene & Feature Architecture (`scripts/realistic_dataset_transform.py`, `scripts/train_model.py`):**
+  - **Target Seasoning:** Filtered `255,347` raw loans down to `168,258` mature loans (excluding `87,089` unseasoned `"Current"` loans).
+  - **Out-of-Time (OOT) Temporal Split:** Chronologically split at `2022-12-31` into `149,583` In-Time training loans and `18,675` Out-of-Time (2023–2024) test loans.
+  - **Zero Leakage & Fair Lending Purge:** Strictly restricted to **36 origination predictors** (`ml/feature_columns.json`), purging post-origination leakage (`days_past_due`, `outstanding_balance_ratio`, `income_verified`) and prohibited attributes (`health_status`, `disability_flag`).
+* **Calibrated XGBoost & 12-Model Benchmarking (`scripts/benchmark_models.py`):** Champion XGBoost classifier with class imbalance weighting (`scale_pos_weight = 6.47–6.48`) and 3-fold cross-validated **Platt Sigmoid Calibration** (`Brier Score: 0.0069`, OOT AUC-ROC `0.9994`), benchmarked against 12 PyCaret-equivalent models (LightGBM, Random Forest, Extra Trees, Gradient Boosting, Logistic Regression, etc.).
+* **TreeSHAP Attributions:** Computes exact Shapley values across all **36** feature columns, deriving the top positive and negative risk contributors for every credit decision.
+* **Amazon S3 Model Lake (`aegis-risk-storage-022671037337`):** Object storage maintaining versioned model binaries (`model.pkl`, `model.json`, `calibrator.pkl`), feature schema definitions, and `build/source.zip`.
 
 ---
 
@@ -207,10 +212,11 @@ flowchart TD
 
 ---
 
-### 5.6 Communication & Generative AI Mesh
+### 5.6 Communication, Document Intelligence & Generative AI Mesh
 * **Amazon Bedrock Runtime (Claude 3.5 Haiku):** Generates structured, professional underwriting credit memos synthesizing borrower financial profiles, TreeSHAP drivers, and macroeconomic context into a 3-paragraph executive narrative.
-* **Meta WhatsApp Cloud API v21.0:** Direct REST API integration with Meta's global WhatsApp infrastructure using System User permanent tokens and pre-approved `credit_decision_alert` message templates.
-* **Opossum Circuit Breaker:** Protects application backend threads from cascading network failures during external API latency spikes.
+* **Amazon Textract OCR (`lib/aws/textract.ts`):** Parses uploaded W-2, 1099, and corporate payslip documents to reconcile declared vs. verified monthly income with OCR confidence scoring.
+* **Meta WhatsApp Cloud API v21.0 (`lib/aws/whatsapp.ts`):** Direct REST API integration with Meta's global WhatsApp infrastructure using System User permanent tokens and pre-approved `credit_decision_alert` message templates.
+* **Opossum Circuit Breaker (`lib/resilience/circuitBreaker.ts`):** Protects application backend threads from cascading network failures during external API latency spikes.
 
 ---
 
@@ -236,7 +242,7 @@ sequenceDiagram
     actor Borrower as Loan Officer / Borrower Phone
 
     Officer->>UI: Selects borrower & triggers "Run Rescore"
-    UI->>Seam: POST /api/borrowers/:id/score (43 feature payload)
+    UI->>Seam: POST /api/borrowers/:id/score (36 feature payload)
     Seam->>APIGW: Forward payload via HTTPS
     APIGW->>Lambda: Invoke aegis-risk-scoring-engine
     Lambda->>S3: Read model.json & calibrator.pkl (Cached in RAM)
@@ -295,6 +301,8 @@ erDiagram
     BORROWERS ||--o{ RISK_SCORES : receives
     RISK_SCORES ||--|{ RISK_REASONS : explains
     BORROWERS ||--o{ ALERTS : triggers
+    BORROWERS ||--o{ ALTERNATIVE_CREDIT_DATA : augments
+    BORROWERS ||--o{ SCORING_HISTORY : audits
 
     BORROWERS {
         uuid id PK
@@ -306,8 +314,11 @@ erDiagram
         int term_months
         decimal interest_rate
         decimal annual_income
+        decimal verified_income
         decimal dti_ratio
         int credit_score
+        int alternative_credit_score
+        string underwriting_decision
         timestamp created_at
     }
 
@@ -340,6 +351,27 @@ erDiagram
         string status
         text description
         timestamp created_at
+    }
+
+    ALTERNATIVE_CREDIT_DATA {
+        uuid id PK
+        uuid borrower_id FK
+        string data_type
+        string provider_name
+        int months_of_history
+        decimal on_time_payment_rate
+        decimal average_monthly_amount
+        timestamp last_updated
+    }
+
+    SCORING_HISTORY {
+        uuid id PK
+        uuid borrower_id FK
+        decimal score
+        string bucket
+        string scoring_method
+        string model_version
+        timestamp scored_at
     }
 ```
 
@@ -377,25 +409,24 @@ erDiagram
 +-----------------------------------------------------------------------------------+
 ```
 
-- **OCC SR 11-7 Model Risk Management:** Complete demographic and macroeconomic covariate drift simulation recorded in `ml/drift_report.json`, continuously comparing live applicant features against baseline distributions.
-- **Equal Credit Opportunity Act (ECOA - Regulation B):** Model explanations provided via TreeSHAP feature attributions, disallowing non-explainable black-box credit decisions.
-- **Fair Credit Reporting Act (FCRA):** Automated 1-click Adverse Action generation providing legally mandated denial reasons and dispute disclosures.
+- **OCC SR 11-7 Model Risk Management:** Out-of-Time (OOT) validation (`2022-12-31` split), 12-model champion-challenger benchmarking, and demographic/macroeconomic covariate drift monitoring (`ml/drift_report.json`) with Population Stability Index (PSI) tracking.
+- **Equal Credit Opportunity Act (ECOA - Regulation B):** Model explanations provided via TreeSHAP feature attributions, disallowing non-explainable black-box credit decisions; Disparate Impact audited via the **Four-Fifths Rule** ($\text{AIR} \ge 0.80$, `ml/fair_lending_audit.json`).
+- **Fair Credit Reporting Act (FCRA § 615(a) & § 604(g)) & ADA Title III:** Automated 1-click Adverse Action generation providing legally mandated denial reasons and dispute disclosures, paired with strict database and pipeline purging of `health_status` and `disability_flag` (`scripts/migrations/0008_remove_health_disability.sql`).
+- **CECL (ASC 326) & GLBA Safeguards:** Calibrated Expected Loss ($EL = PD \times EAD \times LGD$) with collateral recovery haircuts ($25\%$ secured / $45\%$ unsecured), TLS 1.3 edge encryption, Cognito JWT RBAC, and immutable CloudWatch audit logs. *(Full legal matrix in [`docs/LEGAL_REGULATORY_COMPLIANCE_AND_ETHICAL_BOUNDARIES.md`](file:///D:/PROJECTS/MASS_MUTUAL/Loan-Default-Prediction-System/docs/LEGAL_REGULATORY_COMPLIANCE_AND_ETHICAL_BOUNDARIES.md).)*
 
 ---
 
 ## 10. Deployment & Infrastructure Topology
 
-The production application is deployed across **two AWS geographic regions**:
+The production application is deployed across **two AWS geographic regions** with an automated cloud CI/CD pipeline (`scripts/deploy_production.py`, detailed in [`docs/COMPLETE_DEPLOYMENT_PROCESS.md`](file:///D:/PROJECTS/MASS_MUTUAL/Loan-Default-Prediction-System/docs/COMPLETE_DEPLOYMENT_PROCESS.md)):
 1. **Global Edge & Certificate Layer (`us-east-1` N. Virginia):**
-   - CloudFront Distribution: `E2WK4WS85BY6CX` (`d2eh1h9cfhciag.cloudfront.net`).
+   - CloudFront Distribution: `E2WK4WS85BY6CX` (`d2eh1h9cfhciag.cloudfront.net`) with WAF rate limiting and automated `/*` edge invalidation on release.
    - ACM Certificate: `arn:aws:acm:us-east-1:022671037337:certificate/da5d1012-f60d-4c37-a29e-4759e7e7066e`.
-2. **Compute, Persistence & ML Layer (`ap-southeast-2` Sydney):**
-   - Application Load Balancer: `aegis-risk-alb-362464102.ap-southeast-2.elb.amazonaws.com`.
-   - ECS Fargate Cluster running Next.js 16 standalone container (Port 3000).
-   - RDS PostgreSQL 16 database instance (`aegis-risk-db`).
-   - AWS Step Functions state machine (`Aegis-Risk-Credit-Decisioning`).
-   - AWS Lambda scoring worker (`aegis-risk-scoring-engine`).
-   - AWS Cognito User Pool (`ap-southeast-2_80G23Am1X`).
+2. **Compute, CI/CD, Persistence & ML Layer (`ap-southeast-2` Sydney):**
+   - **CI/CD & Container Registry:** S3 staging (`s3://aegis-risk-storage-022671037337/build/source.zip`) $\rightarrow$ AWS CodeBuild (`aegis-risk-build`) $\rightarrow$ Amazon ECR (`022671037337.dkr.ecr.ap-southeast-2.amazonaws.com/aegis-risk:latest`).
+   - **Load Balancing & Container Runtime:** Application Load Balancer (`aegis-risk-alb-362464102.ap-southeast-2.elb.amazonaws.com`) $\rightarrow$ Target Group `aegis-risk-tg` (`/api/health`) $\rightarrow$ ECS Fargate cluster `aegis-risk-cluster` / service `aegis-risk-service` (`aegis-risk-task:1`, Next.js 16 standalone on Port 3000).
+   - **Persistence & Auth:** RDS PostgreSQL 16 (`aegis-risk-db`) and AWS Cognito User Pool (`ap-southeast-2_80G23Am1X`).
+   - **Serverless AI & Workflow:** AWS Step Functions (`Aegis-Risk-Credit-Decisioning`), AWS Lambda (`aegis-risk-scoring-engine`), Amazon Bedrock (Claude 3.5 Haiku), and Amazon Textract.
 
 ---
 
@@ -421,5 +452,10 @@ The production application is deployed across **two AWS geographic regions**:
 - **Decision:** Implemented native HTTP calls against Meta WhatsApp Cloud API v21.0 wrapped inside an Opossum Circuit Breaker.
 - **Consequences:** 100% reliable alert delivery directly to verified recipient `+91 8688032272` with zero reliance on closed-beta desktop clients.
 
+### ADR-05: Cloud-Native Container Builds via AWS CodeBuild over Local Docker
+- **Context:** Building Next.js 16 standalone Docker images locally on Windows risks NTFS `EPERM` directory-locking errors, WSL2 overhead, and slow residential uploads to ECR.
+- **Decision:** Standardized builds on **AWS CodeBuild** (`aegis-risk-build`, `amazonlinux2-x86_64-standard:5.0`) orchestrated via `scripts/deploy_production.py`, uploading a POSIX-normalized `source.zip` to S3, pushing to ECR, forcing an ECS Fargate rolling deployment, and invalidating CloudFront (`/*`).
+- **Consequences:** Deterministic, clean-room Linux builds in ~90 seconds, zero local Docker daemon requirement, and immediate edge cache eviction on `https://www.loansentry.in`.
+
 ---
-*Loan Sentry High-Level Design (HLD) Specification — Version 2.0.0 — Document Approved*
+*Loan Sentry High-Level Design (HLD) Specification — Version 3.0.0 — Document Approved*

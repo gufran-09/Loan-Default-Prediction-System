@@ -52,6 +52,7 @@ export default function Borrowers() {
   const router = useRouter()
   const [rows, setRows] = useState<Borrower[]>([])
   const [search, setSearch] = useState('')
+  const [debouncedSearch, setDebouncedSearch] = useState('')
   const [bucket, setBucket] = useState('')
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
@@ -171,8 +172,13 @@ export default function Borrowers() {
     }
   }
 
-  // reset to page 1 whenever filters change
-  useEffect(() => { setPage(1) }, [search, bucket])
+  // Debounce search input to avoid flooding backend on rapid keystrokes
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search)
+    }, 250)
+    return () => clearTimeout(timer)
+  }, [search])
 
   const openScorer = () => {
     setCalculatedScore(null)
@@ -187,19 +193,51 @@ export default function Borrowers() {
   }
 
   useEffect(() => {
+    const controller = new AbortController()
     setLoading(true)
     setError(null)
-    const params = new URLSearchParams({ page: String(page), pageSize: String(pageSize), search, bucket })
-    fetch(`/api/borrowers?${params}`)
-      .then(r => r.json())
+    const params = new URLSearchParams({
+      page: String(page),
+      pageSize: String(pageSize),
+      search: debouncedSearch,
+      bucket,
+    })
+
+    const fetchWithRetry = async (attempt = 0): Promise<any> => {
+      const res = await fetch(`/api/borrowers?${params}`, { signal: controller.signal })
+      const contentType = res.headers.get('content-type') || ''
+      if (!contentType.includes('application/json')) {
+        if (attempt < 1) {
+          await new Promise(resolve => setTimeout(resolve, 400))
+          return fetchWithRetry(attempt + 1)
+        }
+        throw new Error(`Server temporarily returned HTTP ${res.status}. Please try again.`)
+      }
+      const data = await res.json()
+      if (!res.ok || data.error) {
+        throw new Error(data.error?.message || `Request failed (${res.status})`)
+      }
+      return data
+    }
+
+    fetchWithRetry()
       .then(x => {
-        if (x.error) throw new Error(x.error.message)
         setRows(x.data || [])
         setPagination(x.pagination || { page, pageSize, total: x.data?.length || 0, totalPages: 1 })
       })
-      .catch(e => setError(e.message))
-      .finally(() => setLoading(false))
-  }, [search, bucket, page, pageSize])
+      .catch(e => {
+        if (e.name !== 'AbortError') {
+          setError(e.message)
+        }
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) {
+          setLoading(false)
+        }
+      })
+
+    return () => controller.abort()
+  }, [debouncedSearch, bucket, page, pageSize])
 
   // Live Underwriting Score Calculation & Telemetry
   const runAssessment = async (e: React.FormEvent) => {
@@ -430,14 +468,20 @@ export default function Borrowers() {
             <Search className="size-4 shrink-0 text-muted-foreground" />
             <input
               value={search}
-              onChange={e => setSearch(e.target.value)}
+              onChange={e => {
+                setSearch(e.target.value)
+                setPage(1)
+              }}
               placeholder="Search name or borrower ID (e.g. LN-000001)"
               className="w-full bg-transparent text-xs sm:text-sm outline-none placeholder:text-muted-foreground"
             />
           </div>
           <select
             value={bucket}
-            onChange={e => setBucket(e.target.value)}
+            onChange={e => {
+              setBucket(e.target.value)
+              setPage(1)
+            }}
             className="h-10 sm:h-11 w-full sm:w-auto rounded-lg border bg-card px-3 text-xs sm:text-sm outline-none shadow-sm cursor-pointer"
           >
             <option value="">All risk buckets</option>
