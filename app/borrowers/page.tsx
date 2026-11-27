@@ -58,6 +58,7 @@ export default function Borrowers() {
   const [pageSize, setPageSize] = useState(10)
   const [pagination, setPagination] = useState({ page: 1, pageSize: 10, total: 0, totalPages: 1 })
   const [loading, setLoading] = useState(true)
+  const [exportingCsv, setExportingCsv] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   // Live New Applicant Scorer Modal
@@ -103,20 +104,54 @@ export default function Borrowers() {
   const [batchFile, setBatchFile] = useState<File | null>(null)
   const [ocrIncomeVerified, setOcrIncomeVerified] = useState(false)
 
-  const handleExportCsv = () => {
-    if (!rows || rows.length === 0) return
-    const exportData = rows.map((r) => {
-      const sc = scoreOf(r)
-      return {
-        'Borrower ID': r.external_id,
-        'Full Name': r.full_name,
-        'Loan Purpose': r.loan_type,
-        'Outstanding Balance ($)': r.outstanding_balance,
-        'Risk Score': sc?.score ?? '—',
-        'Risk Bucket': sc?.bucket ?? '—',
-      }
-    })
-    exportDataToCsv(`loansentry_borrowers_export_${new Date().toISOString().slice(0, 10)}`, exportData)
+  const handleExportCsv = async () => {
+    if (exportingCsv) return
+    setExportingCsv(true)
+    try {
+      const allBorrowers: Borrower[] = []
+      let currentPage = 1
+      let totalPages = 1
+
+      do {
+        const params = new URLSearchParams({
+          page: String(currentPage),
+          pageSize: '100',
+          search: debouncedSearch,
+          bucket,
+        })
+        const res = await fetch(`/api/borrowers?${params}`)
+        const contentType = res.headers.get('content-type') || ''
+        if (!res.ok || !contentType.includes('application/json')) {
+          throw new Error(`Export failed with HTTP ${res.status}`)
+        }
+        const json = await res.json()
+        if (json.error) throw new Error(json.error.message)
+        if (Array.isArray(json.data)) {
+          allBorrowers.push(...json.data)
+        }
+        totalPages = json.pagination?.totalPages || 1
+        currentPage++
+      } while (currentPage <= totalPages)
+
+      if (allBorrowers.length === 0) return
+
+      const exportData = allBorrowers.map((r) => {
+        const sc = scoreOf(r)
+        return {
+          'Borrower ID': r.external_id,
+          'Full Name': r.full_name,
+          'Loan Purpose': r.loan_type,
+          'Outstanding Balance ($)': r.outstanding_balance,
+          'Risk Score': sc?.score ?? '—',
+          'Risk Bucket': sc?.bucket ?? '—',
+        }
+      })
+      exportDataToCsv(`loansentry_borrowers_export_${new Date().toISOString().slice(0, 10)}`, exportData)
+    } catch (err: any) {
+      setError(err?.message || 'Failed to export portfolio CSV')
+    } finally {
+      setExportingCsv(false)
+    }
   }
 
   const handleDownloadSampleCsv = () => {
@@ -440,11 +475,15 @@ export default function Borrowers() {
           <div className="grid grid-cols-1 sm:flex sm:flex-wrap items-center gap-2 w-full md:w-auto">
             <button
               onClick={handleExportCsv}
-              disabled={rows.length === 0}
+              disabled={rows.length === 0 || exportingCsv}
               className="inline-flex h-9 sm:h-10 items-center justify-center gap-2 rounded-lg border border-border bg-card px-3 sm:px-3.5 text-xs font-semibold text-foreground transition-colors hover:bg-muted disabled:opacity-50 shadow-sm"
             >
-              <Download className="size-3.5 text-muted-foreground" />
-              <span>Export Portfolio (CSV)</span>
+              {exportingCsv ? (
+                <Loader2 className="size-3.5 animate-spin text-muted-foreground" />
+              ) : (
+                <Download className="size-3.5 text-muted-foreground" />
+              )}
+              <span>{exportingCsv ? 'Exporting All...' : 'Export Portfolio (CSV)'}</span>
             </button>
             <button
               onClick={() => setShowBatchModal(true)}
